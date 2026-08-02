@@ -8,29 +8,45 @@
     --soft-green: #e8f7ee;
     --soft-purple: #f1eaff;
     --text: #1f2937;
-    --muted: #6b7280;
+    --muted: #55606e;
     --border: #dbe4f0;
     --shadow: 0 14px 32px rgba(37, 99, 235, 0.12);
     --shadow-soft: 0 8px 22px rgba(31, 41, 55, 0.08);
     --radius: 18px;
     --radius-lg: 26px;
+    --font-scale: 1;
     --font-body: 20px;
     --font-title: 34px;
     --font-heading: 28px;
     --app-max: 480px;
     --app-gutter: 16px;
+    --content-max: 1080px;
 }
 
+/*
+  글씨 크기 버튼은 데이터 속성(data-font)으로 --font-scale을 바꾼다.
+  사이트의 모든 카드 제목/버튼 라벨/본문이 rem 단위라서, 이 한 곳에서
+  html 루트 font-size를 같이 바꿔주면 화면 전체 글씨가 함께 커지고 작아진다.
+*/
 :root[data-font="base"] {
+    --font-scale: 0.9;
     --font-body: 18px;
     --font-title: 31px;
     --font-heading: 25px;
 }
 
+:root[data-font="large"] {
+    --font-scale: 1;
+    --font-body: 20px;
+    --font-title: 34px;
+    --font-heading: 28px;
+}
+
 :root[data-font="xlarge"] {
-    --font-body: 23px;
-    --font-title: 39px;
-    --font-heading: 32px;
+    --font-scale: 1.2;
+    --font-body: 24px;
+    --font-title: 40px;
+    --font-heading: 33px;
 }
 
 * {
@@ -41,6 +57,7 @@ html {
     min-height: 100%;
     background: linear-gradient(180deg, #f3f8ff 0%, #eaf4ff 100%);
     color: var(--text);
+    font-size: calc(16px * var(--font-scale));
     scroll-behavior: smooth;
 }
 
@@ -279,7 +296,7 @@ body[data-route="home"] .notice-banner {
 }
 
 .search-box input::placeholder {
-    color: #7b8797;
+    color: var(--muted);
     opacity: 1;
 }
 
@@ -304,7 +321,6 @@ body[data-route="home"] .notice-banner {
 .home-title-card,
 .category-hero,
 .topic-hero,
-.topic-detail-box,
 .reference-panel,
 .section-heading.wide {
     border: 1px solid rgba(219, 228, 240, 0.95);
@@ -765,7 +781,6 @@ body[data-route="home"] .notice-banner {
 .app-summary-panel,
 .card-news-panel,
 .flow-panel,
-.comparison-panel,
 .checklist-panel,
 .caution-panel,
 .notice-box,
@@ -811,7 +826,6 @@ body[data-route="home"] .notice-banner {
 .app-summary-panel,
 .card-news-panel,
 .flow-panel,
-.comparison-panel,
 .checklist-panel,
 .caution-panel,
 .notice-box,
@@ -1056,58 +1070,6 @@ body[data-route="home"] .notice-banner {
     font-weight: 820;
 }
 
-.comparison-panel {
-    background: rgba(255, 255, 255, 0.96);
-}
-
-.comparison-list {
-    display: grid;
-    gap: 12px;
-}
-
-.comparison-card {
-    padding: 16px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: linear-gradient(145deg, #ffffff 0%, #f4f8ff 100%);
-}
-
-.comparison-card strong {
-    display: inline-flex;
-    align-items: center;
-    min-height: 34px;
-    padding: 0 12px;
-    border-radius: 999px;
-    background: var(--soft-blue);
-    color: var(--primary-dark);
-    font-size: 1.05rem;
-    font-weight: 950;
-}
-
-.comparison-card dl {
-    display: grid;
-    gap: 10px;
-    margin: 14px 0 0;
-}
-
-.comparison-card div {
-    display: grid;
-    gap: 4px;
-}
-
-.comparison-card dt {
-    color: var(--muted);
-    font-size: 0.82rem;
-    font-weight: 950;
-}
-
-.comparison-card dd {
-    margin: 0;
-    color: var(--text);
-    line-height: 1.45;
-    font-weight: 900;
-}
-
 .checklist-panel {
     background: linear-gradient(135deg, #ffffff 0%, var(--soft-green) 100%);
 }
@@ -1252,7 +1214,6 @@ body[data-route="home"] .notice-banner {
 }
 
 .topic-summary,
-.topic-detail-box,
 .reference-panel {
     margin-top: 18px;
 }
@@ -1295,29 +1256,8 @@ body[data-route="home"] .notice-banner {
     font-weight: 900;
 }
 
-.topic-detail-box,
 .reference-panel {
     padding: 20px;
-}
-
-.topic-detail-box h2 {
-    margin: 0;
-    color: var(--text);
-    font-size: 1.24rem;
-    line-height: 1.3;
-    font-weight: 950;
-}
-
-.topic-detail-box ul {
-    display: grid;
-    gap: 10px;
-    margin: 14px 0 0;
-    padding-left: 1.1em;
-}
-
-.topic-detail-box li {
-    color: var(--text);
-    font-weight: 850;
 }
 
 .reference-grid {
@@ -1489,22 +1429,18 @@ body[data-route="home"] .notice-banner {
     }
 
     .app-shell {
-        max-width: none;
+        max-width: var(--content-max);
         min-height: 100vh;
-        border: 0;
-        border-radius: 0;
-        box-shadow: none;
+        border-left: 1px solid rgba(219, 228, 240, 0.9);
+        border-right: 1px solid rgba(219, 228, 240, 0.9);
+        box-shadow: 0 0 60px rgba(31, 41, 55, 0.06);
         overflow-x: hidden;
         overflow-y: visible;
     }
 
-    .topbar {
-        border-radius: 0;
-    }
-
     .bottom-nav {
         bottom: 18px;
-        width: calc(100% - 48px);
+        width: min(calc(var(--content-max) - 48px), calc(100% - 48px));
         max-width: none;
     }
 
@@ -1527,8 +1463,7 @@ body[data-route="home"] .notice-banner {
         padding-bottom: 0;
     }
 
-    .step-timeline,
-    .comparison-list {
+    .step-timeline {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
@@ -1670,7 +1605,6 @@ input:focus-visible {
     .app-summary-panel,
     .card-news-panel,
     .flow-panel,
-    .comparison-panel,
     .checklist-panel,
     .caution-panel,
     .notice-box,

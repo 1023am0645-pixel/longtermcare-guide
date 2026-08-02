@@ -6,9 +6,9 @@
     <meta name="theme-color" content="#2563eb">
     <title>장기요양급여 이용 안내</title>
 
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="css/style.css?v=32">
+    <link rel="stylesheet" href="assets/fonts/pretendard.css">
+    <script src="assets/vendor/lucide.min.js"></script>
+    <link rel="stylesheet" href="css/style.css?v=33">
 </head>
 <body>
     <div class="app-shell">
@@ -23,9 +23,9 @@
             </a>
 
             <div class="font-controls" aria-label="글씨 크기 조절">
-                <button class="font-button" type="button" data-font="base">가</button>
-                <button class="font-button" type="button" data-font="large">크게</button>
-                <button class="font-button" type="button" data-font="xlarge">아주 크게</button>
+                <button class="font-button" type="button" data-font="base" aria-pressed="false">가</button>
+                <button class="font-button" type="button" data-font="large" aria-pressed="true">크게</button>
+                <button class="font-button" type="button" data-font="xlarge" aria-pressed="false">아주 크게</button>
             </div>
         </header>
 
@@ -55,6 +55,7 @@
         </nav>
     </div>
 
-    <script src="js/app.js?v=32"></script>
+    <script src="js/content-data.js?v=33"></script>
+    <script src="js/app.js?v=33"></script>
 </body>
 </html>
