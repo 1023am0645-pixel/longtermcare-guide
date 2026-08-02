@@ -310,6 +310,39 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </section>
 
+                <section class="comparison-panel" aria-labelledby="application-comparison-title">
+                    <div class="panel-title">
+                        <span class="panel-icon blue">
+                            <i data-lucide="table-2" aria-hidden="true"></i>
+                        </span>
+                        <div>
+                            <span>핵심 표</span>
+                            <h2 id="application-comparison-title">표로 정리한 핵심 내용</h2>
+                        </div>
+                    </div>
+                    <div class="comparison-list">
+                        ${applicationGuide.keyTable.map(item => `
+                            <article class="comparison-card">
+                                <strong>${item.label}</strong>
+                                <dl>
+                                    <div>
+                                        <dt>핵심 내용</dt>
+                                        <dd>${item.content}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>확인할 점</dt>
+                                        <dd>${item.check}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>원문 페이지</dt>
+                                        <dd>${item.pages}</dd>
+                                    </div>
+                                </dl>
+                            </article>
+                        `).join('')}
+                    </div>
+                </section>
+
                 <section class="checklist-panel" aria-labelledby="application-checklist-title">
                     <div class="panel-title">
                         <span class="panel-icon green">
@@ -472,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const haystack = `${category.title} ${category.subtitle} ${topic.title} ${topic.summary.join(' ')}`.toLowerCase();
             return haystack.includes(normalized);
         });
-        const matchedApplication = `${applicationGuide.title} ${applicationGuide.description} ${applicationGuide.newsCards.map(card => `${card.title} ${card.headline} ${card.text}`).join(' ')} ${applicationGuide.steps.map(step => `${step.title} ${step.text}`).join(' ')} ${applicationGuide.checklist.map(item => `${item.title} ${item.text}`).join(' ')} ${applicationGuide.faqs.map(item => `${item.q} ${item.a}`).join(' ')}`.toLowerCase().includes(normalized);
+        const matchedApplication = `${applicationGuide.title} ${applicationGuide.description} ${applicationGuide.newsCards.map(card => `${card.title} ${card.headline} ${card.text}`).join(' ')} ${applicationGuide.steps.map(step => `${step.title} ${step.text}`).join(' ')} ${applicationGuide.keyTable.map(item => `${item.label} ${item.content} ${item.check} ${item.pages}`).join(' ')} ${applicationGuide.checklist.map(item => `${item.title} ${item.text}`).join(' ')} ${applicationGuide.faqs.map(item => `${item.q} ${item.a}`).join(' ')}`.toLowerCase().includes(normalized);
 
         setActiveNav('');
         app.innerHTML = `

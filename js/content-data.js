@@ -599,6 +599,32 @@ window.LONGCARE_CONTENT = {
                 source: ''
             }
         ],
+        keyTable: [
+            {
+                label: '인정신청',
+                content: '장기요양보험 혜택을 위한 첫 단계',
+                check: '65세 이상 또는 노인성 질병 여부',
+                pages: '4, 5'
+            },
+            {
+                label: '등급판정',
+                content: '어르신 상태에 따른 등급 결정',
+                check: '1~5등급 및 인지지원등급 구분',
+                pages: '6'
+            },
+            {
+                label: '결과확인',
+                content: '판정 결과 조회 및 서류 발급',
+                check: '홈페이지, 앱(건강보험25시), 정부24',
+                pages: '12'
+            },
+            {
+                label: '유효기간',
+                content: '급여를 이용할 수 있는 기간',
+                check: '인정서에 명시된 종료 날짜 확인',
+                pages: '57'
+            }
+        ],
         checklist: [
             {
                 title: '어르신이 6개월 이상 혼자 일상생활이 어려운 상태인가요?',

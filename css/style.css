@@ -781,6 +781,7 @@ body[data-route="home"] .notice-banner {
 .app-summary-panel,
 .card-news-panel,
 .flow-panel,
+.comparison-panel,
 .checklist-panel,
 .caution-panel,
 .notice-box,
@@ -826,6 +827,7 @@ body[data-route="home"] .notice-banner {
 .app-summary-panel,
 .card-news-panel,
 .flow-panel,
+.comparison-panel,
 .checklist-panel,
 .caution-panel,
 .notice-box,
@@ -967,6 +969,7 @@ body[data-route="home"] .notice-banner {
 
 .news-card small,
 .step-card small,
+.comparison-card small,
 .check-item small,
 .faq-item small {
     display: inline-block;
@@ -1068,6 +1071,58 @@ body[data-route="home"] .notice-banner {
     font-size: 0.96rem;
     line-height: 1.5;
     font-weight: 820;
+}
+
+.comparison-panel {
+    background: linear-gradient(135deg, #ffffff 0%, #f4f8ff 100%);
+}
+
+.comparison-list {
+    display: grid;
+    gap: 12px;
+}
+
+.comparison-card {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.86);
+}
+
+.comparison-card strong {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: var(--soft-blue);
+    color: var(--primary-dark);
+    font-size: 1.02rem;
+    font-weight: 950;
+}
+
+.comparison-card dl {
+    display: grid;
+    gap: 10px;
+    margin: 14px 0 0;
+}
+
+.comparison-card div {
+    display: grid;
+    gap: 4px;
+}
+
+.comparison-card dt {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 950;
+}
+
+.comparison-card dd {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.45;
+    font-weight: 900;
 }
 
 .checklist-panel {
@@ -1463,7 +1518,8 @@ body[data-route="home"] .notice-banner {
         padding-bottom: 0;
     }
 
-    .step-timeline {
+    .step-timeline,
+    .comparison-list {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
@@ -1605,6 +1661,7 @@ input:focus-visible {
     .app-summary-panel,
     .card-news-panel,
     .flow-panel,
+    .comparison-panel,
     .checklist-panel,
     .caution-panel,
     .notice-box,
