@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const BOOK_BASE = 'assets/book-pages';
     const SOURCE_URL = 'https://ligsystemup.kdtidc.com/e-book/2026%EC%9E%A5%EA%B8%B0%EC%9A%94%EC%96%91%EA%B8%89%EC%97%AC%EC%9D%B4%EC%9A%A9_ebook/index.html';
 
-    const { categories, legacySectionMap, quickMenus, mainMenus, applicationGuide } = window.LONGCARE_CONTENT;
+    const { categories, legacySectionMap, quickMenus, mainMenus, applicationGuide, gradeResultGuide } = window.LONGCARE_CONTENT;
+    const guideDetails = [applicationGuide, gradeResultGuide].filter(Boolean);
 
     const app = document.getElementById('app');
     const searchInput = document.getElementById('searchInput');
@@ -42,6 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const category = findCategory(categoryId);
         const topic = category.topics.find(item => item.id === topicId) || category.topics[0];
         return { category, topic };
+    }
+
+    function findGuide(guideId) {
+        return guideDetails.find(guide => guide.id === guideId) || applicationGuide;
     }
 
     function findByPage(page) {
@@ -244,33 +249,33 @@ document.addEventListener('DOMContentLoaded', () => {
         focusMain();
     }
 
-    function renderApplicationGuide() {
+    function renderGuideDetail(guide) {
         setActiveNav('home', 'detail');
         app.innerHTML = `
-            <section class="app-guide-detail guide-view blue">
+            <section class="app-guide-detail guide-view ${guide.color || 'blue'}">
                 <a class="back-link" href="#home">
                     <i data-lucide="chevron-left" aria-hidden="true"></i>
                     가이드 홈
                 </a>
 
                 <div class="app-detail-hero">
-                    <span class="section-number">신청</span>
-                    <h1>${applicationGuide.title}</h1>
-                    <p>${applicationGuide.description}</p>
+                    <span class="section-number">${guide.badge || '안내'}</span>
+                    <h1>${guide.title}</h1>
+                    <p>${guide.description}</p>
                 </div>
 
-                <section class="card-news-panel" aria-labelledby="application-cardnews-title">
+                <section class="card-news-panel" aria-labelledby="${guide.id}-cardnews-title">
                     <div class="panel-title">
                         <span class="panel-icon blue">
                             <i data-lucide="panels-top-left" aria-hidden="true"></i>
                         </span>
                         <div>
                             <span>카드뉴스</span>
-                            <h2 id="application-cardnews-title">핵심만 먼저 보기</h2>
+                            <h2 id="${guide.id}-cardnews-title">핵심만 먼저 보기</h2>
                         </div>
                     </div>
-                    <div class="news-card-track" aria-label="장기요양 인정신청 핵심 카드뉴스">
-                        ${applicationGuide.newsCards.map(card => `
+                    <div class="news-card-track" aria-label="${guide.title} 핵심 카드뉴스">
+                        ${guide.newsCards.map(card => `
                             <article class="news-card ${card.tone}">
                                 <div class="news-card-icons">
                                     <i data-lucide="${card.icon}" aria-hidden="true"></i>
@@ -285,18 +290,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </section>
 
-                <section class="flow-panel" aria-labelledby="application-flow-title">
+                <section class="flow-panel" aria-labelledby="${guide.id}-flow-title">
                     <div class="panel-title">
                         <span class="panel-icon purple">
                             <i data-lucide="route" aria-hidden="true"></i>
                         </span>
                         <div>
                             <span>진행 순서</span>
-                            <h2 id="application-flow-title">신청부터 결과통보까지</h2>
+                            <h2 id="${guide.id}-flow-title">${guide.flowTitle || '진행 순서'}</h2>
                         </div>
                     </div>
                     <div class="step-timeline">
-                        ${applicationGuide.steps.map((step, index) => `
+                        ${guide.steps.map((step, index) => `
                             <article class="step-card">
                                 <span>${index + 1}</span>
                                 <div>
@@ -310,18 +315,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </section>
 
-                <section class="comparison-panel" aria-labelledby="application-comparison-title">
+                <section class="comparison-panel" aria-labelledby="${guide.id}-comparison-title">
                     <div class="panel-title">
                         <span class="panel-icon blue">
                             <i data-lucide="table-2" aria-hidden="true"></i>
                         </span>
                         <div>
                             <span>핵심 표</span>
-                            <h2 id="application-comparison-title">표로 정리한 핵심 내용</h2>
+                            <h2 id="${guide.id}-comparison-title">표로 정리한 핵심 내용</h2>
                         </div>
                     </div>
                     <div class="comparison-list">
-                        ${applicationGuide.keyTable.map(item => `
+                        ${guide.keyTable.map(item => `
                             <article class="comparison-card">
                                 <strong>${item.label}</strong>
                                 <dl>
@@ -343,18 +348,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </section>
 
-                <section class="checklist-panel" aria-labelledby="application-checklist-title">
+                <section class="checklist-panel" aria-labelledby="${guide.id}-checklist-title">
                     <div class="panel-title">
                         <span class="panel-icon green">
                             <i data-lucide="check-square" aria-hidden="true"></i>
                         </span>
                         <div>
                             <span>보호자 체크리스트</span>
-                            <h2 id="application-checklist-title">신청 전에 확인할 것</h2>
+                            <h2 id="${guide.id}-checklist-title">${guide.checklistTitle || '확인할 것'}</h2>
                         </div>
                     </div>
                     <div class="check-list">
-                        ${applicationGuide.checklist.map(item => `
+                        ${guide.checklist.map(item => `
                             <label class="check-item">
                                 <input type="checkbox" aria-label="${item.title}">
                                 <span>
@@ -367,18 +372,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </section>
 
-                <section class="faq-panel" aria-labelledby="application-faq-title">
+                <section class="faq-panel" aria-labelledby="${guide.id}-faq-title">
                     <div class="panel-title">
                         <span class="panel-icon blue">
                             <i data-lucide="circle-help" aria-hidden="true"></i>
                         </span>
                         <div>
                             <span>자주 묻는 질문</span>
-                            <h2 id="application-faq-title">신청할 때 많이 묻는 질문</h2>
+                            <h2 id="${guide.id}-faq-title">${guide.faqTitle || '많이 묻는 질문'}</h2>
                         </div>
                     </div>
                     <div class="faq-list">
-                        ${applicationGuide.faqs.map(item => `
+                        ${guide.faqs.map(item => `
                             <details class="faq-item">
                                 <summary>${item.q}</summary>
                                 <p>${item.a}</p>
@@ -398,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <h2>원문 기반 요약 안내</h2>
                         </div>
                     </div>
-                    <p>${applicationGuide.caution}</p>
+                    <p>${guide.caution}</p>
                 </section>
 
                 <details class="ebook-source-details">
@@ -410,16 +415,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         <small>원문 e-book 캡처는 필요할 때만 펼쳐서 확인하세요</small>
                     </summary>
                     <div class="source-ref-list" aria-label="원문 근거 목록">
-                        ${applicationGuide.sourceRefs.map(ref => `<span>${ref}</span>`).join('')}
+                        ${guide.sourceRefs.map(ref => `<span>${ref}</span>`).join('')}
                     </div>
                     <div class="reference-grid">
-                        <a class="reference-cover" href="#page/${applicationGuide.sourcePages[0]}/guide/application">
-                            <img loading="lazy" src="${pageImage(applicationGuide.sourcePages[0])}" alt="${applicationGuide.title} 원문 ${pageLabel(applicationGuide.sourcePages[0])}">
-                            <span>첫 원문 ${pageLabel(applicationGuide.sourcePages[0])}</span>
+                        <a class="reference-cover" href="#page/${guide.sourcePages[0]}/guide/${guide.id}">
+                            <img loading="lazy" src="${pageImage(guide.sourcePages[0])}" alt="${guide.title} 원문 ${pageLabel(guide.sourcePages[0])}">
+                            <span>첫 원문 ${pageLabel(guide.sourcePages[0])}</span>
                         </a>
-                        <div class="page-buttons" aria-label="${applicationGuide.title} 원문 페이지">
-                            ${applicationGuide.sourcePages.map(page => `
-                                <a href="#page/${page}/guide/application">
+                        <div class="page-buttons" aria-label="${guide.title} 원문 페이지">
+                            ${guide.sourcePages.map(page => `
+                                <a href="#page/${page}/guide/${guide.id}">
                                     <strong>${pageLabel(page)}</strong>
                                     <span>원문 보기</span>
                                 </a>
@@ -460,9 +465,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const page = Math.min(Math.max(Number(pageNumber) || 1, 1), TOTAL_PAGES);
         const source = sourceCategoryId && sourceTopicId && sourceCategoryId !== 'guide' ? findTopic(sourceCategoryId, sourceTopicId) : null;
         const found = source || findByPage(page);
-        const guideSource = sourceCategoryId === 'guide' && sourceTopicId === applicationGuide.id;
-        const backHref = guideSource ? '#guide/application' : found?.topic ? `#topic/${found.category.id}/${found.topic.id}` : found?.id ? `#category/${found.id}` : '#book';
-        const caption = guideSource ? applicationGuide.title : found?.topic ? `${found.category.title} · ${found.topic.title}` : found?.title || '장기요양급여 이용 안내';
+        const guideSource = sourceCategoryId === 'guide' ? guideDetails.find(guide => guide.id === sourceTopicId) : null;
+        const backHref = guideSource ? `#guide/${guideSource.id}` : found?.topic ? `#topic/${found.category.id}/${found.topic.id}` : found?.id ? `#category/${found.id}` : '#book';
+        const caption = guideSource ? guideSource.title : found?.topic ? `${found.category.title} · ${found.topic.title}` : found?.title || '장기요양급여 이용 안내';
         setActiveNav('book');
         app.innerHTML = `
             <section class="page-reader">
@@ -505,7 +510,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const haystack = `${category.title} ${category.subtitle} ${topic.title} ${topic.summary.join(' ')}`.toLowerCase();
             return haystack.includes(normalized);
         });
-        const matchedApplication = `${applicationGuide.title} ${applicationGuide.description} ${applicationGuide.newsCards.map(card => `${card.title} ${card.headline} ${card.text}`).join(' ')} ${applicationGuide.steps.map(step => `${step.title} ${step.text}`).join(' ')} ${applicationGuide.keyTable.map(item => `${item.label} ${item.content} ${item.check} ${item.pages}`).join(' ')} ${applicationGuide.checklist.map(item => `${item.title} ${item.text}`).join(' ')} ${applicationGuide.faqs.map(item => `${item.q} ${item.a}`).join(' ')}`.toLowerCase().includes(normalized);
+        const matchedGuides = guideDetails.filter(guide => {
+            const haystack = `${guide.title} ${guide.description} ${guide.newsCards.map(card => `${card.title} ${card.headline} ${card.text}`).join(' ')} ${guide.steps.map(step => `${step.title} ${step.text}`).join(' ')} ${guide.keyTable.map(item => `${item.label} ${item.content} ${item.check} ${item.pages}`).join(' ')} ${guide.checklist.map(item => `${item.title} ${item.text}`).join(' ')} ${guide.faqs.map(item => `${item.q} ${item.a}`).join(' ')}`.toLowerCase();
+            return haystack.includes(normalized);
+        });
 
         setActiveNav('');
         app.innerHTML = `
@@ -513,11 +521,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="section-heading wide">
                     <span>검색 결과</span>
                     <h1>“${escapeHtml(query)}”</h1>
-                    <p>${matchedCategories.length + matchedTopics.length + (matchedApplication ? 1 : 0) ? '관련 항목을 찾았습니다.' : '검색 결과가 없습니다. 다른 단어로 다시 검색해 보세요.'}</p>
+                    <p>${matchedCategories.length + matchedTopics.length + matchedGuides.length ? '관련 항목을 찾았습니다.' : '검색 결과가 없습니다. 다른 단어로 다시 검색해 보세요.'}</p>
                 </div>
-                ${matchedApplication ? `
+                ${matchedGuides.length ? `
                     <div class="main-menu-grid">
-                        ${homeMenuCard(applicationGuide.menu)}
+                        ${matchedGuides.map(guide => homeMenuCard(guide.menu)).join('')}
                     </div>
                 ` : ''}
                 ${matchedCategories.length ? `
@@ -542,8 +550,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (hash === '#guide/application') {
-            renderApplicationGuide();
+        if (hash.startsWith('#guide/')) {
+            renderGuideDetail(findGuide(hash.replace('#guide/', '')));
         } else if (hash.startsWith('#category/')) {
             renderCategory(hash.replace('#category/', ''));
         } else if (hash.startsWith('#topic/')) {

@@ -488,7 +488,7 @@ window.LONGCARE_CONTENT = {
         {
             title: '등급판정 결과 확인',
             subtitle: '내 등급과 이용 가능 급여',
-            href: '#category/grade',
+            href: '#guide/grade-result',
             icon: 'badge-check',
             tone: 'purple'
         },
@@ -540,6 +540,11 @@ window.LONGCARE_CONTENT = {
         id: 'application',
         title: '장기요양 인정신청',
         description: '신청 대상 확인부터 신청 방법, 결과 확인까지의 전 과정을 안내합니다.',
+        badge: '신청',
+        color: 'blue',
+        flowTitle: '신청부터 결과통보까지',
+        checklistTitle: '신청 전에 확인할 것',
+        faqTitle: '신청할 때 많이 묻는 질문',
         menu: {
             title: '장기요양 인정신청',
             subtitle: '신청부터 결과통보까지 쉽게 보기',
@@ -664,5 +669,140 @@ window.LONGCARE_CONTENT = {
         caution: '본 콘텐츠는 제공된 PDF 원문의 내용을 기반으로 요약·정리되었습니다. 구체적인 신청 방법 및 서류 양식은 국민건강보험공단(1577-1000)을 통해 다시 한번 확인하시기 바랍니다.',
         sourceRefs: ['PDF 4쪽', 'PDF 5쪽', 'PDF 6쪽', 'PDF 12쪽', 'PDF 57쪽'],
         sourcePages: [4, 5, 6, 12]
+    },
+
+    gradeResultGuide: {
+        id: 'grade-result',
+        title: '등급판정 결과 확인',
+        description: '장기요양 등급 구분과 판정 결과 확인, 서류 수령 내용을 안내합니다.',
+        badge: '등급',
+        color: 'violet',
+        flowTitle: '판정 결과 확인 흐름',
+        checklistTitle: '결과통보 후 확인할 것',
+        faqTitle: '결과 확인 때 많이 묻는 질문',
+        menu: {
+            title: '등급판정 결과 확인',
+            subtitle: '등급, 서류, 결과조회 확인',
+            href: '#guide/grade-result',
+            icon: 'badge-check',
+            tone: 'purple'
+        },
+        newsCards: [
+            {
+                title: '등급 구분',
+                headline: '1~5등급 및 인지지원등급',
+                text: '심신상태와 장기요양이 필요한 정도에 따라 판정됩니다.',
+                icon: 'badge-check',
+                tone: 'news-blue',
+                source: 'PDF 6쪽'
+            },
+            {
+                title: '결과 조회',
+                headline: '홈페이지·앱·정부24에서 확인',
+                text: '판정 결과를 직접 조회하고 출력할 수 있습니다.',
+                icon: 'smartphone',
+                tone: 'news-green',
+                source: 'PDF 12쪽'
+            },
+            {
+                title: '필수 서류',
+                headline: '인정서 등 3종 수령',
+                text: '인정서, 개인별장기요양이용계획서, 복지용구 급여확인서를 확인하세요.',
+                icon: 'files',
+                tone: 'news-orange',
+                source: 'PDF 12쪽'
+            }
+        ],
+        steps: [
+            {
+                title: '등급판정',
+                text: '등급판정위원회에서 심사 및 결정',
+                icon: 'users',
+                source: 'PDF 5쪽'
+            },
+            {
+                title: '결과확인',
+                text: '홈페이지, 건강보험25시, 정부24에서 조회 및 출력',
+                icon: 'search-check',
+                source: 'PDF 12쪽'
+            },
+            {
+                title: '서류수령',
+                text: '필수 서류 3종 및 기관 현황 제공',
+                icon: 'mail',
+                source: 'PDF 12쪽'
+            },
+            {
+                title: '급여이용 준비',
+                text: '요양기관 선택 및 서비스 계약 체결',
+                icon: 'hand-heart',
+                source: 'PDF 10, 12쪽'
+            }
+        ],
+        keyTable: [
+            {
+                label: '등급판정',
+                content: '어르신 상태에 따른 등급 결정',
+                check: '1~5등급 및 인지지원등급 구분',
+                pages: '6'
+            },
+            {
+                label: '결과확인',
+                content: '판정 결과 조회 및 서류 발급',
+                check: '홈페이지, 앱(건강보험25시), 정부24',
+                pages: '12'
+            },
+            {
+                label: '서류수령',
+                content: '인정서, 개인별장기요양이용계획서, 복지용구 급여확인서',
+                check: '필수 서류 3종 확인',
+                pages: '12'
+            },
+            {
+                label: '유효기간',
+                content: '급여를 이용할 수 있는 기간',
+                check: '인정서에 명시된 종료 날짜 확인',
+                pages: '57'
+            }
+        ],
+        checklist: [
+            {
+                title: '판정 결과를 홈페이지, 건강보험25시, 정부24에서 확인했나요?',
+                text: '',
+                source: 'PDF 12쪽'
+            },
+            {
+                title: '인정서 등 필수 서류 3종을 모두 받으셨나요?',
+                text: '',
+                source: 'PDF 12쪽'
+            },
+            {
+                title: '인정서에 적힌 등급과 유효기간을 확인했나요?',
+                text: '',
+                source: 'PDF 57쪽'
+            },
+            {
+                title: '상태가 변한 경우 등급변경신청이 필요한지 확인했나요?',
+                text: '',
+                source: 'PDF 57쪽'
+            }
+        ],
+        faqs: [
+            {
+                q: '등급 판정 결과는 어디서 확인할 수 있나요?',
+                a: '홈페이지, 모바일 앱(건강보험25시), 또는 정부24 홈페이지 및 앱에서 직접 조회하고 출력할 수 있습니다.'
+            },
+            {
+                q: '등급 판정 후 어떤 서류를 받나요?',
+                a: '인정서, 개인별장기요양이용계획서, 복지용구 급여확인서 3종을 공단으로부터 수령합니다.'
+            },
+            {
+                q: '등급 판정 후 어르신 상태가 나빠지면 어떡하죠?',
+                a: "유효기간 내라도 상태가 변하여 다른 등급을 받고자 할 때는 '등급변경신청'을 할 수 있습니다."
+            }
+        ],
+        caution: '본 콘텐츠는 제공된 PDF 원문의 내용을 기반으로 요약·정리되었습니다. 구체적인 신청 방법 및 서류 양식은 국민건강보험공단(1577-1000)을 통해 다시 한번 확인하시기 바랍니다.',
+        sourceRefs: ['PDF 5쪽', 'PDF 6쪽', 'PDF 10쪽', 'PDF 12쪽', 'PDF 57쪽'],
+        sourcePages: [5, 6, 10, 12]
     }
 };
