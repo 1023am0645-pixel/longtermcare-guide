@@ -677,9 +677,10 @@ window.LONGCARE_CONTENT = {
         description: '장기요양 등급 구분과 판정 결과 확인, 서류 수령 내용을 안내합니다.',
         badge: '등급',
         color: 'violet',
-        flowTitle: '판정 결과 확인 흐름',
+        flowTitle: '결과 확인 순서',
         checklistTitle: '결과통보 후 확인할 것',
         faqTitle: '결과 확인 때 많이 묻는 질문',
+        sectionOrder: ['flow', 'comparison', 'news', 'checklist', 'faq', 'caution', 'source'],
         menu: {
             title: '등급판정 결과 확인',
             subtitle: '등급, 서류, 결과조회 확인',
@@ -689,39 +690,33 @@ window.LONGCARE_CONTENT = {
         },
         newsCards: [
             {
-                title: '등급 구분',
-                headline: '1~5등급 및 인지지원등급',
-                text: '심신상태와 장기요양이 필요한 정도에 따라 판정됩니다.',
-                icon: 'badge-check',
-                tone: 'news-blue',
-                source: 'PDF 6쪽'
-            },
-            {
                 title: '결과 조회',
                 headline: '홈페이지·앱·정부24에서 확인',
                 text: '판정 결과를 직접 조회하고 출력할 수 있습니다.',
                 icon: 'smartphone',
+                tone: 'news-blue',
+                source: 'PDF 12쪽'
+            },
+            {
+                title: '서류 수령',
+                headline: '인정서 등 3종 확인',
+                text: '인정서, 개인별장기요양이용계획서, 복지용구 급여확인서를 확인하세요.',
+                icon: 'files',
                 tone: 'news-green',
                 source: 'PDF 12쪽'
             },
             {
-                title: '필수 서류',
-                headline: '인정서 등 3종 수령',
-                text: '인정서, 개인별장기요양이용계획서, 복지용구 급여확인서를 확인하세요.',
-                icon: 'files',
+                title: '등급 구분',
+                headline: '1~5등급 및 인지지원등급',
+                text: '심신상태와 장기요양이 필요한 정도에 따라 판정됩니다.',
+                icon: 'badge-check',
                 tone: 'news-orange',
-                source: 'PDF 12쪽'
+                source: 'PDF 6쪽'
             }
         ],
         steps: [
             {
-                title: '등급판정',
-                text: '등급판정위원회에서 심사 및 결정',
-                icon: 'users',
-                source: 'PDF 5쪽'
-            },
-            {
-                title: '결과확인',
+                title: '결과조회',
                 text: '홈페이지, 건강보험25시, 정부24에서 조회 및 출력',
                 icon: 'search-check',
                 source: 'PDF 12쪽'
@@ -733,19 +728,19 @@ window.LONGCARE_CONTENT = {
                 source: 'PDF 12쪽'
             },
             {
-                title: '급여이용 준비',
-                text: '요양기관 선택 및 서비스 계약 체결',
-                icon: 'hand-heart',
-                source: 'PDF 10, 12쪽'
+                title: '등급확인',
+                text: '1~5등급 및 인지지원등급 구분',
+                icon: 'badge-check',
+                source: 'PDF 6쪽'
+            },
+            {
+                title: '유효기간 확인',
+                text: '인정서에 명시된 종료 날짜 확인',
+                icon: 'calendar-check',
+                source: 'PDF 57쪽'
             }
         ],
         keyTable: [
-            {
-                label: '등급판정',
-                content: '어르신 상태에 따른 등급 결정',
-                check: '1~5등급 및 인지지원등급 구분',
-                pages: '6'
-            },
             {
                 label: '결과확인',
                 content: '판정 결과 조회 및 서류 발급',
@@ -757,6 +752,12 @@ window.LONGCARE_CONTENT = {
                 content: '인정서, 개인별장기요양이용계획서, 복지용구 급여확인서',
                 check: '필수 서류 3종 확인',
                 pages: '12'
+            },
+            {
+                label: '등급구분',
+                content: '어르신 상태에 따른 등급 결정',
+                check: '1~5등급 및 인지지원등급 구분',
+                pages: '6'
             },
             {
                 label: '유효기간',

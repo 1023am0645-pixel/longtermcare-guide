@@ -250,6 +250,176 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderGuideDetail(guide) {
+        const newsSection = `
+            <section class="card-news-panel" aria-labelledby="${guide.id}-cardnews-title">
+                <div class="panel-title">
+                    <span class="panel-icon blue">
+                        <i data-lucide="panels-top-left" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2 id="${guide.id}-cardnews-title">핵심만 먼저 보기</h2>
+                    </div>
+                </div>
+                <div class="news-card-track" aria-label="${guide.title} 핵심 요약">
+                    ${guide.newsCards.map(card => `
+                        <article class="news-card ${card.tone}">
+                            <div class="news-card-icons">
+                                <i data-lucide="${card.icon}" aria-hidden="true"></i>
+                                ${card.secondIcon ? `<i data-lucide="${card.secondIcon}" aria-hidden="true"></i>` : ''}
+                            </div>
+                            <span>${card.title}</span>
+                            <h3>${card.headline}</h3>
+                            <p>${card.text}</p>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+        const flowSection = `
+            <section class="flow-panel" aria-labelledby="${guide.id}-flow-title">
+                <div class="panel-title">
+                    <span class="panel-icon purple">
+                        <i data-lucide="route" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2 id="${guide.id}-flow-title">${guide.flowTitle || '진행 순서'}</h2>
+                    </div>
+                </div>
+                <div class="step-timeline">
+                    ${guide.steps.map((step, index) => `
+                        <article class="step-card">
+                            <span>${index + 1}</span>
+                            <div>
+                                <i data-lucide="${step.icon}" aria-hidden="true"></i>
+                                <h3>${step.title}</h3>
+                                <p>${step.text}</p>
+                            </div>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+        const comparisonSection = `
+            <section class="comparison-panel" aria-labelledby="${guide.id}-comparison-title">
+                <div class="panel-title">
+                    <span class="panel-icon blue">
+                        <i data-lucide="table-2" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2 id="${guide.id}-comparison-title">표로 정리한 핵심 내용</h2>
+                    </div>
+                </div>
+                <div class="comparison-list">
+                    ${guide.keyTable.map(item => `
+                        <article class="comparison-card">
+                            <strong>${item.label}</strong>
+                            <dl>
+                                <div>
+                                    <dt>핵심 내용</dt>
+                                    <dd>${item.content}</dd>
+                                </div>
+                                <div>
+                                    <dt>확인할 점</dt>
+                                    <dd>${item.check}</dd>
+                                </div>
+                            </dl>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+        const checklistSection = `
+            <section class="checklist-panel" aria-labelledby="${guide.id}-checklist-title">
+                <div class="panel-title">
+                    <span class="panel-icon green">
+                        <i data-lucide="check-square" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2 id="${guide.id}-checklist-title">${guide.checklistTitle || '확인할 것'}</h2>
+                    </div>
+                </div>
+                <div class="check-list">
+                    ${guide.checklist.map(item => `
+                        <label class="check-item">
+                            <input type="checkbox" aria-label="${item.title}">
+                            <span>
+                                <strong>${item.title}</strong>
+                                ${item.text ? `<em>${item.text}</em>` : ''}
+                            </span>
+                        </label>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+        const faqSection = `
+            <section class="faq-panel" aria-labelledby="${guide.id}-faq-title">
+                <div class="panel-title">
+                    <span class="panel-icon blue">
+                        <i data-lucide="circle-help" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2 id="${guide.id}-faq-title">${guide.faqTitle || '많이 묻는 질문'}</h2>
+                    </div>
+                </div>
+                <div class="faq-list">
+                    ${guide.faqs.map(item => `
+                        <details class="faq-item">
+                            <summary>${item.q}</summary>
+                            <p>${item.a}</p>
+                        </details>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+        const cautionSection = `
+            <section class="caution-panel" aria-label="주의">
+                <div class="panel-title">
+                    <span class="panel-icon yellow">
+                        <i data-lucide="alert-circle" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2>원문 기반 요약 안내</h2>
+                    </div>
+                </div>
+                <p>${guide.caution}</p>
+            </section>
+        `;
+        const sourceSection = `
+            <details class="ebook-source-details">
+                <summary>
+                    <span>
+                        <i data-lucide="book-open" aria-hidden="true"></i>
+                        장기요양 급여이용가이드 e-book에서 전체 내용 확인하기
+                    </span>
+                    <small>관련 원문 페이지를 펼쳐서 볼 수 있습니다</small>
+                </summary>
+                <div class="reference-grid">
+                    <a class="reference-cover" href="#page/${guide.sourcePages[0]}/guide/${guide.id}">
+                        <img loading="lazy" src="${pageImage(guide.sourcePages[0])}" alt="${guide.title} 원문 ${pageLabel(guide.sourcePages[0])}">
+                        <span>첫 원문 ${pageLabel(guide.sourcePages[0])}</span>
+                    </a>
+                    <div class="page-buttons" aria-label="${guide.title} 원문 페이지">
+                        ${guide.sourcePages.map(page => `
+                            <a href="#page/${page}/guide/${guide.id}">
+                                <strong>${pageLabel(page)}</strong>
+                                <span>원문 보기</span>
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            </details>
+        `;
+        const sections = {
+            news: newsSection,
+            flow: flowSection,
+            comparison: comparisonSection,
+            checklist: checklistSection,
+            faq: faqSection,
+            caution: cautionSection,
+            source: sourceSection
+        };
+        const sectionOrder = guide.sectionOrder || ['news', 'flow', 'comparison', 'checklist', 'faq', 'caution', 'source'];
+
         setActiveNav('home', 'detail');
         app.innerHTML = `
             <section class="app-guide-detail guide-view ${guide.color || 'blue'}">
@@ -263,175 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h1>${guide.title}</h1>
                     <p>${guide.description}</p>
                 </div>
-
-                <section class="card-news-panel" aria-labelledby="${guide.id}-cardnews-title">
-                    <div class="panel-title">
-                        <span class="panel-icon blue">
-                            <i data-lucide="panels-top-left" aria-hidden="true"></i>
-                        </span>
-                        <div>
-                            <span>카드뉴스</span>
-                            <h2 id="${guide.id}-cardnews-title">핵심만 먼저 보기</h2>
-                        </div>
-                    </div>
-                    <div class="news-card-track" aria-label="${guide.title} 핵심 카드뉴스">
-                        ${guide.newsCards.map(card => `
-                            <article class="news-card ${card.tone}">
-                                <div class="news-card-icons">
-                                    <i data-lucide="${card.icon}" aria-hidden="true"></i>
-                                    ${card.secondIcon ? `<i data-lucide="${card.secondIcon}" aria-hidden="true"></i>` : ''}
-                                </div>
-                                <span>${card.title}</span>
-                                <h3>${card.headline}</h3>
-                                <p>${card.text}</p>
-                                <small>원문 근거: ${card.source}</small>
-                            </article>
-                        `).join('')}
-                    </div>
-                </section>
-
-                <section class="flow-panel" aria-labelledby="${guide.id}-flow-title">
-                    <div class="panel-title">
-                        <span class="panel-icon purple">
-                            <i data-lucide="route" aria-hidden="true"></i>
-                        </span>
-                        <div>
-                            <span>진행 순서</span>
-                            <h2 id="${guide.id}-flow-title">${guide.flowTitle || '진행 순서'}</h2>
-                        </div>
-                    </div>
-                    <div class="step-timeline">
-                        ${guide.steps.map((step, index) => `
-                            <article class="step-card">
-                                <span>${index + 1}</span>
-                                <div>
-                                    <i data-lucide="${step.icon}" aria-hidden="true"></i>
-                                    <h3>${step.title}</h3>
-                                    <p>${step.text}</p>
-                                    ${step.source ? `<small>원문 근거: ${step.source}</small>` : ''}
-                                </div>
-                            </article>
-                        `).join('')}
-                    </div>
-                </section>
-
-                <section class="comparison-panel" aria-labelledby="${guide.id}-comparison-title">
-                    <div class="panel-title">
-                        <span class="panel-icon blue">
-                            <i data-lucide="table-2" aria-hidden="true"></i>
-                        </span>
-                        <div>
-                            <span>핵심 표</span>
-                            <h2 id="${guide.id}-comparison-title">표로 정리한 핵심 내용</h2>
-                        </div>
-                    </div>
-                    <div class="comparison-list">
-                        ${guide.keyTable.map(item => `
-                            <article class="comparison-card">
-                                <strong>${item.label}</strong>
-                                <dl>
-                                    <div>
-                                        <dt>핵심 내용</dt>
-                                        <dd>${item.content}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>확인할 점</dt>
-                                        <dd>${item.check}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>원문 페이지</dt>
-                                        <dd>${item.pages}</dd>
-                                    </div>
-                                </dl>
-                            </article>
-                        `).join('')}
-                    </div>
-                </section>
-
-                <section class="checklist-panel" aria-labelledby="${guide.id}-checklist-title">
-                    <div class="panel-title">
-                        <span class="panel-icon green">
-                            <i data-lucide="check-square" aria-hidden="true"></i>
-                        </span>
-                        <div>
-                            <span>보호자 체크리스트</span>
-                            <h2 id="${guide.id}-checklist-title">${guide.checklistTitle || '확인할 것'}</h2>
-                        </div>
-                    </div>
-                    <div class="check-list">
-                        ${guide.checklist.map(item => `
-                            <label class="check-item">
-                                <input type="checkbox" aria-label="${item.title}">
-                                <span>
-                                    <strong>${item.title}</strong>
-                                    ${item.text ? `<em>${item.text}</em>` : ''}
-                                    ${item.source ? `<small>원문 근거: ${item.source}</small>` : ''}
-                                </span>
-                            </label>
-                        `).join('')}
-                    </div>
-                </section>
-
-                <section class="faq-panel" aria-labelledby="${guide.id}-faq-title">
-                    <div class="panel-title">
-                        <span class="panel-icon blue">
-                            <i data-lucide="circle-help" aria-hidden="true"></i>
-                        </span>
-                        <div>
-                            <span>자주 묻는 질문</span>
-                            <h2 id="${guide.id}-faq-title">${guide.faqTitle || '많이 묻는 질문'}</h2>
-                        </div>
-                    </div>
-                    <div class="faq-list">
-                        ${guide.faqs.map(item => `
-                            <details class="faq-item">
-                                <summary>${item.q}</summary>
-                                <p>${item.a}</p>
-                                ${item.source ? `<small>원문 근거: ${item.source}</small>` : ''}
-                            </details>
-                        `).join('')}
-                    </div>
-                </section>
-
-                <section class="caution-panel" aria-label="주의">
-                    <div class="panel-title">
-                        <span class="panel-icon yellow">
-                            <i data-lucide="alert-circle" aria-hidden="true"></i>
-                        </span>
-                        <div>
-                            <span>주의</span>
-                            <h2>원문 기반 요약 안내</h2>
-                        </div>
-                    </div>
-                    <p>${guide.caution}</p>
-                </section>
-
-                <details class="ebook-source-details">
-                    <summary>
-                        <span>
-                            <i data-lucide="book-open" aria-hidden="true"></i>
-                            상세 가이드 전문 보기
-                        </span>
-                        <small>원문 e-book 캡처는 필요할 때만 펼쳐서 확인하세요</small>
-                    </summary>
-                    <div class="source-ref-list" aria-label="원문 근거 목록">
-                        ${guide.sourceRefs.map(ref => `<span>${ref}</span>`).join('')}
-                    </div>
-                    <div class="reference-grid">
-                        <a class="reference-cover" href="#page/${guide.sourcePages[0]}/guide/${guide.id}">
-                            <img loading="lazy" src="${pageImage(guide.sourcePages[0])}" alt="${guide.title} 원문 ${pageLabel(guide.sourcePages[0])}">
-                            <span>첫 원문 ${pageLabel(guide.sourcePages[0])}</span>
-                        </a>
-                        <div class="page-buttons" aria-label="${guide.title} 원문 페이지">
-                            ${guide.sourcePages.map(page => `
-                                <a href="#page/${page}/guide/${guide.id}">
-                                    <strong>${pageLabel(page)}</strong>
-                                    <span>원문 보기</span>
-                                </a>
-                            `).join('')}
-                        </div>
-                    </div>
-                </details>
+                ${sectionOrder.map(key => sections[key]).join('')}
             </section>
         `;
         focusMain();
