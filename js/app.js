@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const BOOK_BASE = 'assets/book-pages';
     const SOURCE_URL = 'https://ligsystemup.kdtidc.com/e-book/2026%EC%9E%A5%EA%B8%B0%EC%9A%94%EC%96%91%EA%B8%89%EC%97%AC%EC%9D%B4%EC%9A%A9_ebook/index.html';
 
-    const { categories, legacySectionMap, quickMenus, mainMenus, applicationGuide, gradeResultGuide } = window.LONGCARE_CONTENT;
+    const { categories, categoryDetails = {}, legacySectionMap, quickMenus, mainMenus, applicationGuide, gradeResultGuide } = window.LONGCARE_CONTENT;
     const guideDetails = [applicationGuide, gradeResultGuide].filter(Boolean);
 
     const app = document.getElementById('app');
@@ -162,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderCategory(categoryId) {
         const category = findCategory(categoryId);
+        const detail = categoryDetails[category.id];
         setActiveNav('contents');
         app.innerHTML = `
             <section class="category-layout guide-view ${category.color}">
@@ -174,13 +175,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="section-number">${category.no}</span>
                         <h1>${category.title}</h1>
                         <p>${category.subtitle}</p>
-                        <div class="ebook-meta">
-                            <i data-lucide="book-open" aria-hidden="true"></i>
-                            이북 ${pageRange(category.pages)} 관련
-                        </div>
                     </div>
-                    <img loading="lazy" src="${pageImage(category.pages[0])}" alt="${category.title} 관련 원본 ${pageLabel(category.pages[0])}">
                 </div>
+                ${detail ? renderStructuredPanels({
+                    ...detail,
+                    id: category.id,
+                    color: category.color,
+                    sourceKind: 'category'
+                }) : ''}
                 <div class="section-heading">
                     <span>세부 카테고리</span>
                     <h2>궁금한 내용을 다시 선택하세요</h2>
@@ -247,6 +249,248 @@ document.addEventListener('DOMContentLoaded', () => {
             </section>
         `;
         focusMain();
+    }
+
+    function comparisonRows(item) {
+        const rows = item.rows || [
+            item.content ? { label: '핵심 내용', value: item.content } : null,
+            item.check ? { label: '확인할 점', value: item.check } : null
+        ].filter(Boolean);
+
+        return rows.map(row => `
+            <div>
+                <dt>${row.label}</dt>
+                <dd>${row.value}</dd>
+            </div>
+        `).join('');
+    }
+
+    function renderVisualBlocks(detail) {
+        if (!detail.visualBlocks?.length) return '';
+
+        return detail.visualBlocks.map((block, blockIndex) => {
+            if (block.type === 'diagram') {
+                return `
+                    <section class="visual-panel diagram-visual" aria-labelledby="${detail.id}-visual-${blockIndex}">
+                        <div class="panel-title">
+                            <span class="panel-icon ${block.iconTone || 'blue'}">
+                                <i data-lucide="${block.icon || 'workflow'}" aria-hidden="true"></i>
+                            </span>
+                            <div>
+                                <h2 id="${detail.id}-visual-${blockIndex}">${block.title}</h2>
+                            </div>
+                        </div>
+                        <figure class="diagram-card">
+                            <img loading="lazy" src="${block.image}" alt="${block.alt || block.title}">
+                            ${block.caption ? `<figcaption>${block.caption}</figcaption>` : ''}
+                        </figure>
+                        ${block.points?.length ? `
+                            <div class="visual-point-list">
+                                ${block.points.map(point => `
+                                    <div>
+                                        <strong>${point.title}</strong>
+                                        <span>${point.text}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </section>
+                `;
+            }
+
+            return `
+                <section class="visual-panel service-visual" aria-labelledby="${detail.id}-visual-${blockIndex}">
+                    <div class="panel-title">
+                        <span class="panel-icon ${block.iconTone || 'green'}">
+                            <i data-lucide="${block.icon || 'image'}" aria-hidden="true"></i>
+                        </span>
+                        <div>
+                            <h2 id="${detail.id}-visual-${blockIndex}">${block.title}</h2>
+                        </div>
+                    </div>
+                    <div class="visual-card-grid">
+                        ${(block.items || []).map(item => `
+                            <article class="visual-card">
+                                <img loading="lazy" src="${item.image}" alt="${item.alt || item.title}">
+                                <div>
+                                    ${item.badge ? `<span>${item.badge}</span>` : ''}
+                                    <h3>${item.title}</h3>
+                                    <p>${item.text}</p>
+                                </div>
+                            </article>
+                        `).join('')}
+                    </div>
+                </section>
+            `;
+        }).join('');
+    }
+
+    function renderStructuredPanels(detail) {
+        const newsSection = detail.newsCards?.length ? `
+            <section class="card-news-panel" aria-label="${detail.title || '핵심'} 요약">
+                <div class="news-card-track" aria-label="${detail.title || '안내'} 핵심 카드">
+                    ${detail.newsCards.map(card => `
+                        <article class="news-card ${card.tone || 'news-blue'}">
+                            <div class="news-card-icons">
+                                <i data-lucide="${card.icon || 'info'}" aria-hidden="true"></i>
+                                ${card.secondIcon ? `<i data-lucide="${card.secondIcon}" aria-hidden="true"></i>` : ''}
+                            </div>
+                            <span>${card.title}</span>
+                            <h3>${card.headline}</h3>
+                            <p>${card.text}</p>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        ` : '';
+
+        const flowSection = detail.steps?.length ? `
+            <section class="flow-panel" aria-labelledby="${detail.id}-flow-title">
+                <div class="panel-title">
+                    <span class="panel-icon purple">
+                        <i data-lucide="${detail.flowIcon || 'route'}" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2 id="${detail.id}-flow-title">${detail.flowTitle || '확인 순서'}</h2>
+                    </div>
+                </div>
+                <div class="step-timeline">
+                    ${detail.steps.map((step, index) => `
+                        <article class="step-card">
+                            <span>${index + 1}</span>
+                            <div>
+                                <i data-lucide="${step.icon || 'circle'}" aria-hidden="true"></i>
+                                <h3>${step.title}</h3>
+                                <p>${step.text}</p>
+                            </div>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        ` : '';
+
+        const comparisonSection = detail.keyTable?.length ? `
+            <section class="comparison-panel" aria-labelledby="${detail.id}-comparison-title">
+                <div class="panel-title">
+                    <span class="panel-icon blue">
+                        <i data-lucide="${detail.tableIcon || 'table-2'}" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2 id="${detail.id}-comparison-title">${detail.tableTitle || '표로 정리한 핵심 내용'}</h2>
+                    </div>
+                </div>
+                <div class="comparison-list">
+                    ${detail.keyTable.map(item => `
+                        <article class="comparison-card">
+                            <strong>${item.label}</strong>
+                            <dl>${comparisonRows(item)}</dl>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        ` : '';
+
+        const checklistSection = detail.checklist?.length ? `
+            <section class="checklist-panel" aria-labelledby="${detail.id}-checklist-title">
+                <div class="panel-title">
+                    <span class="panel-icon green">
+                        <i data-lucide="check-square" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2 id="${detail.id}-checklist-title">${detail.checklistTitle || '확인할 것'}</h2>
+                    </div>
+                </div>
+                <div class="check-list">
+                    ${detail.checklist.map(item => `
+                        <label class="check-item">
+                            <input type="checkbox" aria-label="${item.title}">
+                            <span>
+                                <strong>${item.title}</strong>
+                                ${item.text ? `<em>${item.text}</em>` : ''}
+                            </span>
+                        </label>
+                    `).join('')}
+                </div>
+            </section>
+        ` : '';
+
+        const faqSection = detail.faqs?.length ? `
+            <section class="faq-panel" aria-labelledby="${detail.id}-faq-title">
+                <div class="panel-title">
+                    <span class="panel-icon blue">
+                        <i data-lucide="circle-help" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2 id="${detail.id}-faq-title">${detail.faqTitle || '많이 묻는 질문'}</h2>
+                    </div>
+                </div>
+                <div class="faq-list">
+                    ${detail.faqs.map(item => `
+                        <details class="faq-item">
+                            <summary>${item.q}</summary>
+                            <p>${item.a}</p>
+                        </details>
+                    `).join('')}
+                </div>
+            </section>
+        ` : '';
+
+        const cautionSection = detail.caution ? `
+            <section class="caution-panel" aria-label="꼭 알아둘 점">
+                <div class="panel-title">
+                    <span class="panel-icon yellow">
+                        <i data-lucide="alert-circle" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <h2>${detail.cautionTitle || '꼭 알아둘 점'}</h2>
+                    </div>
+                </div>
+                <p>${detail.caution}</p>
+            </section>
+        ` : '';
+
+        const sourcePages = detail.sourcePages || [];
+        const sourceSection = sourcePages.length ? `
+            <details class="ebook-source-details">
+                <summary>
+                    <span>
+                        <i data-lucide="book-open" aria-hidden="true"></i>
+                        장기요양급여 이용 안내 e-book에서 전체 내용 확인하기
+                    </span>
+                    <small>관련 원문 페이지를 펼쳐서 볼 수 있습니다</small>
+                </summary>
+                <div class="reference-grid">
+                    <a class="reference-cover" href="#page/${sourcePages[0]}/${detail.sourceKind || 'category'}/${detail.id}">
+                        <img loading="lazy" src="${pageImage(sourcePages[0])}" alt="${detail.title || '원문'} ${pageLabel(sourcePages[0])}">
+                        <span>첫 원문 ${pageLabel(sourcePages[0])}</span>
+                    </a>
+                    <div class="page-buttons" aria-label="${detail.title || '원문'} 페이지">
+                        ${sourcePages.map(page => `
+                            <a href="#page/${page}/${detail.sourceKind || 'category'}/${detail.id}">
+                                <strong>${pageLabel(page)}</strong>
+                                <span>원문 보기</span>
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            </details>
+        ` : '';
+
+        const sections = {
+            news: newsSection,
+            visuals: renderVisualBlocks(detail),
+            flow: flowSection,
+            comparison: comparisonSection,
+            checklist: checklistSection,
+            faq: faqSection,
+            caution: cautionSection,
+            source: sourceSection
+        };
+
+        return (detail.sectionOrder || ['news', 'flow', 'comparison', 'checklist', 'faq', 'caution', 'source'])
+            .map(key => sections[key])
+            .filter(Boolean)
+            .join('');
     }
 
     function renderGuideDetail(guide) {
@@ -465,11 +709,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderPage(pageNumber, sourceCategoryId, sourceTopicId) {
         const page = Math.min(Math.max(Number(pageNumber) || 1, 1), TOTAL_PAGES);
-        const source = sourceCategoryId && sourceTopicId && sourceCategoryId !== 'guide' ? findTopic(sourceCategoryId, sourceTopicId) : null;
+        const source = sourceCategoryId && sourceTopicId && !['guide', 'category'].includes(sourceCategoryId) ? findTopic(sourceCategoryId, sourceTopicId) : null;
         const found = source || findByPage(page);
         const guideSource = sourceCategoryId === 'guide' ? guideDetails.find(guide => guide.id === sourceTopicId) : null;
-        const backHref = guideSource ? `#guide/${guideSource.id}` : found?.topic ? `#topic/${found.category.id}/${found.topic.id}` : found?.id ? `#category/${found.id}` : '#book';
-        const caption = guideSource ? guideSource.title : found?.topic ? `${found.category.title} · ${found.topic.title}` : found?.title || '장기요양급여 이용 안내';
+        const categorySource = sourceCategoryId === 'category' ? findCategory(sourceTopicId) : null;
+        const backHref = guideSource ? `#guide/${guideSource.id}` : categorySource ? `#category/${categorySource.id}` : found?.topic ? `#topic/${found.category.id}/${found.topic.id}` : found?.id ? `#category/${found.id}` : '#book';
+        const caption = guideSource ? guideSource.title : categorySource ? categorySource.title : found?.topic ? `${found.category.title} · ${found.topic.title}` : found?.title || '장기요양급여 이용 안내';
         setActiveNav('book');
         app.innerHTML = `
             <section class="page-reader">
@@ -505,7 +750,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const matchedCategories = categories.filter(category => {
-            const haystack = `${category.title} ${category.subtitle} ${category.topics.map(topic => topic.title).join(' ')}`.toLowerCase();
+            const detail = categoryDetails[category.id];
+            const detailText = detail ? JSON.stringify(detail) : '';
+            const haystack = `${category.title} ${category.subtitle} ${category.topics.map(topic => topic.title).join(' ')} ${detailText}`.toLowerCase();
             return haystack.includes(normalized);
         });
         const matchedTopics = allTopics().filter(({ category, topic }) => {

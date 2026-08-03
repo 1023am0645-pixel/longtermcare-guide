@@ -309,16 +309,6 @@ window.LONGCARE_CONTENT = {
                         '보호자의 부재나 일시적 돌봄 공백이 있을 때 검토합니다.',
                         '이용 가능 기간과 비용 기준을 확인합니다.'
                     ]
-                },
-                {
-                    id: 'integrated-home-care',
-                    title: '통합재가서비스',
-                    pages: [26, 27],
-                    summary: [
-                        '여러 재가급여를 어르신 상황에 맞게 통합해 제공하는 방식입니다.',
-                        '방문요양, 방문목욕, 주야간보호 등을 조합해 볼 수 있습니다.',
-                        '기관이 제공 가능한 서비스 범위를 확인해야 합니다.'
-                    ]
                 }
             ]
         },
@@ -536,6 +526,491 @@ window.LONGCARE_CONTENT = {
         }
     ],
 
+    categoryDetails: {
+        grade: {
+            title: '장기요양등급',
+            flowTitle: '등급 확인 순서',
+            tableTitle: '등급 구분 한눈에 보기',
+            checklistTitle: '인정서에서 확인할 것',
+            faqTitle: '등급 확인 FAQ',
+            newsCards: [
+                {
+                    title: '대상 확인',
+                    headline: '65세 이상 또는 노인성 질병',
+                    text: '6개월 이상 혼자 일상생활이 어렵다면 확인이 필요합니다.',
+                    icon: 'search-check',
+                    tone: 'news-blue'
+                },
+                {
+                    title: '등급 구분',
+                    headline: '1~5등급 및 인지지원등급',
+                    text: '심신상태와 필요한 도움의 정도에 따라 판정됩니다.',
+                    icon: 'badge-check',
+                    tone: 'news-green'
+                },
+                {
+                    title: '유효기간',
+                    headline: '인정서의 종료 날짜 확인',
+                    text: '계속 이용하려면 갱신 신청 기간을 놓치지 않아야 합니다.',
+                    icon: 'calendar-check',
+                    tone: 'news-orange'
+                }
+            ],
+            steps: [
+                { title: '대상 확인', text: '65세 이상 또는 노인성 질병 여부 확인', icon: 'user-check' },
+                { title: '등급판정', text: '심신상태와 장기요양 필요 정도에 따라 등급 결정', icon: 'clipboard-check' },
+                { title: '서류 수령', text: '인정서, 이용계획서, 복지용구 급여확인서 확인', icon: 'files' },
+                { title: '급여 이용', text: '기관 선택 후 급여계약을 체결하고 이용', icon: 'handshake' }
+            ],
+            keyTable: [
+                { label: '1등급', rows: [{ label: '원문 핵심', value: '전적으로 다른 사람의 도움이 필요한 자' }, { label: '점수', value: '95점 이상' }] },
+                { label: '2등급', rows: [{ label: '원문 핵심', value: '상당 부분 다른 사람의 도움이 필요한 자' }, { label: '점수', value: '75점 이상 95점 미만' }] },
+                { label: '3등급', rows: [{ label: '원문 핵심', value: '부분적으로 다른 사람의 도움이 필요한 자' }, { label: '점수', value: '60점 이상 75점 미만' }] },
+                { label: '4등급', rows: [{ label: '원문 핵심', value: '일정 부분 다른 사람의 도움이 필요한 자' }, { label: '점수', value: '51점 이상 60점 미만' }] },
+                { label: '5등급', rows: [{ label: '원문 핵심', value: '치매환자' }, { label: '점수', value: '45점 이상 51점 미만' }] },
+                { label: '인지지원등급', rows: [{ label: '원문 핵심', value: '치매환자' }, { label: '점수', value: '45점 미만' }] }
+            ],
+            checklist: [
+                { title: '장기요양인정서의 등급을 확인했나요?', text: '인정서에 표시된 등급을 먼저 봅니다.' },
+                { title: '유효기간 시작일과 종료일을 확인했나요?', text: '급여를 이용할 수 있는 기간입니다.' },
+                { title: '이용 가능한 급여 종류를 확인했나요?', text: '인정서와 이용계획서를 함께 봅니다.' }
+            ],
+            faqs: [
+                { q: '장기요양등급은 무엇을 기준으로 나뉘나요?', a: '심신상태와 장기요양이 필요한 정도에 따라 1~5등급 및 인지지원등급으로 구분됩니다.' },
+                { q: '인지지원등급도 장기요양등급인가요?', a: '책자에서는 1~5등급과 함께 인지지원등급을 장기요양등급 구분에 포함해 안내합니다.' },
+                { q: '등급에 따라 이용 가능한 급여가 달라지나요?', a: '등급별로 이용 가능한 급여 종류가 다르게 안내되어 있으므로 인정서와 이용계획서를 확인해야 합니다.' }
+            ],
+            caution: '등급만 보고 서비스를 바로 정하기보다, 인정서와 개인별장기요양이용계획서의 급여 종류 및 내용을 함께 확인해야 합니다.',
+            sourcePages: [4, 7, 28]
+        },
+
+        'benefit-types': {
+            title: '장기요양급여 종류',
+            flowTitle: '급여 종류 확인 순서',
+            tableTitle: '급여 종류 비교',
+            checklistTitle: '급여 선택 전 확인할 것',
+            faqTitle: '급여 종류 FAQ',
+            newsCards: [
+                { title: '재가급여', headline: '집에서 받는 장기요양', text: '방문요양, 방문목욕, 방문간호, 주야간보호, 단기보호, 복지용구가 안내되어 있습니다.', icon: 'home', tone: 'news-blue' },
+                { title: '시설급여', headline: '시설에 입소해 이용', text: '노인요양시설과 노인요양공동생활가정이 안내되어 있습니다.', icon: 'hospital', tone: 'news-green' },
+                { title: '특별현금급여', headline: '가족요양비', text: '가족 등으로부터 방문요양에 상당한 돌봄을 받는 경우 안내됩니다.', icon: 'banknote', tone: 'news-orange' }
+            ],
+            steps: [
+                { title: '인정서 확인', text: '이용 가능한 급여 종류 및 내용을 확인', icon: 'file-check' },
+                { title: '급여 구분', text: '재가급여, 시설급여, 특별현금급여 중 확인', icon: 'layers' },
+                { title: '중복 이용 확인', text: '재가급여와 시설급여는 중복 이용할 수 없음', icon: 'copy-x' },
+                { title: '기관 상담', text: '이용하려는 급여에 맞는 기관과 상담', icon: 'messages-square' }
+            ],
+            keyTable: [
+                { label: '재가급여', content: '집에 살면서 받을 수 있는 장기요양 서비스', check: '방문요양, 목욕, 간호, 주야간보호, 단기보호, 복지용구' },
+                { label: '시설급여', content: '시설에 입소해 돌봄을 받는 급여', check: '노인요양시설, 노인요양공동생활가정' },
+                { label: '특별현금급여', content: '가족 등으로부터 돌봄을 받는 경우의 현금 급여', check: '가족요양비 지급신청서 제출' }
+            ],
+            checklist: [
+                { title: '인정서의 급여 종류 및 내용을 확인했나요?', text: '' },
+                { title: '재가급여와 시설급여를 중복 이용하지 않는지 확인했나요?', text: '' },
+                { title: '복지용구 이용 가능 여부를 급여확인서로 확인했나요?', text: '' }
+            ],
+            faqs: [
+                { q: '재가급여와 시설급여를 같이 이용할 수 있나요?', a: '재가급여와 시설급여는 중복하여 이용할 수 없습니다.' },
+                { q: '복지용구는 어떤 급여인가요?', a: '책자에서는 복지용구를 기타재가급여로 안내하고 있습니다.' },
+                { q: '가족요양비 대상자도 복지용구를 이용할 수 있나요?', a: '특별현금급여 지급 대상자는 재가급여 중 복지용구를 추가 이용할 수 있다고 안내되어 있습니다.' }
+            ],
+            caution: '이용 가능한 급여는 장기요양인정서와 개인별장기요양이용계획서의 내용을 기준으로 확인합니다.',
+            sourcePages: [5, 6, 7]
+        },
+
+        'eligible-benefits': {
+            title: '등급별 이용 가능 급여',
+            flowTitle: '내 등급으로 확인하는 순서',
+            tableTitle: '등급별 급여 안내',
+            checklistTitle: '급여 이용 전 확인',
+            faqTitle: '등급별 급여 FAQ',
+            newsCards: [
+                { title: '1~2등급', headline: '재가급여 또는 시설급여', text: '인정서와 이용계획서에 따라 이용 급여를 확인합니다.', icon: 'badge-check', tone: 'news-blue' },
+                { title: '3~5등급', headline: '재가급여 중심 확인', text: '시설급여가 필요한 경우 변경신청 안내를 확인합니다.', icon: 'home', tone: 'news-green' },
+                { title: '인지지원등급', headline: '주야간보호 확인', text: '인지지원등급은 주야간보호로 안내되어 있습니다.', icon: 'brain', tone: 'news-orange' }
+            ],
+            steps: [
+                { title: '등급 확인', text: '장기요양인정서의 등급 확인', icon: 'badge-check' },
+                { title: '급여 종류 확인', text: '인정서의 급여 종류 및 내용 확인', icon: 'file-text' },
+                { title: '이용 가능 급여 확인', text: '등급별 이용 가능한 급여와 대조', icon: 'list-checks' },
+                { title: '변경 필요 확인', text: '시설급여 필요 시 급여종류·내용변경신청 확인', icon: 'refresh-cw' }
+            ],
+            keyTable: [
+                { label: '1등급', content: '재가급여 또는 시설급여', check: '인정서와 이용계획서 확인' },
+                { label: '2등급', content: '재가급여 또는 시설급여', check: '인정서와 이용계획서 확인' },
+                { label: '3~5등급', content: '재가급여', check: '시설급여 필요 시 변경신청 확인' },
+                { label: '인지지원등급', content: '주야간보호', check: '인지지원등급 이용 가능 급여 확인' }
+            ],
+            checklist: [
+                { title: '인정서의 등급을 확인했나요?', text: '' },
+                { title: '인정서에 적힌 급여 종류 및 내용을 확인했나요?', text: '' },
+                { title: '시설급여가 필요한 경우 변경신청 대상인지 확인했나요?', text: '' }
+            ],
+            faqs: [
+                { q: '1~2등급은 어떤 급여를 이용할 수 있나요?', a: '책자에서는 1~2등급을 재가급여 또는 시설급여 이용 가능 등급으로 안내합니다.' },
+                { q: '3~5등급은 시설급여를 바로 이용할 수 있나요?', a: '3~5등급은 재가급여로 안내되며, 시설급여가 필요한 경우 급여종류·내용변경신청 후 인정받아야 합니다.' },
+                { q: '인지지원등급은 어떤 급여를 확인해야 하나요?', a: '책자에서는 인지지원등급의 이용 가능 급여로 주야간보호를 안내합니다.' }
+            ],
+            caution: '등급별 표는 기본 안내이며, 실제 이용은 인정서와 개인별장기요양이용계획서에 적힌 내용을 기준으로 확인합니다.',
+            sourcePages: [7, 28]
+        },
+
+        documents: {
+            title: '서류 수령 방법',
+            flowTitle: '서류 확인 순서',
+            tableTitle: '필수 서류 3종',
+            checklistTitle: '서류를 받으면 확인할 것',
+            faqTitle: '서류 수령 FAQ',
+            newsCards: [
+                { title: '인정서', headline: '등급과 유효기간 확인', text: '장기요양급여를 이용할 수 있는 기본 서류입니다.', icon: 'file-badge', tone: 'news-blue' },
+                { title: '이용계획서', headline: '맞춤형 급여 이용 계획', text: '어르신 상태와 욕구를 고려한 이용계획서입니다.', icon: 'clipboard-list', tone: 'news-green' },
+                { title: '복지용구 확인서', headline: '사용 가능 품목 확인', text: '복지용구 이용 시 꼭 확인해야 하는 서류입니다.', icon: 'accessibility', tone: 'news-orange' }
+            ],
+            steps: [
+                { title: '결과 확인', text: '등급판정 결과와 장기요양등급 확인', icon: 'search-check' },
+                { title: '서류 수령', text: '인정서, 이용계획서, 복지용구 급여확인서 확인', icon: 'files' },
+                { title: '급여 확인', text: '인정서와 이용계획서의 급여 종류 및 내용 확인', icon: 'list-checks' },
+                { title: '기관 선택 준비', text: '이용 가능 기관 현황과 상담 안내 확인', icon: 'building-2' }
+            ],
+            keyTable: [
+                { label: '장기요양인정서', content: '등급, 유효기간, 급여 종류 및 내용 확인', check: '가장 먼저 확인할 기본 서류' },
+                { label: '개인별장기요양이용계획서', content: '필요한 급여, 이용 계획, 비용 확인', check: '기관과 계약할 때 제시' },
+                { label: '복지용구 급여확인서', content: '사용 가능한 복지용구와 연 한도액 적용기간 확인', check: '복지용구 이용 시 확인' }
+            ],
+            checklist: [
+                { title: '필수 서류 3종을 모두 받았나요?', text: '' },
+                { title: '인정서에 적힌 등급과 유효기간을 확인했나요?', text: '' },
+                { title: '이용계획서의 급여 종류와 내용을 확인했나요?', text: '' },
+                { title: '복지용구 이용 시 사용 가능 품목을 확인했나요?', text: '' }
+            ],
+            faqs: [
+                { q: '등급판정 후 어떤 서류를 받나요?', a: '장기요양인정서, 개인별장기요양이용계획서, 복지용구 급여확인서를 받습니다.' },
+                { q: '서류를 다시 출력할 수 있나요?', a: '노인장기요양보험 홈페이지, 건강보험공단 모바일 앱, 정부24에서 재발급할 수 있습니다.' },
+                { q: '유효기간은 어디서 보나요?', a: '장기요양인정서에 적힌 유효기간을 확인합니다.' }
+            ],
+            caution: '필수 서류 원본은 수급자 또는 보호자가 보관해야 합니다.',
+            sourcePages: [8, 9]
+        },
+
+        institution: {
+            title: '장기요양기관 선택',
+            flowTitle: '기관 선택 순서',
+            tableTitle: '기관 선택 핵심',
+            checklistTitle: '상담 전 확인할 것',
+            faqTitle: '기관 선택 FAQ',
+            sectionOrder: ['news', 'flow', 'comparison', 'checklist', 'faq', 'caution', 'source'],
+            newsCards: [
+                { title: '기관 찾기', headline: '홈페이지에서 기관 정보 확인', text: '노인장기요양보험 홈페이지에서 기관 정보를 조회할 수 있습니다.', icon: 'search', tone: 'news-blue' },
+                { title: '평가결과', headline: '기관 평가등급 확인', text: '기관 평가결과와 기관 현황을 함께 확인합니다.', icon: 'star', tone: 'news-green' },
+                { title: '계약 전 상담', headline: '급여내용과 비용 상담', text: '계약 전 급여내용과 비용 설명을 받아야 합니다.', icon: 'messages-square', tone: 'news-orange' }
+            ],
+            steps: [
+                { title: '기관 찾기', text: '홈페이지 또는 모바일 앱에서 기관 정보 확인', icon: 'search' },
+                { title: '평가결과 확인', text: '기관 평가등급과 기관 현황 확인', icon: 'badge-check' },
+                { title: '상담 받기', text: '급여내용과 비용 상담', icon: 'message-circle' },
+                { title: '계약 전 확인', text: '계약서, 이용계획서, 비급여 항목 확인', icon: 'clipboard-check' }
+            ],
+            keyTable: [
+                { label: '기관 정보', content: '이용하려는 급여 종류에 맞는 기관 확인', check: '급여종류, 기관명, 이용 가능 여부' },
+                { label: '평가결과', content: '서비스 질 확인을 위한 참고자료', check: '평가등급과 기관 현황' },
+                { label: '시설급여', content: '시설 환경을 직접 방문해 확인', check: '입소 전 시설 환경 확인' }
+            ],
+            checklist: [
+                { title: '이용하려는 급여 종류에 맞는 기관인가요?', text: '' },
+                { title: '기관 정보와 평가결과를 확인했나요?', text: '' },
+                { title: '급여내용과 비용 상담을 받았나요?', text: '' },
+                { title: '시설급여라면 시설 환경을 방문해 확인했나요?', text: '' }
+            ],
+            faqs: [
+                { q: '장기요양기관은 어디서 찾을 수 있나요?', a: '노인장기요양보험 홈페이지의 장기요양기관 찾기에서 전국 장기요양기관 정보를 조회할 수 있습니다.' },
+                { q: '기관 평가결과도 볼 수 있나요?', a: '기관 평가결과는 홈페이지와 장기요양기관 현황에서 확인할 수 있습니다.' },
+                { q: '계약 전 무엇을 상담해야 하나요?', a: '급여내용과 비용을 상담하고, 시설급여는 시설 환경을 방문해 확인합니다.' }
+            ],
+            caution: '장기요양기관을 선택할 때는 평가결과, 급여내용, 비용, 계약 조건을 함께 확인합니다.',
+            sourcePages: [10, 31]
+        },
+
+        contract: {
+            title: '급여계약 절차',
+            flowTitle: '계약부터 이용까지',
+            tableTitle: '계약 전후 확인사항',
+            checklistTitle: '서명 전 확인할 것',
+            faqTitle: '급여계약 FAQ',
+            newsCards: [
+                { title: '필수 서류', headline: '인정서 등 서류 준비', text: '계약 전 필수 서류를 기관에 제시합니다.', icon: 'files', tone: 'news-blue' },
+                { title: '계약서', headline: '2부 작성 후 각각 보관', text: '수급자와 기관이 계약서를 각각 1부씩 보관합니다.', icon: 'signature', tone: 'news-green' },
+                { title: '이용 기록', headline: '급여제공기록지 확인', text: '서비스 이용 후 제공기록지를 받아 이용 내용을 확인합니다.', icon: 'clipboard-list', tone: 'news-orange' }
+            ],
+            steps: [
+                { title: '필수 서류 준비', text: '인정서, 이용계획서, 복지용구 급여확인서 등 준비', icon: 'files' },
+                { title: '상담 및 계약', text: '급여내용, 이용 시간, 비용 확인', icon: 'messages-square' },
+                { title: '계약서 보관', text: '계약서 2부 작성 후 수급자와 기관이 각각 보관', icon: 'archive' },
+                { title: '계획 확인', text: '급여제공계획서를 확인하고 동의', icon: 'clipboard-check' },
+                { title: '기록 확인', text: '급여제공기록지를 받아 이용 내용 확인', icon: 'list-checks' }
+            ],
+            keyTable: [
+                { label: '계약서', content: '계약기간, 급여 종류와 내용, 비급여대상 확인', check: '서명 전 꼼꼼히 확인' },
+                { label: '이용계획서', content: '개인별장기요양이용계획서 내용 확인', check: '급여 종류, 횟수, 제공 내용' },
+                { label: '계약 종료', content: '중단 또는 종료 시 기관에 계약 해지 통보', check: '이용 중단 전 기관에 알림' }
+            ],
+            checklist: [
+                { title: '계약서의 계약기간을 확인했나요?', text: '' },
+                { title: '급여 종류와 제공 내용을 확인했나요?', text: '' },
+                { title: '본인부담금과 비급여 항목을 확인했나요?', text: '' },
+                { title: '계약서 1부를 보호자가 보관하고 있나요?', text: '' },
+                { title: '급여제공계획서에 동의한 뒤 이용하고 있나요?', text: '' }
+            ],
+            faqs: [
+                { q: '계약서에는 무엇을 확인해야 하나요?', a: '계약기간, 급여 종류와 내용, 비급여대상 항목을 확인합니다.' },
+                { q: '계약서는 누가 보관하나요?', a: '계약서는 2부 작성해 수급자와 장기요양기관이 각각 1부씩 보관합니다.' },
+                { q: '내가 받은 서비스 기록을 볼 수 있나요?', a: '기관은 장기요양급여 제공기록지를 수급자에게 제공해야 합니다.' }
+            ],
+            caution: '계약 전에는 급여내용, 이용 시간, 비용, 비급여 항목을 충분히 확인한 뒤 서명합니다.',
+            sourcePages: [10, 33, 34]
+        },
+
+        'home-care': {
+            title: '재가급여',
+            flowTitle: '재가급여 이용 순서',
+            checklistTitle: '재가급여 이용 전 확인',
+            faqTitle: '재가급여 FAQ',
+            sectionOrder: ['visuals', 'flow', 'checklist', 'faq', 'caution', 'source'],
+            newsCards: [
+                { title: '집에서 이용', headline: '집에 살면서 받는 장기요양', text: '어르신이 가정에서 생활하면서 필요한 도움을 받습니다.', icon: 'home', tone: 'news-blue' },
+                { title: '월 한도액', headline: '한도 초과분은 전액 본인 부담', text: '월 한도액 안에서 급여를 이용하는지 확인합니다.', icon: 'wallet', tone: 'news-green' },
+                { title: '서비스 기록', headline: '급여제공기록지 확인', text: '이용 후 기관이 제공하는 기록지를 확인합니다.', icon: 'clipboard-list', tone: 'news-orange' }
+            ],
+            visualBlocks: [
+                {
+                    type: 'gallery',
+                    title: '그림으로 보는 재가급여',
+                    icon: 'images',
+                    iconTone: 'green',
+                    items: [
+                        {
+                            badge: '방문요양',
+                            title: '집에서 일상생활 도움',
+                            text: '요양보호사가 가정을 방문해 식사, 이동, 위생관리 등을 돕습니다.',
+                            image: 'assets/guide-media/visit-care.jpeg',
+                            alt: '방문요양 일러스트'
+                        },
+                        {
+                            badge: '방문목욕',
+                            title: '목욕이 어려울 때',
+                            text: '목욕 설비를 이용해 전신목욕을 돕는 급여입니다.',
+                            image: 'assets/guide-media/visit-bath.jpeg',
+                            alt: '방문목욕 일러스트'
+                        },
+                        {
+                            badge: '방문간호',
+                            title: '간호와 건강관리',
+                            text: '방문간호지시서에 따라 간호사 등이 가정을 방문합니다.',
+                            image: 'assets/guide-media/visit-nursing.jpeg',
+                            alt: '방문간호 일러스트'
+                        },
+                        {
+                            badge: '주야간보호',
+                            title: '기관에서 일정 시간 돌봄',
+                            text: '기관에서 신체활동, 사회활동, 인지훈련 등을 지원합니다.',
+                            image: 'assets/guide-media/day-care.jpeg',
+                            alt: '주야간보호 일러스트'
+                        },
+                        {
+                            badge: '단기보호',
+                            title: '잠시 시설에서 돌봄',
+                            text: '보호자가 일시적으로 돌보기 어려울 때 단기간 보호시설을 이용합니다.',
+                            image: 'assets/guide-media/short-stay-care.png',
+                            alt: '단기보호 일러스트'
+                        },
+                        {
+                            badge: '복지용구',
+                            title: '생활에 필요한 용구',
+                            text: '일상생활과 신체활동 지원에 필요한 복지용구를 이용합니다.',
+                            image: 'assets/guide-media/welfare-equipment.jpeg',
+                            alt: '복지용구 일러스트'
+                        }
+                    ]
+                }
+            ],
+            steps: [
+                { title: '급여 종류 확인', text: '방문요양, 목욕, 간호, 주야간보호, 단기보호, 복지용구 확인', icon: 'layers' },
+                { title: '기관 상담', text: '어르신 상태와 필요한 서비스를 상담', icon: 'messages-square' },
+                { title: '급여계약', text: '계약서와 급여제공계획서 확인', icon: 'signature' },
+                { title: '서비스 이용', text: '계약한 일정과 내용에 따라 이용', icon: 'hand-heart' },
+                { title: '기록 확인', text: '급여제공기록지를 받아 이용 내용 확인', icon: 'clipboard-check' }
+            ],
+            checklist: [
+                { title: '이용하려는 재가급여 종류를 확인했나요?', text: '' },
+                { title: '월 한도액 안에서 이용하는지 확인했나요?', text: '' },
+                { title: '기관과 급여제공계획서를 확인했나요?', text: '' },
+                { title: '급여제공기록지를 받아 이용 내용을 확인했나요?', text: '' }
+            ],
+            faqs: [
+                { q: '월 한도액을 넘으면 어떻게 되나요?', a: '월 한도액을 초과하여 이용한 금액은 전액 본인이 부담합니다.' },
+                { q: '방문간호는 어떻게 이용하나요?', a: '방문간호지시서에 따라 방문간호기관과 계약한 뒤 이용합니다.' },
+                { q: '단기보호는 언제 이용하나요?', a: '가족 보호자가 병원 입원, 집안 경조사 등으로 일시적으로 돌볼 수 없을 때 이용할 수 있습니다.' }
+            ],
+            caution: '급여 종류별 비용과 이용 기준은 책자 원문의 급여비용 표를 함께 확인합니다.',
+            sourcePages: [5, 11, 15, 21, 22]
+        },
+
+        equipment: {
+            title: '복지용구',
+            flowTitle: '복지용구 이용 순서',
+            tableTitle: '구입·대여 방식',
+            checklistTitle: '복지용구 이용 전 확인',
+            faqTitle: '복지용구 FAQ',
+            sectionOrder: ['visuals', 'flow', 'comparison', 'checklist', 'faq', 'caution', 'source'],
+            newsCards: [
+                { title: '품목 확인', headline: '급여확인서 먼저 보기', text: '사용 가능한 복지용구 품목을 확인합니다.', icon: 'clipboard-check', tone: 'news-blue' },
+                { title: '연 한도액', headline: '1인당 연간 160만원', text: '연 한도액을 초과한 금액은 전액 본인이 부담합니다.', icon: 'wallet-cards', tone: 'news-green' },
+                { title: '구입·대여', headline: '품목별 방식이 다릅니다', text: '구입 품목, 대여 품목, 구입 또는 대여 품목을 구분합니다.', icon: 'accessibility', tone: 'news-orange' }
+            ],
+            visualBlocks: [
+                {
+                    type: 'diagram',
+                    title: '대표 복지용구 이미지',
+                    icon: 'accessibility',
+                    iconTone: 'green',
+                    image: 'assets/guide-media/welfare-equipment.jpeg',
+                    alt: '복지용구 대표 품목 일러스트',
+                    caption: '품목별 이용 가능 여부는 복지용구 급여확인서를 기준으로 확인합니다.',
+                    points: [
+                        { title: '먼저 볼 서류', text: '복지용구 급여확인서의 사용 가능 품목을 확인합니다.' },
+                        { title: '이용 방식', text: '품목에 따라 구입, 대여, 구입 또는 대여로 나뉩니다.' }
+                    ]
+                }
+            ],
+            steps: [
+                { title: '품목 확인', text: '복지용구 급여확인서의 사용 가능 품목 확인', icon: 'clipboard-check' },
+                { title: '사업소 선택', text: '복지용구사업소 선택', icon: 'store' },
+                { title: '계약', text: '인정서, 이용계획서, 급여확인서를 제시하고 계약', icon: 'signature' },
+                { title: '이용', text: '구입 또는 대여 방식으로 이용', icon: 'package-check' }
+            ],
+            keyTable: [
+                { label: '구입 품목', content: '이동변기, 목욕의자, 성인용보행기, 안전손잡이 등', check: '품목별 사용 가능 횟수와 급여한도 확인' },
+                { label: '대여 품목', content: '수동휠체어, 전동침대, 수동침대, 이동욕조 등', check: '품목별 사용 가능 기간 확인' },
+                { label: '구입 또는 대여', content: '욕창예방매트리스, 경사로, 대화형 정서지원기기 등', check: '품목별 이용 가능 방식 확인' },
+                { label: '배회감지기', content: '길을 잃거나 배회성향이 있는 경우 위치 확인 등에 사용하는 품목', check: 'GPS형, 매트형, 태그형 안내' }
+            ],
+            checklist: [
+                { title: '복지용구 급여확인서에서 사용 가능 품목을 확인했나요?', text: '' },
+                { title: '연 한도액 적용기간을 확인했나요?', text: '' },
+                { title: '구입인지 대여인지 확인했나요?', text: '' },
+                { title: '이미 사용 중인 품목과 중복되지 않는지 확인했나요?', text: '' }
+            ],
+            faqs: [
+                { q: '복지용구를 이용하려면 어떤 서류가 필요한가요?', a: '장기요양인정서, 개인별장기요양이용계획서, 복지용구 급여확인서가 필요합니다.' },
+                { q: '복지용구 연 한도액은 얼마인가요?', a: '1인당 연간 160만원입니다.' },
+                { q: '시설급여를 이용 중이어도 복지용구를 이용할 수 있나요?', a: '시설급여를 이용하는 경우 복지용구를 이용할 수 없습니다.' }
+            ],
+            caution: '복지용구는 수급자의 신체기능 상태에 따라 사용 가능한 품목이 달라지므로 급여확인서를 기준으로 봅니다.',
+            sourcePages: [9, 15, 23, 24, 25]
+        },
+
+        facility: {
+            title: '시설급여',
+            flowTitle: '시설급여 확인 순서',
+            tableTitle: '시설 종류 비교',
+            checklistTitle: '입소 전 확인할 것',
+            faqTitle: '시설급여 FAQ',
+            sectionOrder: ['visuals', 'flow', 'comparison', 'checklist', 'faq', 'caution', 'source'],
+            newsCards: [
+                { title: '시설 입소', headline: '시설에 입소해 돌봄 이용', text: '노인요양시설 또는 노인요양공동생활가정에 입소합니다.', icon: 'hospital', tone: 'news-blue' },
+                { title: '비용 확인', headline: '본인부담금과 비급여 확인', text: '급여비용과 비급여 항목을 나누어 확인합니다.', icon: 'wallet', tone: 'news-green' },
+                { title: '계약의사', headline: '입소 수급자 건강상태 확인', text: '시설 입소 수급자는 계약의사 진찰을 받을 수 있습니다.', icon: 'stethoscope', tone: 'news-orange' }
+            ],
+            visualBlocks: [
+                {
+                    type: 'gallery',
+                    title: '시설 이용 전 떠올릴 장면',
+                    icon: 'hospital',
+                    iconTone: 'blue',
+                    items: [
+                        {
+                            badge: '시설 방문',
+                            title: '입소 전 환경 확인',
+                            text: '시설급여는 계약 전 시설 환경을 직접 방문해 확인합니다.',
+                            image: 'assets/guide-media/facility-care.jpeg',
+                            alt: '시설 방문 상담 일러스트'
+                        },
+                        {
+                            badge: '계약 확인',
+                            title: '비용과 비급여 확인',
+                            text: '급여비용, 본인부담금, 비급여 항목을 나누어 확인합니다.',
+                            image: 'assets/book-pages/page-17.jpg',
+                            alt: '시설급여 비용 원문 페이지'
+                        }
+                    ]
+                }
+            ],
+            steps: [
+                { title: '이용 가능 확인', text: '인정서의 시설급여 이용 가능 여부 확인', icon: 'file-check' },
+                { title: '기관 찾기', text: '노인요양시설 또는 노인요양공동생활가정 확인', icon: 'building-2' },
+                { title: '방문 확인', text: '시설 환경을 직접 방문해 확인', icon: 'map-pin-check' },
+                { title: '계약 확인', text: '비용, 비급여 항목, 계약 내용을 확인', icon: 'signature' }
+            ],
+            keyTable: [
+                { label: '노인요양시설', content: '입소정원 10명 이상', check: '급식, 요양, 일상생활 편의 제공' },
+                { label: '노인요양공동생활가정', content: '입소정원 5~9명', check: '가정과 같은 주거여건에서 급식, 요양, 편의 제공' },
+                { label: '계약의사 제도', content: '입소 수급자의 건강상태를 정기적으로 확인', check: '진찰비용 중 본인부담금 해당 금액 납부' }
+            ],
+            checklist: [
+                { title: '인정서에 시설급여 이용 가능 여부를 확인했나요?', text: '' },
+                { title: '시설을 방문해 환경을 확인했나요?', text: '' },
+                { title: '계약 전 비용과 비급여 항목을 확인했나요?', text: '' },
+                { title: '입소 후 급여제공기록지를 확인하고 있나요?', text: '' }
+            ],
+            faqs: [
+                { q: '시설급여에는 어떤 기관이 있나요?', a: '노인요양시설과 노인요양공동생활가정이 안내되어 있습니다.' },
+                { q: '시설급여 이용 중 입원하거나 외박하면 비용은 어떻게 되나요?', a: '의료기관 입원 또는 외박 시 급여비용의 50%가 적용되며, 적용 가능한 기간 기준이 있습니다.' },
+                { q: '4~5등급도 시설급여 비용을 확인해야 하나요?', a: '책자에서는 장기요양 4~5등급 수급자가 시설급여를 이용하는 경우 3등급 급여비용을 적용한다고 안내합니다.' }
+            ],
+            caution: '시설급여는 급여비용 외에 식사재료비, 이미용비, 상급침실 이용 추가비용 등 비급여 항목이 있을 수 있습니다.',
+            sourcePages: [6, 16, 17, 18, 32]
+        },
+
+        copayment: {
+            title: '본인부담금',
+            flowTitle: '비용 확인 순서',
+            tableTitle: '본인부담률 비교',
+            checklistTitle: '계약 전 비용 확인',
+            faqTitle: '본인부담금 FAQ',
+            newsCards: [
+                { title: '재가급여', headline: '일반대상자 15%', text: '재가급여는 총 급여비용 일부를 본인이 부담합니다.', icon: 'home', tone: 'news-blue' },
+                { title: '시설급여', headline: '일반대상자 20%', text: '시설급여는 재가급여와 본인부담률이 다릅니다.', icon: 'hospital', tone: 'news-green' },
+                { title: '비급여', headline: '전액 본인 부담', text: '식사재료비, 이미용비 등은 별도 부담이 될 수 있습니다.', icon: 'receipt-text', tone: 'news-orange' }
+            ],
+            steps: [
+                { title: '급여 종류 확인', text: '재가급여, 시설급여, 복지용구 중 확인', icon: 'layers' },
+                { title: '부담률 확인', text: '일반대상자와 감경대상자 부담률 확인', icon: 'percent' },
+                { title: '비급여 확인', text: '식사재료비, 이미용비 등 별도 비용 확인', icon: 'receipt' },
+                { title: '계약 전 설명', text: '기관에서 비용 설명을 듣고 계약', icon: 'messages-square' }
+            ],
+            keyTable: [
+                { label: '재가급여', rows: [{ label: '일반대상자', value: '15%' }, { label: '40% 감경대상자', value: '9%' }, { label: '60% 감경대상자 또는 기타 의료급여 수급권자', value: '6%' }, { label: '의료급여 수급자', value: '면제' }] },
+                { label: '시설급여', rows: [{ label: '일반대상자', value: '20%' }, { label: '40% 감경대상자', value: '12%' }, { label: '60% 감경대상자 또는 기타 의료급여 수급권자', value: '8%' }, { label: '의료급여 수급자', value: '면제' }] },
+                { label: '복지용구', rows: [{ label: '일반대상자', value: '15%' }, { label: '40% 감경대상자', value: '9%' }, { label: '60% 감경대상자 또는 기타 의료급여 수급권자', value: '6%' }, { label: '의료급여 수급자', value: '면제' }] },
+                { label: '비급여', content: '식사재료비, 이미용비, 상급침실 이용 추가비용 등', check: '장기요양급여로 처리되지 않는 비용은 전액 본인 부담' }
+            ],
+            checklist: [
+                { title: '이용하려는 급여의 본인부담률을 확인했나요?', text: '' },
+                { title: '감경대상 여부를 확인했나요?', text: '' },
+                { title: '비급여 항목을 따로 설명받았나요?', text: '' },
+                { title: '월 한도액을 초과하지 않는지 확인했나요?', text: '' }
+            ],
+            faqs: [
+                { q: '재가급여와 시설급여의 본인부담률은 다른가요?', a: '재가급여는 15%, 시설급여는 20%입니다.' },
+                { q: '비급여 항목은 무엇인가요?', a: '식사재료비, 이미용비, 상급침실 이용 추가비용 등이 안내되어 있습니다.' },
+                { q: '본인부담금을 할인받을 수 있나요?', a: '책자에서는 기관의 본인부담금 면제 또는 할인이 위법이라고 안내하고 있습니다.' }
+            ],
+            caution: '야간, 일요일, 공휴일, 근로자의 날 이용 시 가산비용이 적용될 수 있어 본인부담금이 늘어날 수 있습니다.',
+            sourcePages: [11, 12, 13, 14, 15, 16, 17, 18]
+        }
+    },
+
     applicationGuide: {
         id: 'application',
         title: '장기요양 인정신청',
@@ -567,15 +1042,15 @@ window.LONGCARE_CONTENT = {
                 text: '건강보험25시 앱에서 즉시 조회 가능',
                 icon: 'smartphone',
                 tone: 'news-green',
-                source: 'PDF 12쪽'
+                source: 'PDF 8쪽'
             },
             {
                 title: '갱신 신청 안내',
                 headline: '갱신 기간을 놓치지 마세요',
-                text: '유효기간 종료 30일 전까지 신청 완료',
+                text: '유효기간 종료 90일 전부터 30일 전까지 신청',
                 icon: 'calendar-check',
                 tone: 'news-orange',
-                source: 'PDF 57쪽'
+                source: 'PDF 28쪽'
             }
         ],
         steps: [
@@ -621,13 +1096,13 @@ window.LONGCARE_CONTENT = {
                 label: '결과확인',
                 content: '판정 결과 조회 및 서류 발급',
                 check: '홈페이지, 앱(건강보험25시), 정부24',
-                pages: '12'
+                pages: '8'
             },
             {
                 label: '유효기간',
                 content: '급여를 이용할 수 있는 기간',
                 check: '인정서에 명시된 종료 날짜 확인',
-                pages: '57'
+                pages: '28'
             }
         ],
         checklist: [
@@ -637,7 +1112,7 @@ window.LONGCARE_CONTENT = {
                 source: ''
             },
             {
-                title: '65세 미만이라면 노인성 질병 진단서가 준비되어 있나요?',
+                title: '65세 미만이라면 노인성 질병에 해당하는지 확인했나요?',
                 text: '',
                 source: ''
             },
@@ -647,7 +1122,7 @@ window.LONGCARE_CONTENT = {
                 source: ''
             },
             {
-                title: '계속 이용 시 유효기간 종료 30일 전까지 갱신을 완료했나요?',
+                title: '계속 이용 시 갱신 신청 기간을 확인했나요?',
                 text: '',
                 source: ''
             }
@@ -659,16 +1134,16 @@ window.LONGCARE_CONTENT = {
             },
             {
                 q: '갱신 신청은 어떻게 하나요?',
-                a: '유효기간 종료 30일 전까지 공단 지사 방문, 우편, 팩스, 인터넷으로 신청해야 하며, 갱신에 한해 전화 신청도 가능합니다.'
+                a: '유효기간이 끝나기 90일 전부터 30일 전까지 갱신신청을 해야 하며, 갱신신청 절차는 인정신청 절차와 같습니다.'
             },
             {
                 q: '등급 판정 후 어르신 상태가 나빠지면 어떡하죠?',
                 a: "유효기간 내라도 상태가 변하여 다른 등급을 받고자 할 때는 '등급변경신청'을 할 수 있습니다."
             }
         ],
-        caution: '본 콘텐츠는 제공된 PDF 원문의 내용을 기반으로 요약·정리되었습니다. 구체적인 신청 방법 및 서류 양식은 국민건강보험공단(1577-1000)을 통해 다시 한번 확인하시기 바랍니다.',
-        sourceRefs: ['PDF 4쪽', 'PDF 5쪽', 'PDF 6쪽', 'PDF 12쪽', 'PDF 57쪽'],
-        sourcePages: [4, 5, 6, 12]
+        caution: '본 콘텐츠는 현재 폴더에 있는 장기요양급여 이용 안내 PDF 원문을 기준으로 요약·정리한 안내입니다.',
+        sourceRefs: ['PDF 4쪽', 'PDF 5쪽', 'PDF 6쪽', 'PDF 8쪽', 'PDF 28쪽'],
+        sourcePages: [4, 5, 6, 8, 28]
     },
 
     gradeResultGuide: {
@@ -695,7 +1170,7 @@ window.LONGCARE_CONTENT = {
                 text: '판정 결과를 직접 조회하고 출력할 수 있습니다.',
                 icon: 'smartphone',
                 tone: 'news-blue',
-                source: 'PDF 12쪽'
+                source: 'PDF 8쪽'
             },
             {
                 title: '서류 수령',
@@ -703,7 +1178,7 @@ window.LONGCARE_CONTENT = {
                 text: '인정서, 개인별장기요양이용계획서, 복지용구 급여확인서를 확인하세요.',
                 icon: 'files',
                 tone: 'news-green',
-                source: 'PDF 12쪽'
+                source: 'PDF 8쪽'
             },
             {
                 title: '등급 구분',
@@ -719,13 +1194,13 @@ window.LONGCARE_CONTENT = {
                 title: '결과조회',
                 text: '홈페이지, 건강보험25시, 정부24에서 조회 및 출력',
                 icon: 'search-check',
-                source: 'PDF 12쪽'
+                source: 'PDF 8쪽'
             },
             {
                 title: '서류수령',
                 text: '필수 서류 3종 및 기관 현황 제공',
                 icon: 'mail',
-                source: 'PDF 12쪽'
+                source: 'PDF 8쪽'
             },
             {
                 title: '등급확인',
@@ -737,7 +1212,7 @@ window.LONGCARE_CONTENT = {
                 title: '유효기간 확인',
                 text: '인정서에 명시된 종료 날짜 확인',
                 icon: 'calendar-check',
-                source: 'PDF 57쪽'
+                source: 'PDF 28쪽'
             }
         ],
         keyTable: [
@@ -745,13 +1220,13 @@ window.LONGCARE_CONTENT = {
                 label: '결과확인',
                 content: '판정 결과 조회 및 서류 발급',
                 check: '홈페이지, 앱(건강보험25시), 정부24',
-                pages: '12'
+                pages: '8'
             },
             {
                 label: '서류수령',
                 content: '인정서, 개인별장기요양이용계획서, 복지용구 급여확인서',
                 check: '필수 서류 3종 확인',
-                pages: '12'
+                pages: '8'
             },
             {
                 label: '등급구분',
@@ -763,29 +1238,29 @@ window.LONGCARE_CONTENT = {
                 label: '유효기간',
                 content: '급여를 이용할 수 있는 기간',
                 check: '인정서에 명시된 종료 날짜 확인',
-                pages: '57'
+                pages: '28'
             }
         ],
         checklist: [
             {
                 title: '판정 결과를 홈페이지, 건강보험25시, 정부24에서 확인했나요?',
                 text: '',
-                source: 'PDF 12쪽'
+                source: 'PDF 8쪽'
             },
             {
                 title: '인정서 등 필수 서류 3종을 모두 받으셨나요?',
                 text: '',
-                source: 'PDF 12쪽'
+                source: 'PDF 8쪽'
             },
             {
                 title: '인정서에 적힌 등급과 유효기간을 확인했나요?',
                 text: '',
-                source: 'PDF 57쪽'
+                source: 'PDF 28쪽'
             },
             {
                 title: '상태가 변한 경우 등급변경신청이 필요한지 확인했나요?',
                 text: '',
-                source: 'PDF 57쪽'
+                source: 'PDF 28쪽'
             }
         ],
         faqs: [
@@ -802,8 +1277,8 @@ window.LONGCARE_CONTENT = {
                 a: "유효기간 내라도 상태가 변하여 다른 등급을 받고자 할 때는 '등급변경신청'을 할 수 있습니다."
             }
         ],
-        caution: '본 콘텐츠는 제공된 PDF 원문의 내용을 기반으로 요약·정리되었습니다. 구체적인 신청 방법 및 서류 양식은 국민건강보험공단(1577-1000)을 통해 다시 한번 확인하시기 바랍니다.',
-        sourceRefs: ['PDF 5쪽', 'PDF 6쪽', 'PDF 10쪽', 'PDF 12쪽', 'PDF 57쪽'],
-        sourcePages: [5, 6, 10, 12]
+        caution: '본 콘텐츠는 현재 폴더에 있는 장기요양급여 이용 안내 PDF 원문을 기준으로 요약·정리한 안내입니다.',
+        sourceRefs: ['PDF 5쪽', 'PDF 6쪽', 'PDF 8쪽', 'PDF 10쪽', 'PDF 28쪽'],
+        sourcePages: [5, 6, 8, 10, 28]
     }
 };
