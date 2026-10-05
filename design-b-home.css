@@ -532,3 +532,13 @@ body:not([data-route="home"]) .app-shell .topbar { padding-right:96px; }
 .finder-btn:active { transform:scale(.985); }
 
 .finder-btn.finder-pending { opacity:.6; cursor:default; }
+
+/* ---------- 이전/다음 목차 ---------- */
+.category-pager { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:26px 0 8px; }
+.pager-link { display:flex; align-items:center; gap:8px; min-height:68px; padding:12px 14px; border-radius:16px; text-decoration:none; background:#fff; border:1px solid var(--ui-line); box-shadow:var(--ui-shadow); color:#1f2f46; }
+.pager-link span { display:block; min-width:0; }
+.pager-link small { display:block; color:#6b7a90; font-size:13px; font-weight:700; }
+.pager-link strong { display:block; font-size:15px; font-weight:800; line-height:1.3; word-break:keep-all; }
+.pager-next { justify-content:flex-end; text-align:right; background:#eaf2ff; border-color:#cfe0fb; color:#245caa; }
+.pager-link svg { width:22px; height:22px; flex-shrink:0; }
+.pager-link:active { transform:scale(.985); }

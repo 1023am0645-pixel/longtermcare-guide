@@ -305,7 +305,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return `<header class="page-head"><span class="page-head-icon icon3d"><img src="icons3d/${id}.webp" alt="" width="192" height="192"></span><div class="page-head-copy"><small>목차 ${c ? c.no : ''}</small><h1>${titleHtml}</h1></div></header>`;
     }
 
+    function categoryPager(id) {
+        const i = categories.findIndex(c => c.id === id);
+        if (i < 0) return '';
+        const prev = categories[i - 1], next = categories[i + 1];
+        const btn = (c, dir) => `<a class="pager-link pager-${dir}" href="#category/${c.id}">${dir === 'prev' ? '<i data-lucide="chevron-left" aria-hidden="true"></i>' : ''}<span><small>${dir === 'prev' ? '이전' : '다음'}</small><strong>${c.no} ${c.title}</strong></span>${dir === 'next' ? '<i data-lucide="chevron-right" aria-hidden="true"></i>' : ''}</a>`;
+        return `<nav class="category-pager" aria-label="이전·다음 목차">${prev ? btn(prev, 'prev') : '<span></span>'}${next ? btn(next, 'next') : '<span></span>'}</nav>`;
+    }
+
     function renderCategory(categoryId) {
+        renderCategoryBody(categoryId);
+        if (!window.LONGCARE_REVIEWED || location.hash.includes('?view')) return;
+        const category = findCategory(categoryId);
+        const host = app.querySelector('section') || app;
+        host.insertAdjacentHTML('beforeend', categoryPager(category.id));
+        if (window.lucide) window.lucide.createIcons();
+    }
+
+    function renderCategoryBody(categoryId) {
         const category = findCategory(categoryId);
         const reviewed = window.LONGCARE_REVIEWED?.[category.id];
         if (reviewed) {
