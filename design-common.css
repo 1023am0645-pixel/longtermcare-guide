@@ -1,0 +1,34 @@
+/* Two visual studies share unchanged content, routes and local Lucide assets. */
+body { font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif; }
+.topbar { box-shadow:none; }
+.brand strong { font-family:inherit; font-weight:750; }
+.brand-mark { box-shadow:none; border-radius:8px; }
+.font-controls { box-shadow:none; }
+.font-button { min-height:56px; font-family:inherit; font-weight:650; }
+.search-box { box-shadow:none; }
+.search-box input { font-family:inherit; font-weight:500; }
+.bottom-nav { box-shadow:0 -3px 16px #2846680b; }
+.bottom-nav .nav-link { font-family:inherit; font-weight:650; min-height:56px; }
+.documents-view { font-family:inherit; }
+.documents-view .back-link { min-height:56px; padding:10px 0; background:none; border:0; box-shadow:none; font-family:inherit; font-weight:600; }
+.documents-view h1,.documents-view h2,.documents-view h3 { font-family:inherit; font-weight:750; }
+.documents-view .documents-title { grid-template-columns:minmax(0,1fr) 124px; gap:12px; margin:18px 0 24px; }
+.documents-view .documents-title img { width:124px; height:124px; }
+.documents-view .documents-title h1 { font-size:1.6em; line-height:1.4; }
+.documents-view .documents-title h1 span { box-shadow:none; }
+.documents-names span { font-family:inherit; font-weight:650; }
+.documents-view svg { stroke-width:1.75; }
+.documents-names li svg { width:48px; height:48px; padding:11px; }
+.documents-view .documents-intro { font-size:1em; line-height:1.75; }
+.documents-reissue > h2 { font-size:1.3em; }
+.documents-route header h3 { font-size:1.05em; line-height:1.5; }
+.documents-route ol { padding:12px 20px 20px; }
+.documents-route li { font-weight:500; }
+.documents-view .app-downloads a { font-family:inherit; font-weight:650; box-shadow:none; }
+.documents-view .ebook-source-details { box-shadow:none; border-radius:8px; }
+.documents-view .ebook-source-details summary { font-family:inherit; font-weight:650; }
+.documents-view a:focus-visible,.font-button:focus-visible { outline:3px solid #2563eb; outline-offset:3px; }
+@media(max-width:374px) {
+    .documents-view .documents-title { grid-template-columns:minmax(0,1fr) 112px; }
+    .documents-view .documents-title img { width:112px; height:112px; }
+}

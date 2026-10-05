@@ -6,56 +6,76 @@
     <meta name="theme-color" content="#2563eb">
     <title>장기요양급여 이용 안내</title>
 
-    <link rel="stylesheet" href="assets/fonts/pretendard.css">
+    <link rel="stylesheet" href="fonts/pretendard-subset.css">
     <script src="assets/vendor/lucide.min.js"></script>
-    <link rel="stylesheet" href="css/style.css?v=41">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="documents.css">
+    <link rel="stylesheet" href="design-common.css">
+    <link rel="stylesheet" href="design-b.css">
+    <link rel="stylesheet" href="design-b-home.css">
 </head>
 <body>
     <div class="app-shell">
         <header class="topbar">
-            <a class="brand" href="#home" aria-label="처음 화면으로 이동">
-                <span class="brand-mark" aria-hidden="true">
-                    <i data-lucide="clipboard-list"></i>
+            <a class="brand hero-brand" href="#home" aria-label="처음 화면으로 이동">
+                <span class="hero-copy">
+                    <span class="hero-eyebrow"><img src="nhis-symbol.svg" alt="" width="20" height="20">국민건강보험공단</span>
+                    <strong class="hero-title">장기요양급여 <em>이용 안내</em></strong>
+                    <span class="hero-sub">수급자·보호자용 설명서</span>
                 </span>
-                <span>
-                    <strong>장기요양급여 이용 안내</strong>
+                <span class="hero-art" aria-hidden="true">
+                    <img class="hero-art-book" src="icons3d/hero-book.webp" alt="" width="192" height="192">
+                    <img class="hero-art-bulb" src="icons3d/hero-bulb.webp" alt="" width="192" height="192">
                 </span>
             </a>
+            <a class="header-search" href="#home?search" aria-label="검색하기"><i data-lucide="search" aria-hidden="true"></i><span>검색</span></a>
+        </header>
 
-            <div class="font-controls" aria-label="글씨 크기 조절">
-                <button class="font-button" type="button" data-font="base" aria-pressed="false">가</button>
+        <div class="font-bar" role="group" aria-label="글씨 크기 조절">
+            <span class="font-bar-label">글씨 크기</span>
+            <div class="font-controls">
+                <button class="font-button" type="button" data-font="base" aria-pressed="false">보통</button>
                 <button class="font-button" type="button" data-font="large" aria-pressed="true">크게</button>
                 <button class="font-button" type="button" data-font="xlarge" aria-pressed="false">아주 크게</button>
             </div>
-        </header>
+        </div>
 
         <div class="search-band">
-            <label class="search-box">
+            <form class="search-panel" id="guideSearch" role="search" aria-label="안내 내용 검색">
                 <i data-lucide="search" aria-hidden="true"></i>
-                <span class="sr-only">안내 내용 검색</span>
-                <input id="searchInput" type="search" autocomplete="off" placeholder="서비스명, 본인부담금, 방문요양 검색">
-            </label>
+                <div class="search-field">
+                    <label class="search-box">
+                        <span class="sr-only">안내 내용 검색</span>
+                        <input id="searchInput" type="search" autocomplete="off" enterkeyhint="search" placeholder="궁금한 내용을 검색하세요">
+                    </label>
+                    <button class="search-submit" type="submit" aria-label="검색" title="검색"><i data-lucide="arrow-right" aria-hidden="true"></i></button>
+                </div>
+            </form>
         </div>
 
         <main id="app" tabindex="-1"></main>
 
         <nav class="bottom-nav" aria-label="주요 화면">
             <a href="#home" class="nav-link" data-route="home">
-                <i data-lucide="home" aria-hidden="true"></i>
-                <span>가이드</span>
+                <span class="nav-icon"><i data-lucide="house" aria-hidden="true"></i></span>
+                <span>홈</span>
             </a>
             <a href="#contents" class="nav-link" data-route="contents">
-                <i data-lucide="list" aria-hidden="true"></i>
+                <span class="nav-icon"><i data-lucide="list" aria-hidden="true"></i></span>
                 <span>목차</span>
             </a>
             <a href="#book" class="nav-link" data-route="book">
-                <i data-lucide="book-open" aria-hidden="true"></i>
+                <span class="nav-icon"><i data-lucide="book-open" aria-hidden="true"></i></span>
                 <span>이북</span>
             </a>
         </nav>
     </div>
 
-    <script src="js/content-data.js?v=41"></script>
-    <script src="js/app.js?v=41"></script>
+    <script src="content-data.js"></script>
+    <script>if (!location.hash) location.hash = '#home';</script>
+    <script src="reviewed-content.js"></script>
+    <script src="search-aliases.js"></script>
+    <script src="app-config.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

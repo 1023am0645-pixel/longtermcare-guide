@@ -1,0 +1,6 @@
+/* Pretendard (SIL Open Font License 1.1, https://github.com/orioncactus/pretendard)
+   KS X 1001 한글 2,350자 + 영문 subset. 본문까지 한 글꼴로 통일하기 위해 4개 굵기 사용. */
+@font-face { font-family:'Pretendard'; font-weight:400 500; font-display:swap; src:local('Pretendard Medium'), url('Pretendard-Medium.subset.woff2') format('woff2'); }
+@font-face { font-family:'Pretendard'; font-weight:600; font-display:swap; src:local('Pretendard SemiBold'), url('Pretendard-SemiBold.subset.woff2') format('woff2'); }
+@font-face { font-family:'Pretendard'; font-weight:700; font-display:swap; src:local('Pretendard Bold'), url('Pretendard-Bold.subset.woff2') format('woff2'); }
+@font-face { font-family:'Pretendard'; font-weight:800 900; font-display:swap; src:local('Pretendard ExtraBold'), url('Pretendard-ExtraBold.subset.woff2') format('woff2'); }

@@ -1,0 +1,67 @@
+.documents-view { max-width:680px; margin:0 auto; color:#243444; }
+.documents-title { display:grid; grid-template-columns:minmax(0,1fr) 132px; align-items:center; gap:16px; margin:24px 0 22px; }
+.documents-view .documents-title h1 { margin:0; font-size:1.6em; font-weight:800; color:#23354a; line-height:1.5; word-break:keep-all; }
+.documents-title h1 span { display:block; width:fit-content; color:#2563eb; text-decoration:none; box-shadow:inset 0 -7px #ffe99c; }
+.documents-title img { width:132px; height:132px; object-fit:contain; border-radius:8px; }
+.app-downloads { display:grid; gap:10px; padding:0 20px 20px; }
+.app-downloads a, .grade-related { display:flex; align-items:center; gap:10px; min-height:56px; padding:12px; background:#edf5ff; border:1px solid #c9dcf6; border-radius:8px; color:#194c9c; font-size:1em; line-height:1.5; }
+.app-downloads svg, .grade-related svg { width:24px; height:24px; flex-shrink:0; }
+.grade-definitions { display:grid; gap:16px; }
+.grade-definition { padding:22px; border:1px solid #dbe4f0; border-radius:8px; background:#fff; }
+.grade-definition h2 { color:#245fbc; }
+.grade-definition mark { background:#fff0aa; color:inherit; text-decoration:underline; text-underline-offset:4px; }
+.grade-definition .grade-score { margin-top:14px; padding-top:12px; border-top:1px solid #e4eaf2; font-size:0.9em; color:#4a5565; }
+.grade-related { margin:24px 0; justify-content:space-between; }
+.documents-view h1 { font-size:1.65em; line-height:1.35; margin:20px 0 28px; }
+.documents-view h2 { font-size:1.2em; line-height:1.5; margin:0 0 16px; }
+.documents-view h3 { font-size:1.05em; line-height:1.5; margin:0 0 12px; }
+.documents-view h2,.documents-view h3 { display:flex; align-items:flex-start; gap:12px; }
+.documents-view h2 svg,.documents-view h3 svg { width:28px; height:28px; flex-shrink:0; color:#2563eb; margin-top:3px; }
+.documents-view p { font-size:1em; line-height:1.8; margin:0; overflow-wrap:anywhere; }
+.documents-view:not(.grade-view) p, .documents-route li { font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif; font-weight:400; }
+.documents-view .documents-intro { padding:0; border:0; font-weight:400; color:#3c4d60; line-height:1.75; }
+.documents-intro strong { font-weight:750; color:#2458a4; }
+.documents-intro em { font-style:normal; font-weight:700; color:#174eaa; background:none; box-shadow:inset 0 -5px #deebff; }
+.documents-receipt { padding-bottom:28px; border-bottom:1px solid #dbe4f0; }
+.documents-names { display:grid; gap:0; margin:22px 0 0; padding:0; list-style:none; border-top:1px solid #cddded; }
+.documents-names li { display:flex; align-items:center; gap:14px; padding:16px 0; line-height:1.6; overflow-wrap:anywhere; background:transparent; border:0; border-bottom:1px solid #dbe4f0; border-radius:0; box-shadow:none; }
+.documents-names li svg { width:44px; height:44px; padding:9px; flex-shrink:0; background:#dbeafe; color:#235ec8; border-radius:8px; }
+.documents-names li:nth-child(2) svg { background:#e1f4eb; color:#24674e; }
+.documents-names li:nth-child(3) svg { background:#f0eaff; color:#6a48a5; }
+.documents-reissue { padding:32px 0; }
+.documents-reissue > h2 { font-size:1.35em; color:#23354a; padding-bottom:12px; border-bottom:2px solid #cadcf4; }
+.documents-eligibility { padding:20px; background:#e8f7ee; border-left:4px solid #4b9478; border-radius:8px; }
+.family-condition { display:block; margin-top:12px; }
+.documents-routes { display:grid; gap:16px; margin-top:24px; }
+.documents-route { min-width:0; background:white; border:1px solid #dbe4f0; border-radius:8px; padding:20px; }
+.documents-route ol { padding-left:28px; margin:8px 0 0; }
+.documents-route li { line-height:1.7; padding:6px 0 6px 4px; overflow-wrap:anywhere; }
+.documents-route li::marker { color:#2563eb; font-weight:700; }
+.documents-route { padding:0; overflow:hidden; box-shadow:0 4px 14px #27436c0a; }
+.documents-route header { display:grid; grid-template-columns:46px minmax(0,1fr); align-items:start; gap:12px; padding:20px 16px; background:#eaf2ff; }
+.documents-route header > div { display:contents; }
+.documents-route header h3 { grid-column:2; }
+.documents-route header .route-address { grid-column:1 / -1; margin-top:-8px; font-size:18px; }
+.documents-route h3 { margin:0; overflow-wrap:anywhere; }
+.route-symbol { display:flex; padding:10px; border-radius:50%; background:white; color:#2563eb; flex-shrink:0; }
+.route-symbol svg { width:26px; height:26px; }
+.route-mint header { background:#e7f5ef; }
+.route-mint .route-symbol { color:#27684f; }
+.route-purple header { background:#f0ebfa; }
+.route-purple .route-symbol { color:#704ca5; }
+.route-address { display:flex; align-items:center; gap:4px; min-height:56px; color:#244e95; font-size:0.9em; overflow-wrap:anywhere; text-decoration:underline; font-weight:500; }
+.route-address svg { width:18px; height:18px; flex-shrink:0; }
+.documents-route ol { list-style:none; counter-reset:route-step; padding:12px 20px 20px; margin:0; }
+.documents-route li { counter-increment:route-step; display:flex; align-items:baseline; gap:12px; padding:12px 0; }
+.documents-route li::before { content:counter(route-step); flex-shrink:0; width:28px; line-height:28px; text-align:center; border-radius:50%; background:#edf3fc; color:#2156a7; font-size:0.85em; font-weight:700; }
+.documents-route li:last-child { font-weight:800; color:#17478c; }
+.documents-route li:not(:last-child) { border-bottom:1px solid #edf1f7; }
+.documents-route li { font-weight:550; }
+.documents-view .app-downloads a { background:#2563eb; color:#fff; border-color:#2563eb; font-weight:700; box-shadow:0 4px 8px #2563eb18; padding:16px; }
+.documents-view .app-downloads a:nth-child(2) { background:#fff; color:#2157ad; border-color:#aec8eb; box-shadow:none; }
+.documents-view a:focus-visible, .documents-view summary:focus-visible { outline:3px solid #2563eb; outline-offset:4px; }
+.documents-view .app-downloads a:hover { filter:brightness(.96); }
+.documents-original { padding:16px; }
+.documents-original a { display:flex; align-items:center; justify-content:space-between; min-height:56px; color:#174bb5; gap:12px; }
+.documents-original img { width:100%; height:auto; }
+.documents-view .ebook-source-details summary { min-height:72px; font-size:1em; line-height:1.7; }
