@@ -109,7 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const target = part ? Array.from(app.querySelectorAll('[id]')).find(el => el.id === part) : null;
         const reissue = app.querySelector('.documents-reissue');
         if (reissue) {
-            const showingReissue = params.get('view') === 'reissue' || (target && reissue.contains(target));
+            const receiptEl = app.querySelector('.documents-receipt');
+            const view = params.get('view');
+            const showingReissue = view === 'receipt' ? false : view === 'reissue' ? true : (target ? !receiptEl.contains(target) : true);
             app.querySelector('.documents-receipt').hidden = !!showingReissue;
             reissue.hidden = !showingReissue;
             app.querySelectorAll('[data-doc-view]').forEach(link => {
@@ -305,6 +307,77 @@ document.addEventListener('DOMContentLoaded', () => {
         return `<header class="page-head"><span class="page-head-icon icon3d"><img src="icons3d/${id}.webp" alt="" width="192" height="192"></span><div class="page-head-copy"><small>목차 ${c ? c.no : ''}</small><h1>${titleHtml}</h1></div></header>`;
     }
 
+    // ---- 샘플 이미지 팝업 / 표 펼치기 ----
+    function closeSample() {
+        const modal = document.getElementById('sampleModal');
+        if (!modal) return;
+        modal.hidden = true;
+        document.body.classList.remove('modal-open');
+        const img = modal.querySelector('img'); if (img) img.src = '';
+        if (modal._opener && modal._opener.focus) modal._opener.focus();
+    }
+    function openSample(button) {
+        let modal = document.getElementById('sampleModal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'sampleModal'; modal.className = 'sample-modal'; modal.hidden = true;
+            modal.setAttribute('role', 'dialog'); modal.setAttribute('aria-modal', 'true'); modal.setAttribute('aria-label', '서류 샘플');
+            modal.innerHTML = `<div class="sample-sheet"><header><strong class="sample-title"></strong><span class="sample-actions"><button type="button" class="sample-zoom" data-sample-zoom aria-pressed="false"><i data-lucide="zoom-in" aria-hidden="true"></i><span>확대</span></button><button type="button" class="sample-close" data-sample-close aria-label="닫기"><i data-lucide="x" aria-hidden="true"></i></button></span></header><div class="sample-scroll"><img alt=""></div><p class="sample-note"></p></div>`;
+            document.body.appendChild(modal);
+        }
+        const title = button.dataset.sampleTitle;
+        modal._opener = button;
+        modal.querySelector('.sample-title').textContent = `${title} 샘플`;
+        const img = modal.querySelector('img');
+        img.alt = `${title} 샘플 이미지`; img.src = `samples/${button.dataset.sample}.webp`;
+        img.classList.remove('zoomed');
+        const zoom = modal.querySelector('[data-sample-zoom]'); zoom.setAttribute('aria-pressed', 'false'); zoom.querySelector('span').textContent = '확대';
+        modal.querySelector('.sample-note').textContent = `원문 ${button.dataset.samplePage}쪽의 서식 샘플입니다.`;
+        modal.hidden = false;
+        document.body.classList.add('modal-open');
+        modal.querySelector('.sample-scroll').scrollTop = 0;
+        if (window.lucide) lucide.createIcons();
+        modal.querySelector('[data-sample-close]').focus();
+    }
+    document.addEventListener('click', e => {
+        const sample = e.target.closest && e.target.closest('[data-sample]');
+        if (sample) { openSample(sample); return; }
+        if (e.target.closest && e.target.closest('[data-sample-close]')) { closeSample(); return; }
+        const modal = document.getElementById('sampleModal');
+        if (modal && !modal.hidden && e.target === modal) { closeSample(); return; }
+        const zoom = e.target.closest && e.target.closest('[data-sample-zoom]');
+        if (zoom) {
+            const img = document.querySelector('#sampleModal img');
+            const on = img.classList.toggle('zoomed');
+            zoom.setAttribute('aria-pressed', String(on));
+            zoom.querySelector('span').textContent = on ? '축소' : '확대';
+            return;
+        }
+        const rate = e.target.closest && e.target.closest('[data-rate-toggle]');
+        if (rate) {
+            const panel = document.getElementById(rate.getAttribute('aria-controls'));
+            const open = rate.getAttribute('aria-expanded') !== 'true';
+            const card = rate.closest('.review-rate');
+            card.querySelectorAll('[data-rate-toggle]').forEach(btn => {
+                btn.setAttribute('aria-expanded', 'false');
+                document.getElementById(btn.getAttribute('aria-controls')).hidden = true;
+            });
+            if (open) { rate.setAttribute('aria-expanded', 'true'); panel.hidden = false; if (window.lucide) lucide.createIcons(); }
+            return;
+        }
+        const toggle = e.target.closest && e.target.closest('[data-toggle-target]');
+        if (toggle) {
+            const panel = document.getElementById(toggle.dataset.toggleTarget);
+            const open = panel.hidden;
+            panel.hidden = !open;
+            toggle.setAttribute('aria-expanded', String(open));
+        }
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeSample();
+    });
+    window.addEventListener('hashchange', closeSample);
+
     function categoryPager(id) {
         const i = categories.findIndex(c => c.id === id);
         if (i < 0) return '';
@@ -382,12 +455,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <section class="documents-view">
                 <a class="back-link" href="#home"><i data-lucide="chevron-left" aria-hidden="true"></i>돌아가기</a>
                 ${window.LONGCARE_REVIEWED ? pageHead('documents', '필수서류 수령') : '<div class="documents-title"><h1>필수서류 <span>수령</span></h1><img src="documents-counter-watercolor.png" alt=""></div>'}
-                ${window.LONGCARE_REVIEWED ? `<nav class="document-switch" aria-label="서류 안내 선택"><a href="#category/documents?view=receipt" data-doc-view="receipt">필수서류 수령</a><a href="#category/documents?view=reissue" data-doc-view="reissue">인터넷 재발급</a></nav>` : ''}
+                ${window.LONGCARE_REVIEWED ? `<nav class="document-switch" aria-label="서류 안내 선택"><a href="#category/documents?view=reissue" data-doc-view="reissue">인터넷 재발급</a><a href="#category/documents?view=receipt" data-doc-view="receipt">필수서류 수령</a></nav>` : ''}
                 <section class="documents-receipt">
                     <p class="documents-intro">수급자가 되면 <strong>국민건강보험공단</strong>으로부터 <em>필수서류 3종</em>과 이용 가능한 장기요양기관 현황을 제공받습니다.</p>
                     <ul class="documents-names">
-                        <li><i data-lucide="file-badge" aria-hidden="true"></i><span>장기요양인정서</span></li><li><i data-lucide="clipboard-list" aria-hidden="true"></i><span>개인별장기요양이용계획서</span></li><li><i data-lucide="file-check-2" aria-hidden="true"></i><span>복지용구 급여확인서</span></li>
+                        ${[['file-badge','장기요양인정서','sample-certificate',8],['clipboard-list','개인별장기요양이용계획서','sample-plan',9],['file-check-2','복지용구 급여확인서','sample-equipment',9]].map(([icon,name,file,page]) => `<li><button type="button" class="sample-btn" data-sample="${file}" data-sample-title="${name}" data-sample-page="${page}"><i data-lucide="${icon}" aria-hidden="true"></i><span>${name}</span><em>샘플</em></button></li>`).join('')}
                     </ul>
+                    <p class="documents-sample-hint">서류 이름을 누르면 샘플 이미지를 크게 볼 수 있어요.</p>
                 </section>
                 <section class="documents-reissue">
                     <h2>인터넷 재발급</h2>

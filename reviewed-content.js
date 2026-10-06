@@ -7,6 +7,32 @@
     const icon3d = { 'house':'home-care', 'building-2':'facility', 'wallet':'copayment', 'search-check':'institution', 'messages-square':'consult', 'file-signature':'contract', 'heart-handshake':'home-care' };
     const tile = (icon, title, text, href) => `<article class="review-tile">${icon3d[icon] ? `<span class="review-tile-icon icon3d"><img src="icons3d/${icon3d[icon]}.webp" alt="" width="192" height="192" loading="lazy"></span>` : `<i data-lucide="${icon}" aria-hidden="true"></i>`}<h2>${title}</h2><p>${text}</p>${href ? `<a href="#category/${href}">${title} 종류<i data-lucide="chevron-right" aria-hidden="true"></i></a>` : ''}</article>`;
     const steps = items => `<ol class="review-steps">${items.map(x => `<li>${x}</li>`).join('')}</ol>`;
+    // ---- 본인부담금 표 (원문 11쪽·16쪽, 2026. 1. 1. 기준) ----
+    const HOME_FEES = [["1등급", "2,512,900", "376,930", "226,160", "150,770"], ["2등급", "2,331,200", "349,680", "209,800", "139,870"], ["3등급", "1,528,200", "229,230", "137,530", "91,690"], ["4등급", "1,409,700", "211,450", "126,870", "84,580"], ["5등급", "1,208,900", "181,330", "108,800", "72,530"], ["인지지원등급", "676,320", "101,440", "60,860", "40,570"]];
+    const FAC_FEES = [
+        { title: '1. 노인요양시설·노인요양공동생활가정 급여비용', groups: [["노인요양시설 · 요양보호사 수 입소자 2.1명당 1명 이상", [["1등급", "93,070", "2,792,100", "558,420", "335,050", "223,360"], ["2등급", "86,340", "2,590,200", "518,040", "310,820", "207,210"], ["3등급", "81,540", "2,446,200", "489,240", "293,540", "195,690"]]], ["노인요양시설 · 요양보호사 수 입소자 2.1명당 1명 미만", [["1등급", "88,520", "2,655,600", "531,120", "318,670", "212,440"], ["2등급", "82,120", "2,463,600", "492,720", "295,630", "197,080"], ["3등급", "77,540", "2,326,200", "465,240", "279,140", "186,090"]]], ["노인요양공동생활가정", [["1등급", "74,590", "2,237,700", "447,540", "268,520", "179,010"], ["2등급", "69,210", "2,076,300", "415,260", "249,150", "166,100"], ["3등급", "63,800", "1,914,000", "382,800", "229,680", "153,120"]]]], notes: ['※ 장기요양 4등급 또는 5등급인 수급자가 시설급여를 이용하는 경우에는 3등급의 급여비용을 적용', '※ 노인요양시설의 급여비용은 기관별 돌봄인력(요양보호사) 배치 기준에 따라 다르게 운영되며, 수급자의 본인부담금 또한 달라집니다.'] },
+        { title: '2. 노인요양시설 내 치매전담실 급여비용(가형)', groups: [['', [["2등급", "96,950", "2,908,500", "581,700", "349,020", "232,680"], ["3등급~<wbr>5등급", "89,400", "2,682,000", "536,400", "321,840", "214,560"]]]], notes: [] },
+        { title: '3. 노인요양시설 내 치매전담실 급여비용(나형)', groups: [['', [["2등급", "90,160", "2,704,800", "540,960", "324,570", "216,380"], ["3등급~<wbr>5등급", "83,140", "2,494,200", "498,840", "299,300", "199,530"]]]], notes: [] }
+    ];
+    const FEE_COLS = { g: [], m40: [['40%감경대상자', 1]], m60: [['60%감경대상자·기타의료급여 수급권자', 2]] };
+    const feeHeader = (lead, kind, groupLabel) => {
+        const sub = ['일반대상자'].concat(FEE_COLS[kind].map(c => c[0]));
+        return `<thead><tr>${lead.map(h => `<th rowspan="2" scope="col">${h}</th>`).join('')}<th colspan="${sub.length}" scope="colgroup">${groupLabel}</th></tr><tr>${sub.map(h => `<th scope="col">${h}</th>`).join('')}</tr></thead>`;
+    };
+    const feeRow = cells => `<tr>${cells.map((x, i) => i ? `<td>${x}</td>` : `<th scope="row">${x}</th>`).join('')}</tr>`;
+    const feeNotes = notes => notes.length ? `<ul class="fee-notes">${notes.map(x => `<li>${x}</li>`).join('')}</ul>` : '';
+    const feeSource = (page, cat) => `<a class="fee-source" href="#page/${page}/category/${cat}">원문 ${page}쪽에서 보기<i data-lucide="chevron-right" aria-hidden="true"></i></a>`;
+    const homeFeePanel = kind => {
+        const rows = HOME_FEES.map(r => feeRow([r[0], r[1], r[2]].concat(FEE_COLS[kind].map(c => r[2 + c[1]]))));
+        return `<div class="fee-panel"><p class="fee-date">재가급여 월 한도액 · 본인부담금 <span>(2026. 1. 1. 기준)</span></p><div class="fee-scroll"><table class="fee-table">${feeHeader(['등급', '월 한도액(원)'], kind, '본인부담금')}<tbody>${rows.join('')}</tbody></table></div>${feeNotes(['※ 복지용구, 의사소견서 및 방문간호지시서 발급비용은 월 한도액에 포함되지 않음', '※ 하단의 재가급여 본인부담금은 1회(또는 1일) 이용 시 금액으로, 실제 본인부담금은 월별 이용금액을 합산한 후 본인부담 비율에 따라 정산되어 아래 금액과 차이가 발생할 수 있습니다.'])}${feeSource(11, 'copayment')}</div>`;
+    };
+    const facFeePanel = kind => `<div class="fee-panel"><p class="fee-date">시설급여 급여비용 · 본인부담금 <span>(2026. 1. 1. 기준)</span></p>${FAC_FEES.map(t => {
+        const cols = 4 + FEE_COLS[kind].length;
+        const body = t.groups.map(g => (g[0] ? `<tr class="fee-group"><th colspan="${cols}" scope="colgroup">${g[0]}</th></tr>` : '') + g[1].map(r => feeRow([r[0], r[1], r[2], r[3]].concat(FEE_COLS[kind].map(c => r[3 + c[1]])))).join('')).join('');
+        return `<h3 class="fee-title">${t.title}</h3><div class="fee-scroll"><table class="fee-table">${feeHeader(['등급', '금액(1일당)', '월 금액(30일 기준)'], kind, '본인부담금(30일 기준)')}<tbody>${body}</tbody></table></div>${feeNotes(t.notes)}`;
+    }).join('')}${feeSource(16, 'copayment')}</div>`;
+    const rateToggle = (id, label, rate, panel) => `<button type="button" class="rate-toggle" data-rate-toggle aria-expanded="false" aria-controls="${id}"><span class="rate-label">${label}</span><strong>${rate}</strong><i data-lucide="chevron-down" aria-hidden="true"></i></button><div class="rate-panel" id="${id}" hidden>${panel}</div>`;
+    const rateCard = (title, kind, home, facility) => `<article class="review-rate"><h2>${title}</h2><div class="rate-rows">${rateToggle('rate-' + kind + '-home', '재가급여·복지용구', home, homeFeePanel(kind))}${rateToggle('rate-' + kind + '-fac', '시설급여', facility, facFeePanel(kind))}</div><p class="rate-hint">항목을 누르면 급여비용 표가 펼쳐집니다</p></article>`;
     window.LONGCARE_REVIEWED = {
         'benefit-types': {
             title: '장기요양급여 종류', pages: [5,6],
@@ -18,7 +44,7 @@
         },
         institution: {
             title: '장기요양기관 선택', pages: [10,31],
-            html: `<div class="review-tiles">${tile('search-check','1. 장기요양기관 선택','평가 결과를 활용하여 서비스 질이 우수한 기관을 선택합니다.')}<article class="review-tile review-tile-list"><span class="review-tile-icon icon3d"><img src="icons3d/contract.webp" alt="" width="192" height="192" loading="lazy"></span><h2>2. 급여계약 체결</h2>${list(['<strong>필수서류</strong>: 장기요양인정서·개인별장기요양이용계획서 등을 준비합니다.','<strong>의료급여 수급권자</strong>: 관할 시·군·구에 입소·이용 신청·승인 후 계약합니다.','<strong>필수 확인사항</strong>: 계약서 내용을 꼼꼼히 확인하고 2부 작성해 각각 1부씩 보관합니다.'])}</article>${tile('heart-handshake','3. 장기요양급여 이용','급여제공계획서에 따라 이용하며, 기관으로부터 장기요양급여 제공기록지를 제공받으시기 바랍니다.')}</div><a class="finder-btn" data-finder href="#" target="_blank" rel="noopener"><i data-lucide="map-pin" aria-hidden="true"></i><span>장기요양 기관찾기</span><i data-lucide="external-link" aria-hidden="true"></i></a>${more('홈페이지에서 기관 찾기',steps(['노인장기요양보험 홈페이지(www.longtermcare.or.kr)','민원서비스','검색서비스','장기요양기관 찾기'])+'<p>지역별·급여종류별·기관 명칭별 검색 및 평가 결과 확인이 가능합니다.</p>')}`
+            html: `<div class="review-tiles">${tile('search-check','1. 장기요양기관 선택','평가 결과를 활용하여 서비스 질이 우수한 기관을 선택합니다.')}<div class="institution-actions"><a class="finder-btn" data-finder href="#" target="_blank" rel="noopener"><i data-lucide="map-pin" aria-hidden="true"></i><span>장기요양 기관찾기</span><i data-lucide="external-link" aria-hidden="true"></i></a><button type="button" class="finder-btn finder-btn-home" data-toggle-target="homeFind" aria-expanded="false" aria-controls="homeFind"><span class="finder-emoji" aria-hidden="true">🌐</span><span>홈페이지에서 기관 찾기</span><i data-lucide="chevron-down" aria-hidden="true"></i></button><div class="home-find-panel" id="homeFind" hidden>${steps(['노인장기요양보험 홈페이지(www.longtermcare.or.kr)','민원서비스','검색서비스','장기요양기관 찾기'])}<p>지역별·급여종류별·기관 명칭별 검색 및 평가 결과 확인이 가능합니다.</p></div></div><article class="review-tile review-tile-list"><span class="review-tile-icon icon3d"><img src="icons3d/contract.webp" alt="" width="192" height="192" loading="lazy"></span><h2>2. 급여계약 체결</h2>${list(['<strong>필수서류</strong>: 장기요양인정서·개인별장기요양이용계획서 등을 준비합니다.','<strong>의료급여 수급권자</strong>: 관할 시·군·구에 입소·이용 신청·승인 후 계약합니다.','<strong>필수 확인사항</strong>: 계약서 내용을 꼼꼼히 확인하고 2부 작성해 각각 1부씩 보관합니다.'])}</article>${tile('heart-handshake','3. 장기요양급여 이용','급여제공계획서에 따라 이용하며, 기관으로부터 장기요양급여 제공기록지를 제공받으시기 바랍니다.')}</div>`
         },
         contract: {
             title: '급여계약 절차', pages: [10,31],
@@ -45,9 +71,7 @@
         },
         copayment: {
             title:'본인부담금',pages:[17,18],
-            html:'<p>본인부담금은 이용한 급여비용 중 수급자가 부담하는 금액입니다.</p><p>2026. 1. 1. 기준</p><div class="review-rates">'+[
-                ['일반대상자','15%','20%'],['40% 감경대상자','9%','12%'],['60% 감경대상자·기타의료급여 수급권자','6%','8%'],['「국민기초생활보장법」에 따른 의료급여 수급자','면제','면제']
-            ].map(([title,home,facility])=>`<article class="review-rate"><h2>${title}</h2><dl><div><dt>재가급여·복지용구</dt><dd>${home}</dd></div><div><dt>시설급여</dt><dd>${facility}</dd></div></dl></article>`).join('')+'</div><h2>비급여는 전액 본인부담</h2>'+list(['식사재료비','이·미용비','상급침실 이용에 따른 추가비용','그 외 일상생활에 통상 필요한 것과 관련된 비용으로 수급자에게 부담시키는 것이 적당하다고 보건복지부장관이 정하여 고시한 비용'])+more('본인부담금 감경 안내','<p>공단이 매월 말 건강보험료 등을 확인하여 감경 대상자를 결정하고 개별 통보합니다.</p><p>별도 신청절차는 없으나, 감경 해지자 중 보험료 변동 등의 사유로 감경 기준에 해당하면 신청이 필요합니다.</p>')
+            html:'<p>본인부담금은 이용한 급여비용 중 수급자가 부담하는 금액입니다.</p><p>2026. 1. 1. 기준</p><div class="review-rates">'+rateCard('일반대상자','g','15%','20%')+rateCard('40% 감경대상자','m40','9%','12%')+rateCard('60% 감경대상자·기타의료급여 수급권자','m60','6%','8%')+[['「국민기초생활보장법」에 따른 의료급여 수급자','면제','면제']].map(([title,home,facility])=>`<article class="review-rate"><h2>${title}</h2><dl><div><dt>재가급여·복지용구</dt><dd>${home}</dd></div><div><dt>시설급여</dt><dd>${facility}</dd></div></dl></article>`).join('')+'</div><h2>비급여는 전액 본인부담</h2>'+list(['식사재료비','이·미용비','상급침실 이용에 따른 추가비용','그 외 일상생활에 통상 필요한 것과 관련된 비용으로 수급자에게 부담시키는 것이 적당하다고 보건복지부장관이 정하여 고시한 비용'])+more('본인부담금 감경 안내','<p>공단이 매월 말 건강보험료 등을 확인하여 감경 대상자를 결정하고 개별 통보합니다.</p><p>별도 신청절차는 없으나, 감경 해지자 중 보험료 변동 등의 사유로 감경 기준에 해당하면 신청이 필요합니다.</p>')
         }
     };
 })();
