@@ -8,6 +8,6 @@
 window.APP_CONFIG = {
     finderUrl: 'https://longtermcare-finder-yeon.jazzy-cocoa-4972.chatgpt.site',
     finderName: '장기요양 기관찾기',
-    updatedAt: '2026. 10. 5.',
+    updatedAt: '2026. 10. 6.',
     bookBasis: '2026. 1. 1.'
 };
