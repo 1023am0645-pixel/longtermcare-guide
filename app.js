@@ -1,3 +1,9 @@
+const favicon = document.createElement('link');
+favicon.rel = 'icon';
+favicon.type = 'image/svg+xml';
+favicon.href = 'nhis-symbol.svg';
+document.head.appendChild(favicon);
+
 document.addEventListener('DOMContentLoaded', () => {
     const TOTAL_PAGES = 44;
     const BOOK_BASE = 'assets/book-pages';
