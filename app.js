@@ -371,6 +371,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (open) { rate.setAttribute('aria-expanded', 'true'); panel.hidden = false; if (window.lucide) lucide.createIcons(); }
             return;
         }
+        const feeTab = e.target.closest && e.target.closest('[data-fee-tab]');
+        if (feeTab) {
+            const panel = feeTab.closest('.fee-panel');
+            panel.querySelectorAll('[data-fee-tab]').forEach(btn => {
+                const on = btn === feeTab;
+                btn.setAttribute('aria-selected', String(on));
+                document.getElementById(btn.dataset.feeTab).hidden = !on;
+            });
+            return;
+        }
         const toggle = e.target.closest && e.target.closest('[data-toggle-target]');
         if (toggle) {
             const panel = document.getElementById(toggle.dataset.toggleTarget);

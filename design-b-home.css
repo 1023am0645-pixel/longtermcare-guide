@@ -617,3 +617,33 @@ body.modal-open { overflow:hidden; }
 .fee-title { margin-top:22px; }
 .sample-btn > span { word-break:keep-all; overflow-wrap:anywhere; text-wrap:wrap; }
 .sample-btn em { font-size:.78em; padding:5px 10px; }
+
+/* ---------- 본인부담금 표: 보기 쉽게 정리 ---------- */
+.fee-date { margin:2px 2px 10px; color:#7a889d; font-size:.82em; font-weight:700; text-align:right; }
+.fee-tabs { display:flex; gap:6px; margin:0 -2px 12px; padding:2px 2px 6px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.fee-tabs::-webkit-scrollbar { display:none; }
+.fee-tab { flex:0 0 auto; min-height:44px; padding:0 14px; border:1px solid #cfe0fb; border-radius:999px; background:#fff; color:#4e5f76; font:inherit; font-size:.88em; font-weight:700; white-space:nowrap; cursor:pointer; }
+.fee-tab[aria-selected="true"] { border-color:transparent; background:linear-gradient(135deg,#4b82f0,var(--ui-blue)); color:#fff; box-shadow:0 4px 10px rgba(47,102,224,.3); }
+.fee-pane[hidden] { display:none; }
+.fee-pane .fee-title { margin:2px 2px 10px; padding:0; font-size:.92em; font-weight:800; color:var(--ui-ink); word-break:keep-all; }
+.fee-scroll { border:1px solid #dbe6f5; border-radius:14px; background:#fff; }
+.fee-table { font-size:.85em; }
+.fee-table th, .fee-table td { padding:11px 6px; border-bottom:1px solid #edf2f9; }
+.fee-table thead th { background:#eef3fb; color:#3b4f6b; border-bottom:1px solid #dbe6f5; font-weight:800; }
+.fee-table thead th.col-pay { background:#e3edff; color:#1f4fb4; }
+.fee-table tbody th { background:#fff; color:#2a3b52; font-weight:800; }
+.fee-table tbody tr:nth-child(even) th, .fee-table tbody tr:nth-child(even) td { background:#fafcff; }
+.fee-table td.col-sub { color:#8a97a9; font-weight:500; }
+.fee-table td.col-pay { color:#1f4fb4; font-weight:800; }
+.fee-notes { margin:12px 0 0; padding:10px 12px; border-radius:12px; background:#f5f8fc; color:#5a6a80; font-size:.78em; line-height:1.55; }
+.fee-source { margin-top:12px; }
+
+.home-find-howto { display:flex; align-items:center; justify-content:center; gap:4px; min-height:44px; margin:-2px 0 0; border:0; background:none; color:#245caa; font:inherit; font-size:.92em; font-weight:800; cursor:pointer; }
+.home-find-howto svg { width:18px; height:18px; transition:transform .15s; }
+.home-find-howto[aria-expanded="true"] svg { transform:rotate(180deg); }
+.finder-btn-home[aria-expanded="true"] svg:last-child { transform:none; }
+
+.fee-date { white-space:nowrap; }
+.fee-table-fac { font-size:.7em; }
+.fee-table-fac th, .fee-table-fac td { padding:10px 2px; }
+.fee-table-fac thead th.col-pay { font-size:.95em; }

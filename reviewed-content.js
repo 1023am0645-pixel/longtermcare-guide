@@ -14,25 +14,29 @@
         { title: '2. 노인요양시설 내 치매전담실 급여비용(가형)', groups: [['', [["2등급", "96,950", "2,908,500", "581,700", "349,020", "232,680"], ["3등급~<wbr>5등급", "89,400", "2,682,000", "536,400", "321,840", "214,560"]]]], notes: [] },
         { title: '3. 노인요양시설 내 치매전담실 급여비용(나형)', groups: [['', [["2등급", "90,160", "2,704,800", "540,960", "324,570", "216,380"], ["3등급~<wbr>5등급", "83,140", "2,494,200", "498,840", "299,300", "199,530"]]]], notes: [] }
     ];
-    const FEE_COLS = { g: [], m40: [['40%감경대상자', 1]], m60: [['60%감경대상자·기타의료급여 수급권자', 2]] };
-    const feeHeader = (lead, kind, groupLabel) => {
+    const FEE_COLS = { g: [], m40: [['40%감경대상자', 1]], m60: [['60%감경·기타의료급여', 2]] };
+    const feeHeader = (lead, kind) => {
         const sub = ['일반대상자'].concat(FEE_COLS[kind].map(c => c[0]));
-        return `<thead><tr>${lead.map(h => `<th rowspan="2" scope="col">${h}</th>`).join('')}<th colspan="${sub.length}" scope="colgroup">${groupLabel}</th></tr><tr>${sub.map(h => `<th scope="col">${h}</th>`).join('')}</tr></thead>`;
+        return `<thead><tr>${lead.map(h => `<th rowspan="2" scope="col" class="col-lead">${h}</th>`).join('')}<th colspan="${sub.length}" scope="colgroup" class="col-pay">본인부담금</th></tr><tr>${sub.map(h => `<th scope="col" class="col-pay">${h}</th>`).join('')}</tr></thead>`;
     };
-    const feeRow = cells => `<tr>${cells.map((x, i) => i ? `<td>${x}</td>` : `<th scope="row">${x}</th>`).join('')}</tr>`;
+    const feeRow = (cells, leadCount) => `<tr>${cells.map((x, i) => i === 0 ? `<th scope="row">${x}</th>` : `<td class="${i < leadCount ? 'col-sub' : 'col-pay'}">${x}</td>`).join('')}</tr>`;
     const feeNotes = notes => notes.length ? `<ul class="fee-notes">${notes.map(x => `<li>${x}</li>`).join('')}</ul>` : '';
-    const feeSource = (page, cat) => `<a class="fee-source" href="#page/${page}/category/${cat}">원문 ${page}쪽에서 보기<i data-lucide="chevron-right" aria-hidden="true"></i></a>`;
+    const feeSource = (page, cat) => `<a class="fee-source" href="#page/${page}/category/${cat}">원문 ${page}쪽 보기<i data-lucide="chevron-right" aria-hidden="true"></i></a>`;
     const homeFeePanel = kind => {
-        const rows = HOME_FEES.map(r => feeRow([r[0], r[1], r[2]].concat(FEE_COLS[kind].map(c => r[2 + c[1]]))));
-        return `<div class="fee-panel"><p class="fee-date">재가급여 월 한도액 · 본인부담금 <span>(2026. 1. 1. 기준)</span></p><div class="fee-scroll"><table class="fee-table">${feeHeader(['등급', '월 한도액(원)'], kind, '본인부담금')}<tbody>${rows.join('')}</tbody></table></div>${feeNotes(['※ 복지용구, 의사소견서 및 방문간호지시서 발급비용은 월 한도액에 포함되지 않음', '※ 하단의 재가급여 본인부담금은 1회(또는 1일) 이용 시 금액으로, 실제 본인부담금은 월별 이용금액을 합산한 후 본인부담 비율에 따라 정산되어 아래 금액과 차이가 발생할 수 있습니다.'])}${feeSource(11, 'copayment')}</div>`;
+        const rows = HOME_FEES.map(r => feeRow([r[0], r[1], r[2]].concat(FEE_COLS[kind].map(c => r[2 + c[1]])), 2));
+        return `<div class="fee-panel"><p class="fee-date">2026. 1. 1. 기준 · 단위: 원</p><div class="fee-scroll"><table class="fee-table">${feeHeader(['등급', '월 한도액'], kind)}<tbody>${rows.join('')}</tbody></table></div>${feeNotes(['※ 복지용구, 의사소견서 및 방문간호지시서 발급비용은 월 한도액에 포함되지 않음', '※ 하단의 재가급여 본인부담금은 1회(또는 1일) 이용 시 금액으로, 실제 본인부담금은 월별 이용금액을 합산한 후 본인부담 비율에 따라 정산되어 아래 금액과 차이가 발생할 수 있습니다.'])}${feeSource(11, 'copayment')}</div>`;
     };
-    const facFeePanel = kind => `<div class="fee-panel"><p class="fee-date">시설급여 급여비용 · 본인부담금 <span>(2026. 1. 1. 기준)</span></p>${FAC_FEES.map(t => {
-        const cols = 4 + FEE_COLS[kind].length;
-        const body = t.groups.map(g => (g[0] ? `<tr class="fee-group"><th colspan="${cols}" scope="colgroup">${g[0]}</th></tr>` : '') + g[1].map(r => feeRow([r[0], r[1], r[2], r[3]].concat(FEE_COLS[kind].map(c => r[3 + c[1]])))).join('')).join('');
-        return `<h3 class="fee-title">${t.title}</h3><div class="fee-scroll"><table class="fee-table">${feeHeader(['등급', '금액(1일당)', '월 금액(30일 기준)'], kind, '본인부담금(30일 기준)')}<tbody>${body}</tbody></table></div>${feeNotes(t.notes)}`;
-    }).join('')}${feeSource(16, 'copayment')}</div>`;
+    // 시설급여: 표 3개(원문 16쪽)를 5개 탭으로 나눠 한 번에 하나씩 보여줍니다.
+    const FAC_TABS = [
+        { tab: '요양시설 · 1명 이상', title: '노인요양시설 · 요양보호사 수 입소자 2.1명당 1명 이상', rows: FAC_FEES[0].groups[0][1], notes: FAC_FEES[0].notes },
+        { tab: '요양시설 · 1명 미만', title: '노인요양시설 · 요양보호사 수 입소자 2.1명당 1명 미만', rows: FAC_FEES[0].groups[1][1], notes: FAC_FEES[0].notes },
+        { tab: '공동생활가정', title: '노인요양공동생활가정', rows: FAC_FEES[0].groups[2][1], notes: FAC_FEES[0].notes },
+        { tab: '치매전담실 가형', title: '노인요양시설 내 치매전담실 급여비용(가형)', rows: FAC_FEES[1].groups[0][1], notes: [] },
+        { tab: '치매전담실 나형', title: '노인요양시설 내 치매전담실 급여비용(나형)', rows: FAC_FEES[2].groups[0][1], notes: [] }
+    ];
+    const facFeePanel = (kind, id) => `<div class="fee-panel"><p class="fee-date">2026. 1. 1. 기준 · 단위: 원</p><div class="fee-tabs" role="tablist" aria-label="시설 종류 선택">${FAC_TABS.map((t, i) => `<button type="button" role="tab" class="fee-tab" data-fee-tab="${id}-${i}" aria-selected="${i === 0}">${t.tab}</button>`).join('')}</div>${FAC_TABS.map((t, i) => `<div class="fee-pane" id="${id}-${i}" role="tabpanel"${i ? ' hidden' : ''}><p class="fee-title">${t.title}</p><div class="fee-scroll"><table class="fee-table fee-table-fac">${feeHeader(['등급', '1일당', '월(30일)'], kind)}<tbody>${t.rows.map(r => feeRow([r[0], r[1], r[2], r[3]].concat(FEE_COLS[kind].map(c => r[3 + c[1]])), 3)).join('')}</tbody></table></div>${feeNotes(t.notes)}</div>`).join('')}${feeSource(16, 'copayment')}</div>`;
     const rateToggle = (id, label, rate, panel) => `<button type="button" class="rate-toggle" data-rate-toggle aria-expanded="false" aria-controls="${id}"><span class="rate-label">${label}</span><strong>${rate}</strong><i data-lucide="chevron-down" aria-hidden="true"></i></button><div class="rate-panel" id="${id}" hidden>${panel}</div>`;
-    const rateCard = (title, kind, home, facility) => `<article class="review-rate"><h2>${title}</h2><div class="rate-rows">${rateToggle('rate-' + kind + '-home', '재가급여·복지용구', home, homeFeePanel(kind))}${rateToggle('rate-' + kind + '-fac', '시설급여', facility, facFeePanel(kind))}</div><p class="rate-hint">항목을 누르면 급여비용 표가 펼쳐집니다</p></article>`;
+    const rateCard = (title, kind, home, facility) => `<article class="review-rate"><h2>${title}</h2><div class="rate-rows">${rateToggle('rate-' + kind + '-home', '재가급여·복지용구', home, homeFeePanel(kind))}${rateToggle('rate-' + kind + '-fac', '시설급여', facility, facFeePanel(kind, 'fee-' + kind))}</div><p class="rate-hint">항목을 누르면 급여비용 표가 펼쳐집니다</p></article>`;
     window.LONGCARE_REVIEWED = {
         'benefit-types': {
             title: '장기요양급여 종류', pages: [5,6],
@@ -44,7 +48,7 @@
         },
         institution: {
             title: '장기요양기관 선택', pages: [10,31],
-            html: `<div class="review-tiles">${tile('search-check','1. 장기요양기관 선택','평가 결과를 활용하여 서비스 질이 우수한 기관을 선택합니다.')}<div class="institution-actions"><a class="finder-btn" data-finder href="#" target="_blank" rel="noopener"><i data-lucide="map-pin" aria-hidden="true"></i><span>장기요양 기관찾기</span><i data-lucide="external-link" aria-hidden="true"></i></a><button type="button" class="finder-btn finder-btn-home" data-toggle-target="homeFind" aria-expanded="false" aria-controls="homeFind"><span class="finder-emoji" aria-hidden="true">🌐</span><span>홈페이지에서 기관 찾기</span><i data-lucide="chevron-down" aria-hidden="true"></i></button><div class="home-find-panel" id="homeFind" hidden>${steps(['노인장기요양보험 홈페이지(www.longtermcare.or.kr)','민원서비스','검색서비스','장기요양기관 찾기'])}<p>지역별·급여종류별·기관 명칭별 검색 및 평가 결과 확인이 가능합니다.</p></div></div><article class="review-tile review-tile-list"><span class="review-tile-icon icon3d"><img src="icons3d/contract.webp" alt="" width="192" height="192" loading="lazy"></span><h2>2. 급여계약 체결</h2>${list(['<strong>필수서류</strong>: 장기요양인정서·개인별장기요양이용계획서 등을 준비합니다.','<strong>의료급여 수급권자</strong>: 관할 시·군·구에 입소·이용 신청·승인 후 계약합니다.','<strong>필수 확인사항</strong>: 계약서 내용을 꼼꼼히 확인하고 2부 작성해 각각 1부씩 보관합니다.'])}</article>${tile('heart-handshake','3. 장기요양급여 이용','급여제공계획서에 따라 이용하며, 기관으로부터 장기요양급여 제공기록지를 제공받으시기 바랍니다.')}</div>`
+            html: `<div class="review-tiles">${tile('search-check','1. 장기요양기관 선택','평가 결과를 활용하여 서비스 질이 우수한 기관을 선택합니다.')}<div class="institution-actions"><a class="finder-btn" data-finder href="#" target="_blank" rel="noopener"><i data-lucide="map-pin" aria-hidden="true"></i><span>장기요양 기관찾기</span><i data-lucide="external-link" aria-hidden="true"></i></a><a class="finder-btn finder-btn-home" href="https://www.longtermcare.or.kr/npbs/r/a/201/selectLtcoSrch.web?menuId=npe0000000650" target="_blank" rel="noopener noreferrer"><span class="finder-emoji" aria-hidden="true">🌐</span><span>홈페이지에서 기관 찾기</span><i data-lucide="external-link" aria-hidden="true"></i></a><button type="button" class="home-find-howto" data-toggle-target="homeFind" aria-expanded="false" aria-controls="homeFind"><span>접속 방법 보기</span><i data-lucide="chevron-down" aria-hidden="true"></i></button><div class="home-find-panel" id="homeFind" hidden>${steps(['노인장기요양보험 홈페이지(www.longtermcare.or.kr)','민원서비스','검색서비스','장기요양기관 찾기'])}<p>지역별·급여종류별·기관 명칭별 검색 및 평가 결과 확인이 가능합니다.</p></div></div><article class="review-tile review-tile-list"><span class="review-tile-icon icon3d"><img src="icons3d/contract.webp" alt="" width="192" height="192" loading="lazy"></span><h2>2. 급여계약 체결</h2>${list(['<strong>필수서류</strong>: 장기요양인정서·개인별장기요양이용계획서 등을 준비합니다.','<strong>의료급여 수급권자</strong>: 관할 시·군·구에 입소·이용 신청·승인 후 계약합니다.','<strong>필수 확인사항</strong>: 계약서 내용을 꼼꼼히 확인하고 2부 작성해 각각 1부씩 보관합니다.'])}</article>${tile('heart-handshake','3. 장기요양급여 이용','급여제공계획서에 따라 이용하며, 기관으로부터 장기요양급여 제공기록지를 제공받으시기 바랍니다.')}</div>`
         },
         contract: {
             title: '급여계약 절차', pages: [10,31],
