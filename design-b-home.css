@@ -647,3 +647,24 @@ body.modal-open { overflow:hidden; }
 .fee-table-fac { font-size:.7em; }
 .fee-table-fac th, .fee-table-fac td { padding:10px 2px; }
 .fee-table-fac thead th.col-pay { font-size:.95em; }
+
+/* ---------- 본인부담금 칸 빨간 테두리 (수급자가 직접 부담하는 금액) ---------- */
+.fee-table { border-collapse:collapse; }
+.fee-table thead tr:first-child th.col-pay { border-top:2px solid #e03131; border-left:2px solid #e03131; border-right:2px solid #e03131; }
+.fee-table thead tr:nth-child(2) th.col-pay:first-child { border-left:2px solid #e03131; }
+.fee-table thead tr:nth-child(2) th.col-pay:last-child { border-right:2px solid #e03131; }
+.fee-table td.col-sub + td.col-pay { border-left:2px solid #e03131; }
+.fee-table td.col-pay:last-child { border-right:2px solid #e03131; }
+.fee-table tbody tr:last-child td.col-pay { border-bottom:2px solid #e03131; }
+
+/* ---------- 이전/다음 목차: 다음 버튼 강조 ---------- */
+.pager-link.pager-next { background:linear-gradient(135deg,#4b82f0,var(--ui-blue)); border-color:transparent; color:#fff; box-shadow:0 8px 18px rgba(47,102,224,.3); justify-content:flex-end; text-align:right; }
+.pager-link.pager-next small { color:rgba(255,255,255,.85); }
+.pager-link.pager-next strong { color:#fff; }
+.pager-link.pager-prev { min-height:68px; }
+.category-pager { margin-bottom:20px; }
+
+/* ---------- 맨 위로 ---------- */
+.to-top { position:fixed; right:max(16px, calc(50% - var(--app-max, 560px)/2 + 16px)); bottom:104px; z-index:30; display:none; width:48px; height:48px; border:1px solid #cfe0fb; border-radius:50%; background:#fff; color:var(--ui-blue-deep); box-shadow:0 6px 16px rgba(30,60,110,.18); cursor:pointer; place-items:center; }
+.to-top.show { display:grid; }
+.to-top svg { width:22px; height:22px; }

@@ -1491,6 +1491,20 @@ document.addEventListener('DOMContentLoaded', () => {
         route();
     });
 
+    (function () {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'to-top';
+        button.setAttribute('aria-label', '맨 위로');
+        button.innerHTML = '<i data-lucide="arrow-up" aria-hidden="true"></i>';
+        button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        document.body.appendChild(button);
+        if (window.lucide) lucide.createIcons();
+        const update = () => button.classList.toggle('show', window.scrollY > 700 && document.body.dataset.route !== 'home');
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('hashchange', () => setTimeout(update, 50));
+    })();
+
     setFont(localStorage.getItem('longcare-font-size') || 'large');
     route();
 });
