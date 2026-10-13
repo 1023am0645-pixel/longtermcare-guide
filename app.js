@@ -1388,6 +1388,82 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.lucide) lucide.createIcons();
     }
 
+    function renderSettings() {
+        setActiveNav('settings');
+        app.innerHTML = `
+            <div class="guide-settings">
+                <header class="guide-settings-head">
+                    <span class="guide-settings-icon"><i data-lucide="settings-2" aria-hidden="true"></i></span>
+                    <div><h1>설정</h1><p>앱 업데이트와 이용 불편 신고</p></div>
+                </header>
+
+                <section class="guide-settings-section" aria-labelledby="guide-updates-title">
+                    <div class="guide-settings-section-head">
+                        <i data-lucide="history" aria-hidden="true"></i>
+                        <h2 id="guide-updates-title">앱 업데이트 내역</h2>
+                    </div>
+                    <p class="guide-settings-current">최근 업데이트 <strong>${APP_CONFIG.updatedAt}</strong></p>
+                    <details class="guide-update-history" open>
+                        <summary>변경 사항 보기 <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
+                        <ol>
+                            <li><time datetime="2026-10-13">2026. 10. 13.</time><strong>설정·불편 신고</strong><p>업데이트 내역과 앱 사용 중 불편 신고 화면을 추가했습니다.</p></li>
+                            <li><time datetime="2026-10-07">2026. 10. 7.</time><strong>검색·표 개선</strong><p>검색 유의어를 확대하고 본인부담금 표 표시를 개선했습니다.</p></li>
+                            <li><time datetime="2026-10-06">2026. 10. 6.</time><strong>검색·이동 개선</strong><p>검색 결과 안내와 화면 이동 기능을 개선했습니다.</p></li>
+                        </ol>
+                    </details>
+                </section>
+
+                <section class="guide-settings-section" aria-labelledby="guide-report-title">
+                    <div class="guide-settings-section-head">
+                        <i data-lucide="message-square-warning" aria-hidden="true"></i>
+                        <h2 id="guide-report-title">앱 사용 불편 신고</h2>
+                    </div>
+                    <p class="guide-report-intro">검색 오류나 화면 작동 문제 등 앱을 사용하며 불편했던 점을 알려주세요.</p>
+                    <form id="guide-report-form" class="guide-report-form">
+                        <label for="guide-report-type">불편 유형</label>
+                        <select id="guide-report-type" name="type" required>
+                            <option value="검색 오류">검색 오류</option>
+                            <option value="화면·버튼 오류">화면·버튼 오류</option>
+                            <option value="내용 표시 오류">내용 표시 오류</option>
+                            <option value="기타 불편">기타 불편</option>
+                        </select>
+                        <label for="guide-report-message">발생한 상황</label>
+                        <textarea id="guide-report-message" name="message" rows="5" maxlength="1500" required placeholder="어느 화면에서 어떤 문제가 생겼는지 적어주세요."></textarea>
+                        <p class="guide-report-privacy">주민등록번호·건강정보 등 개인정보는 입력하지 마세요.</p>
+                        <button class="guide-report-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 메일 앱에서 신고하기</button>
+                    </form>
+                    <p class="guide-report-note">메일 앱이 열리면 내용을 확인하고 직접 보내주세요. 이 화면에서 자동 접수되지는 않습니다.</p>
+                    <div class="guide-report-address">
+                        <span>신고 메일 <strong>am0645@nhis.or.kr</strong></span>
+                        <button id="guide-copy-email" type="button"><i data-lucide="copy" aria-hidden="true"></i> 주소 복사</button>
+                    </div>
+                    <p id="guide-report-status" class="guide-report-status" role="status" aria-live="polite"></p>
+                </section>
+            </div>
+        `;
+        app.querySelector('#guide-report-form').addEventListener('submit', event => {
+            event.preventDefault();
+            const type = app.querySelector('#guide-report-type').value;
+            const message = app.querySelector('#guide-report-message').value.trim();
+            const status = app.querySelector('#guide-report-status');
+            if (!message) { status.textContent = '발생한 상황을 입력해 주세요.'; return; }
+            const subject = `[장기요양급여 이용 안내] 앱 사용 불편 신고 - ${type}`;
+            const body = `불편 유형: ${type}\n\n발생한 상황:\n${message}`;
+            status.textContent = '메일 앱에서 내용을 확인하고 직접 보내주세요.';
+            window.location.href = `mailto:am0645@nhis.or.kr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        });
+        app.querySelector('#guide-copy-email').addEventListener('click', async () => {
+            const status = app.querySelector('#guide-report-status');
+            try {
+                await navigator.clipboard.writeText('am0645@nhis.or.kr');
+                status.textContent = '메일 주소를 복사했습니다.';
+            } catch {
+                status.textContent = '복사할 수 없습니다. am0645@nhis.or.kr을 직접 입력해 주세요.';
+            }
+        });
+        focusMain();
+    }
+
     function route() {
         const hash = (window.location.hash || '#home').split('?')[0];
         if (searchInput.value.trim()) {
@@ -1395,7 +1471,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (window.LONGCARE_REVIEWED && hash === '#search') {
+        if (hash === '#settings') {
+            renderSettings();
+        } else if (window.LONGCARE_REVIEWED && hash === '#search') {
             const query = new URLSearchParams(location.hash.split('?')[1] || '').get('q') || '';
             if (query) { searchInput.value = query; renderSearch(query); } else renderHome();
         } else if (hash.startsWith('#guide/')) {

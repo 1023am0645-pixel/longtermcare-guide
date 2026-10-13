@@ -1,0 +1,68 @@
+.app-shell #app .guide-settings {
+    max-width: 720px;
+    margin: 0 auto;
+    color: var(--ui-ink, #1f2c40);
+}
+
+.guide-settings-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 26px;
+}
+
+.guide-settings-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: #e9f1ff;
+    color: #2563eb;
+}
+
+.guide-settings-icon svg { width: 27px; height: 27px; }
+.guide-settings-head h1 { margin: 0; font-size: 1.6em; line-height: 1.2; }
+.guide-settings-head p { margin: 4px 0 0; color: #5c6b7f; font-size: .88em; }
+.guide-settings-section { padding: 24px 0 30px; border-top: 1px solid #d9e3ef; }
+.guide-settings-section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.guide-settings-section-head > svg { width: 23px; height: 23px; color: #2563eb; flex: none; }
+.guide-settings-section-head h2 { margin: 0; font-size: 1.17em; line-height: 1.3; }
+.guide-settings-current { display: flex; justify-content: space-between; gap: 12px; margin: 0 0 16px; color: #56677e; }
+.guide-settings-current strong { color: #2458be; white-space: nowrap; }
+
+.guide-update-history { border: 1px solid #d6e2f2; border-radius: 8px; background: #fff; }
+.guide-update-history summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; color: #2458be; font-weight: 750; cursor: pointer; list-style: none; }
+.guide-update-history summary::-webkit-details-marker { display: none; }
+.guide-update-history summary svg { width: 19px; height: 19px; }
+.guide-update-history[open] summary { border-bottom: 1px solid #e3eaf3; }
+.guide-update-history[open] summary svg { transform: rotate(180deg); }
+.guide-update-history ol { margin: 0; padding: 0 16px; list-style: none; }
+.guide-update-history li { padding: 16px 0; }
+.guide-update-history li + li { border-top: 1px solid #e6ecf5; }
+.guide-update-history time { display: block; color: #2458be; font-size: .82em; font-weight: 750; }
+.guide-update-history strong { display: block; margin-top: 3px; }
+.guide-update-history p { margin: 4px 0 0; color: #4e5f75; line-height: 1.5; }
+
+.guide-report-intro { margin: 0 0 18px; color: #46566c; line-height: 1.55; }
+.guide-report-form { display: grid; gap: 9px; }
+.guide-report-form label { margin-top: 7px; font-weight: 750; }
+.guide-report-form select, .guide-report-form textarea { width: 100%; min-width: 0; padding: 12px 14px; border: 1px solid #bfcfe2; border-radius: 8px; background: #fff; color: #1f2c40; font: inherit; }
+.guide-report-form textarea { resize: vertical; }
+.guide-report-form :is(select, textarea):focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+.guide-report-privacy { margin: 0; color: #946018; font-size: .82em; }
+.guide-report-submit { display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 52px; margin-top: 10px; padding: 12px 16px; border: 0; border-radius: 8px; background: #2563eb; color: #fff; font: inherit; font-weight: 750; cursor: pointer; }
+.guide-report-submit svg { width: 19px; height: 19px; }
+.guide-report-submit:hover, .guide-report-submit:focus-visible { background: #1d4ed8; }
+.guide-report-note { margin: 12px 0 0; color: #5c6b7f; font-size: .82em; line-height: 1.5; }
+.guide-report-address { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #d9e3ef; overflow-wrap: anywhere; }
+.guide-report-address span { color: #5c6b7f; }
+.guide-report-address strong { color: #1f2c40; }
+.guide-report-address button { display: inline-flex; align-items: center; gap: 6px; padding: 7px 0; border: 0; background: transparent; color: #2458be; font: inherit; font-weight: 750; cursor: pointer; }
+.guide-report-address button svg { width: 17px; height: 17px; }
+.guide-report-status { min-height: 1.5em; margin: 8px 0 0; color: #2458be; font-size: .86em; }
+
+@media (max-width: 390px) {
+    .app-shell .bottom-nav .nav-icon { width: 44px; }
+    .app-shell .bottom-nav .nav-link, .app-shell .bottom-nav .nav-link span { font-size: 12px !important; }
+}
