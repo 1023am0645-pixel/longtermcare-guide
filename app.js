@@ -1393,8 +1393,8 @@ document.addEventListener('DOMContentLoaded', () => {
         app.innerHTML = `
             <div class="guide-settings">
                 <header class="guide-settings-head">
-                    <span class="guide-settings-icon"><i data-lucide="settings-2" aria-hidden="true"></i></span>
-                    <div><h1>설정</h1><p>앱 업데이트와 이용 불편 신고</p></div>
+                    <span class="guide-settings-icon"><i data-lucide="message-square-text" aria-hidden="true"></i></span>
+                    <div><h1>고객의 소리</h1><p>앱을 사용하며 불편했던 점을 알려주세요</p></div>
                 </header>
 
                 <section class="guide-settings-section" aria-labelledby="guide-updates-title">
