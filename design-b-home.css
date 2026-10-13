@@ -694,3 +694,9 @@ body.modal-open { overflow:hidden; }
 .fee-table-fac td.col-sub:has(+ td.col-pay) { padding-right:10px; }
 .fee-table-fac td.col-sub + td.col-pay, .fee-table-fac thead tr:nth-child(2) th.col-pay:first-child { padding-left:7px; }
 .fee-table-fac td.col-pay:last-child, .fee-table-fac thead tr:nth-child(2) th.col-pay:last-child { padding-right:6px; }
+
+@media (max-width:430px) {
+  .fee-table-fac { width:100%; table-layout:fixed; font-size:.58em; }
+  .fee-table-fac th, .fee-table-fac td { padding-left:1px; padding-right:1px; }
+  .fee-table-fac tbody th, .fee-table-fac tbody td { white-space:nowrap; overflow-wrap:normal; }
+}
