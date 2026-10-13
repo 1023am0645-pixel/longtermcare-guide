@@ -1406,7 +1406,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <details class="guide-update-history" open>
                         <summary>변경 사항 보기 <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
                         <ol>
-                            <li><time datetime="2026-10-13">2026. 10. 13.</time><strong>설정·불편 신고</strong><p>업데이트 내역과 앱 사용 중 불편 신고 화면을 추가했습니다.</p></li>
+                            <li><time datetime="2026-10-14">2026. 10. 14.</time><strong>불편 신고 자동 접수</strong><p>메일 앱을 거치지 않고 앱에서 바로 불편사항을 접수할 수 있도록 개선했습니다.</p></li>
+                            <li><time datetime="2026-10-13">2026. 10. 13.</time><strong>고객의 소리 추가</strong><p>업데이트 내역과 앱 사용 중 불편 신고 화면을 추가했습니다.</p></li>
                             <li><time datetime="2026-10-07">2026. 10. 7.</time><strong>검색·표 개선</strong><p>검색 유의어를 확대하고 본인부담금 표 표시를 개선했습니다.</p></li>
                             <li><time datetime="2026-10-06">2026. 10. 6.</time><strong>검색·이동 개선</strong><p>검색 결과 안내와 화면 이동 기능을 개선했습니다.</p></li>
                         </ol>
@@ -1428,29 +1429,47 @@ document.addEventListener('DOMContentLoaded', () => {
                             <option value="기타 불편">기타 불편</option>
                         </select>
                         <label for="guide-report-message">발생한 상황</label>
-                        <textarea id="guide-report-message" name="message" rows="5" maxlength="1500" required placeholder="어느 화면에서 어떤 문제가 생겼는지 적어주세요."></textarea>
-                        <p class="guide-report-privacy">주민등록번호·건강정보 등 개인정보는 입력하지 마세요.</p>
-                        <button class="guide-report-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 메일 앱에서 신고하기</button>
+                        <textarea id="guide-report-message" name="message" rows="5" minlength="5" maxlength="1500" required placeholder="어느 화면에서 어떤 문제가 생겼는지 적어주세요."></textarea>
+                        <p class="guide-report-privacy">이메일·전화번호·주민등록번호·건강정보 등 개인정보는 입력하지 마세요.</p>
+                        <button class="guide-report-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 의견 접수하기</button>
                     </form>
-                    <p class="guide-report-note">메일 앱이 열리면 내용을 확인하고 직접 보내주세요. 이 화면에서 자동 접수되지는 않습니다.</p>
+                    <p class="guide-report-note">접수가 완료되면 화면에 접수번호가 표시됩니다.</p>
                     <div class="guide-report-address">
-                        <span>신고 메일 <strong>am0645@nhis.or.kr</strong></span>
+                        <span>자동 접수 오류 시 <strong>am0645@nhis.or.kr</strong></span>
                         <button id="guide-copy-email" type="button"><i data-lucide="copy" aria-hidden="true"></i> 주소 복사</button>
                     </div>
                     <p id="guide-report-status" class="guide-report-status" role="status" aria-live="polite"></p>
                 </section>
             </div>
         `;
-        app.querySelector('#guide-report-form').addEventListener('submit', event => {
+        app.querySelector('#guide-report-form').addEventListener('submit', async event => {
             event.preventDefault();
+            const form = event.currentTarget;
             const type = app.querySelector('#guide-report-type').value;
             const message = app.querySelector('#guide-report-message').value.trim();
             const status = app.querySelector('#guide-report-status');
-            if (!message) { status.textContent = '발생한 상황을 입력해 주세요.'; return; }
-            const subject = `[장기요양급여 이용 안내] 앱 사용 불편 신고 - ${type}`;
-            const body = `불편 유형: ${type}\n\n발생한 상황:\n${message}`;
-            status.textContent = '메일 앱에서 내용을 확인하고 직접 보내주세요.';
-            window.location.href = `mailto:am0645@nhis.or.kr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const submit = form.querySelector('.guide-report-submit');
+            if (message.length < 5) { status.textContent = '발생한 상황을 5자 이상 입력해 주세요.'; return; }
+            submit.disabled = true;
+            submit.innerHTML = '<span class="guide-report-spinner" aria-hidden="true"></span> 접수 중';
+            status.textContent = '의견을 접수하고 있습니다.';
+            try {
+                const response = await fetch('https://longtermcare-guide-feedback.jazzy-cocoa-4972.chatgpt.site/api/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type, content: message })
+                });
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(result.message || '접수 중 오류가 발생했습니다.');
+                status.textContent = result.message || `의견이 접수되었습니다. 접수번호는 ${result.receiptId}번입니다.`;
+                form.reset();
+            } catch (error) {
+                status.textContent = `${error.message || '접수 중 오류가 발생했습니다.'} 잠시 후 다시 시도하거나 신고 메일을 이용해 주세요.`;
+            } finally {
+                submit.disabled = false;
+                submit.innerHTML = '<i data-lucide="send" aria-hidden="true"></i> 의견 접수하기';
+                if (window.lucide) lucide.createIcons();
+            }
         });
         app.querySelector('#guide-copy-email').addEventListener('click', async () => {
             const status = app.querySelector('#guide-report-status');
