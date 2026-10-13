@@ -62,6 +62,8 @@
 .guide-report-address button svg { width: 17px; height: 17px; }
 .guide-report-status { min-height: 1.5em; margin: 8px 0 0; color: #2458be; font-size: .86em; }
 
+.app-shell .bottom-nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
 @media (max-width: 390px) {
     .app-shell .bottom-nav .nav-icon { width: 44px; }
     .app-shell .bottom-nav .nav-link, .app-shell .bottom-nav .nav-link span { font-size: 12px !important; }
