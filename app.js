@@ -1460,11 +1460,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ type, content: message })
                 });
                 const result = await response.json().catch(() => ({}));
-                if (!response.ok) throw new Error(result.message || '접수 중 오류가 발생했습니다.');
+                if (!response.ok) {
+                    status.textContent = result.message || '접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
+                    return;
+                }
                 status.textContent = result.message || `의견이 접수되었습니다. 접수번호는 ${result.receiptId}번입니다.`;
                 form.reset();
-            } catch (error) {
-                status.textContent = `${error.message || '접수 중 오류가 발생했습니다.'} 잠시 후 다시 시도하거나 신고 메일을 이용해 주세요.`;
+            } catch {
+                status.textContent = '접수 서버에 연결할 수 없습니다. 잠시 후 다시 시도하거나 신고 메일을 이용해 주세요.';
             } finally {
                 submit.disabled = false;
                 submit.innerHTML = '<i data-lucide="send" aria-hidden="true"></i> 의견 접수하기';
