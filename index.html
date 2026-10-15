@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="장기요양 이용 안내">
     <title>장기요양급여 이용 안내</title>
 
+    <link rel="manifest" href="manifest.webmanifest?v=20261015">
     <link rel="stylesheet" href="fonts/pretendard-subset.css">
     <script src="assets/vendor/lucide.min.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -32,13 +36,17 @@
             <a class="header-search" href="#home?search" aria-label="검색하기"><i data-lucide="search" aria-hidden="true"></i><span>검색</span></a>
         </header>
 
-        <div class="font-bar" role="group" aria-label="글씨 크기 조절">
+        <div class="font-bar" role="group" aria-label="화면 보기 설정">
             <span class="font-bar-label">글씨 크기</span>
             <div class="font-controls">
                 <button class="font-button" type="button" data-font="base" aria-pressed="false">보통</button>
                 <button class="font-button" type="button" data-font="large" aria-pressed="true">크게</button>
                 <button class="font-button" type="button" data-font="xlarge" aria-pressed="false">아주 크게</button>
             </div>
+            <button id="fullscreenToggle" class="fullscreen-toggle" type="button" aria-label="전체화면으로 보기" aria-pressed="false" title="전체화면으로 보기">
+                <i data-lucide="maximize-2" aria-hidden="true"></i>
+                <span class="sr-only">전체화면</span>
+            </button>
         </div>
 
         <div class="search-band">
@@ -81,6 +89,6 @@
     <script src="reviewed-content.js?v=20261015"></script>
     <script src="search-aliases.js"></script>
     <script src="app-config.js?v=20261015"></script>
-    <script src="app.js?v=20261015"></script>
+    <script src="app.js?v=20261015-2"></script>
 </body>
 </html>

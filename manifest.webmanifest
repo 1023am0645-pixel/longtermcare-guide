@@ -1,0 +1,19 @@
+{
+  "name": "장기요양급여 이용 안내",
+  "short_name": "장기요양 안내",
+  "description": "장기요양 수급자와 보호자를 위한 장기요양급여 이용 안내",
+  "lang": "ko-KR",
+  "start_url": "./#home",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fb",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "nhis-symbol.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

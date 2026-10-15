@@ -14,6 +14,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const app = document.getElementById('app');
     const searchInput = document.getElementById('searchInput');
+    const fullscreenToggle = document.getElementById('fullscreenToggle');
+
+    let noticeTimer;
+    function showAppNotice(message) {
+        let notice = document.getElementById('appNotice');
+        if (!notice) {
+            notice = document.createElement('div');
+            notice.id = 'appNotice';
+            notice.className = 'app-notice';
+            notice.setAttribute('role', 'status');
+            notice.setAttribute('aria-live', 'polite');
+            document.body.appendChild(notice);
+        }
+        notice.textContent = message;
+        notice.classList.add('show');
+        clearTimeout(noticeTimer);
+        noticeTimer = setTimeout(() => notice.classList.remove('show'), 4200);
+    }
+
+    const currentFullscreenElement = () => document.fullscreenElement || document.webkitFullscreenElement;
+    const installedMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    const requestFullscreen = document.documentElement.requestFullscreen?.bind(document.documentElement)
+        || document.documentElement.webkitRequestFullscreen?.bind(document.documentElement);
+    const exitFullscreen = document.exitFullscreen?.bind(document)
+        || document.webkitExitFullscreen?.bind(document);
+
+    function updateFullscreenButton() {
+        if (!fullscreenToggle) return;
+        const active = !!currentFullscreenElement();
+        fullscreenToggle.classList.toggle('active', active);
+        fullscreenToggle.setAttribute('aria-pressed', String(active));
+        fullscreenToggle.setAttribute('aria-label', active ? '전체화면 종료' : '전체화면으로 보기');
+        fullscreenToggle.title = active ? '전체화면 종료' : '전체화면으로 보기';
+        fullscreenToggle.innerHTML = `<i data-lucide="${active ? 'minimize-2' : 'maximize-2'}" aria-hidden="true"></i><span class="sr-only">${active ? '전체화면 종료' : '전체화면'}</span>`;
+        if (window.lucide) lucide.createIcons();
+    }
+
+    if (fullscreenToggle) {
+        if (installedMode) {
+            fullscreenToggle.hidden = true;
+        } else {
+            fullscreenToggle.addEventListener('click', async () => {
+                try {
+                    if (currentFullscreenElement()) {
+                        if (exitFullscreen) await exitFullscreen();
+                    } else if (requestFullscreen) {
+                        await requestFullscreen();
+                    } else {
+                        showAppNotice('이 브라우저에서는 홈 화면에 추가한 뒤 앱처럼 전체화면으로 이용할 수 있습니다.');
+                    }
+                } catch {
+                    showAppNotice('전체화면을 시작할 수 없습니다. 브라우저 메뉴에서 홈 화면에 추가해 주세요.');
+                }
+            });
+            document.addEventListener('fullscreenchange', updateFullscreenButton);
+            document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+            updateFullscreenButton();
+        }
+    }
 
     function pageImage(page) {
         return `${BOOK_BASE}/page-${page}.jpg`;
@@ -1394,15 +1453,15 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="guide-settings">
                 <header class="guide-settings-head">
                     <span class="guide-settings-icon"><i data-lucide="message-square-text" aria-hidden="true"></i></span>
-                    <div><h1>고객의 소리</h1><p>앱을 사용하며 불편했던 점을 알려주세요</p></div>
+                    <div><h1>고객의 소리</h1></div>
                 </header>
 
                 <section class="guide-settings-section" aria-labelledby="guide-report-title">
                     <div class="guide-settings-section-head">
                         <i data-lucide="message-square-warning" aria-hidden="true"></i>
-                        <h2 id="guide-report-title">앱 사용 불편 신고</h2>
+                        <h2 id="guide-report-title">불편 신고 접수</h2>
                     </div>
-                    <p class="guide-report-intro">검색 오류나 화면 작동 문제 등 앱을 사용하며 불편했던 점을 알려주세요.</p>
+                    <p class="guide-report-intro">문제가 발생한 화면과 상황을 적어주세요.</p>
                     <form id="guide-report-form" class="guide-report-form">
                         <label for="guide-report-type">불편 유형</label>
                         <select id="guide-report-type" name="type" required>
@@ -1433,7 +1492,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <details class="guide-update-history">
                         <summary>변경 사항 보기 <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
                         <ol>
-                            <li><time datetime="2026-10-15">2026. 10. 15.</time><strong>화면 이용 편의 개선</strong><p>고객의 소리 화면을 정리하고 급여비용계산기 연결을 추가했습니다.</p></li>
+                            <li><time datetime="2026-10-15">2026. 10. 15.</time><strong>화면 이용 편의 개선</strong><p>고객의 소리 화면을 정리하고 전체화면 및 급여비용계산기 기능을 추가했습니다.</p></li>
                             <li><time datetime="2026-10-14">2026. 10. 14.</time><strong>불편 신고 자동 접수</strong><p>메일 앱을 거치지 않고 앱에서 바로 불편사항을 접수할 수 있도록 개선했습니다.</p></li>
                             <li><time datetime="2026-10-13">2026. 10. 13.</time><strong>고객의 소리 추가</strong><p>업데이트 내역과 앱 사용 중 불편 신고 화면을 추가했습니다.</p></li>
                             <li><time datetime="2026-10-07">2026. 10. 7.</time><strong>검색·표 개선</strong><p>검색 유의어를 확대하고 본인부담금 표 표시를 개선했습니다.</p></li>
