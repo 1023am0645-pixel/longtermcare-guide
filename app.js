@@ -33,6 +33,74 @@ document.addEventListener('DOMContentLoaded', () => {
         noticeTimer = setTimeout(() => notice.classList.remove('show'), 4200);
     }
 
+    const SHORTCUT_GUIDE_KEY = 'longcare-shortcut-guide-seen-v1';
+    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isMobileDevice = isIos || isAndroid;
+
+    function shortcutGuideSteps() {
+        if (isIos) {
+            return `
+                <li><span>1</span><p>Safari 아래쪽의 <strong>공유</strong> 버튼을 누르세요.</p></li>
+                <li><span>2</span><p><strong>홈 화면에 추가</strong>를 선택하세요.</p></li>
+                <li><span>3</span><p>오른쪽 위의 <strong>추가</strong>를 누르세요.</p></li>
+            `;
+        }
+        if (isAndroid) {
+            return `
+                <li><span>1</span><p>Chrome 오른쪽 위의 <strong>메뉴(⋮)</strong>를 누르세요.</p></li>
+                <li><span>2</span><p><strong>홈 화면에 추가</strong>를 선택하세요.</p></li>
+                <li><span>3</span><p>화면 안내에 따라 <strong>추가</strong>를 누르세요.</p></li>
+            `;
+        }
+        return `
+            <li><span>1</span><p>브라우저의 <strong>메뉴</strong> 또는 <strong>공유</strong> 버튼을 누르세요.</p></li>
+            <li><span>2</span><p><strong>홈 화면에 추가</strong>를 선택하세요.</p></li>
+        `;
+    }
+
+    function showShortcutGuide({ remember = true } = {}) {
+        if (document.getElementById('shortcutGuide')) return;
+        const guide = document.createElement('div');
+        guide.id = 'shortcutGuide';
+        guide.className = 'shortcut-guide-backdrop';
+        guide.innerHTML = `
+            <section class="shortcut-guide" role="dialog" aria-modal="true" aria-labelledby="shortcutGuideTitle" aria-describedby="shortcutGuideText">
+                <button class="shortcut-guide-close" type="button" aria-label="안내 닫기"><i data-lucide="x" aria-hidden="true"></i></button>
+                <span class="shortcut-guide-icon" aria-hidden="true"><i data-lucide="square-plus"></i></span>
+                <div class="shortcut-guide-copy">
+                    <small>더 빠르게 이용하는 방법</small>
+                    <h2 id="shortcutGuideTitle">홈 화면에 바로가기 추가</h2>
+                    <p id="shortcutGuideText">이 안내는 지금 바로 이용할 수 있어요. 홈 화면에 바로가기를 추가하면 다음부터 아이콘을 눌러 바로 열 수 있습니다.</p>
+                </div>
+                <ol class="shortcut-guide-steps">${shortcutGuideSteps()}</ol>
+                <button class="shortcut-guide-confirm" type="button">확인했어요</button>
+            </section>
+        `;
+        const close = () => {
+            if (remember) {
+                try { localStorage.setItem(SHORTCUT_GUIDE_KEY, '1'); } catch {}
+            }
+            guide.classList.remove('show');
+            setTimeout(() => guide.remove(), 180);
+        };
+        guide.querySelector('.shortcut-guide-close').addEventListener('click', close);
+        guide.querySelector('.shortcut-guide-confirm').addEventListener('click', close);
+        guide.addEventListener('click', event => { if (event.target === guide) close(); });
+        document.addEventListener('keydown', function onShortcutGuideKeydown(event) {
+            if (event.key !== 'Escape' || !guide.isConnected) return;
+            document.removeEventListener('keydown', onShortcutGuideKeydown);
+            close();
+        });
+        document.body.appendChild(guide);
+        if (window.lucide) lucide.createIcons();
+        requestAnimationFrame(() => {
+            guide.classList.add('show');
+            guide.querySelector('.shortcut-guide-close').focus();
+        });
+    }
+
     const currentFullscreenElement = () => document.fullscreenElement || document.webkitFullscreenElement;
     const installedMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     const requestFullscreen = document.documentElement.requestFullscreen?.bind(document.documentElement)
@@ -62,16 +130,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else if (requestFullscreen) {
                         await requestFullscreen();
                     } else {
-                        showAppNotice('이 브라우저에서는 홈 화면에 추가한 뒤 앱처럼 전체화면으로 이용할 수 있습니다.');
+                        showShortcutGuide({ remember: false });
                     }
                 } catch {
-                    showAppNotice('전체화면을 시작할 수 없습니다. 브라우저 메뉴에서 홈 화면에 추가해 주세요.');
+                    showShortcutGuide({ remember: false });
                 }
             });
             document.addEventListener('fullscreenchange', updateFullscreenButton);
             document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
             updateFullscreenButton();
         }
+    }
+
+    if (!installedMode && isMobileDevice) {
+        let hasSeenShortcutGuide = false;
+        try { hasSeenShortcutGuide = localStorage.getItem(SHORTCUT_GUIDE_KEY) === '1'; } catch {}
+        if (!hasSeenShortcutGuide) setTimeout(() => showShortcutGuide(), 900);
     }
 
     function pageImage(page) {
@@ -1492,7 +1566,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <details class="guide-update-history">
                         <summary>변경 사항 보기 <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
                         <ol>
-                            <li><time datetime="2026-10-15">2026. 10. 15.</time><strong>화면 이용 편의 개선</strong><p>고객의 소리 화면을 정리하고 전체화면 및 급여비용계산기 기능을 추가했습니다.</p></li>
+                            <li><time datetime="2026-10-15">2026. 10. 15.</time><strong>화면 이용 편의 개선</strong><p>홈 화면 바로가기 안내와 전체화면 기능을 추가하고 고객의 소리 화면 및 급여비용계산기 연결을 정리했습니다.</p></li>
                             <li><time datetime="2026-10-14">2026. 10. 14.</time><strong>불편 신고 자동 접수</strong><p>메일 앱을 거치지 않고 앱에서 바로 불편사항을 접수할 수 있도록 개선했습니다.</p></li>
                             <li><time datetime="2026-10-13">2026. 10. 13.</time><strong>고객의 소리 추가</strong><p>업데이트 내역과 앱 사용 중 불편 신고 화면을 추가했습니다.</p></li>
                             <li><time datetime="2026-10-07">2026. 10. 7.</time><strong>검색·표 개선</strong><p>검색 유의어를 확대하고 본인부담금 표 표시를 개선했습니다.</p></li>
