@@ -1,6 +1,6 @@
 .app-shell #app .guide-settings {
     max-width: 720px;
-    margin: 0 auto;
+    margin: 18px auto 0;
     color: var(--ui-ink, #1f2c40);
 }
 
@@ -25,6 +25,7 @@
 .guide-settings-head h1 { margin: 0; font-size: 1.6em; line-height: 1.2; }
 .guide-settings-head p { margin: 4px 0 0; color: #5c6b7f; font-size: .88em; }
 .guide-settings-section { padding: 24px 0 30px; border-top: 1px solid #d9e3ef; }
+.guide-updates-section { padding-bottom: 8px; }
 .guide-settings-section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .guide-settings-section-head > svg { width: 23px; height: 23px; color: #2563eb; flex: none; }
 .guide-settings-section-head h2 { margin: 0; font-size: 1.17em; line-height: 1.3; }
