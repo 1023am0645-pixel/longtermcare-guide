@@ -6,7 +6,7 @@
 //  bookBasis : 안내 책자 기준 시점.
 // =====================================================================
 window.APP_CONFIG = {
-    finderUrl: 'https://longtermcare-finder-yeon.jazzy-cocoa-4972.chatgpt.site',
+    finderUrl: 'https://ltc.jazzy-cocoa-4972.chatgpt.site/',
     finderName: '장기요양 기관찾기',
     updatedAt: '2026. 10. 15.',
     bookBasis: '2026. 1. 1.'
