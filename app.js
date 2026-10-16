@@ -10,6 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const SOURCE_URL = 'https://ligsystemup.kdtidc.com/e-book/2026%EC%9E%A5%EA%B8%B0%EC%9A%94%EC%96%91%EA%B8%89%EC%97%AC%EC%9D%B4%EC%9A%A9_ebook/index.html';
 
     const { categories, categoryDetails = {}, legacySectionMap, quickMenus, gradeResultGuide } = window.LONGCARE_CONTENT;
+    const categoryIconAssets = Object.fromEntries(categories.map(({ id }) => [id, `${id}-v2.png`]));
+    const quickIconAssets = {
+        documents: 'documents-v2.png',
+        'benefit-types': 'benefit-guide-v2.png',
+        institution: 'institution-v2.png',
+        copayment: 'copayment-v2.png'
+    };
+    const iconAsset = id => categoryIconAssets[id] || `${id}.webp`;
     const guideDetails = [gradeResultGuide].filter(Boolean);
 
     const app = document.getElementById('app');
@@ -289,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function categoryButton(category) {
         if (window.LONGCARE_REVIEWED) {
             return `<a class="category-button category-row ${category.color}" href="#category/${category.id}">
-                <span class="category-icon icon3d"><img src="icons3d/${category.id}.webp" alt="" width="192" height="192" loading="lazy"></span>
+                <span class="category-icon icon3d"><img src="icons3d/${iconAsset(category.id)}" alt="" width="192" height="192" loading="lazy"></span>
                 <span class="category-copy"><small class="category-no">${category.no}</small><strong>${category.title}</strong><span class="category-description">${category.subtitle}</span></span>
                 <i class="menu-arrow" data-lucide="chevron-right" aria-hidden="true"></i>
             </a>`;
@@ -307,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.LONGCARE_REVIEWED) {
             const id = item.href.replace('#category/', '');
             return `<a class="quick-menu ${item.tone}" href="${item.href}">
-                <span class="quick-icon icon3d"><img src="icons3d/${id}.webp" alt="" width="192" height="192"></span>
+                <span class="quick-icon icon3d"><img src="icons3d/${quickIconAssets[id] || iconAsset(id)}" alt="" width="192" height="192"></span>
                 <strong>${item.title}</strong>
                 <span class="quick-arrow"><i data-lucide="chevron-right" aria-hidden="true"></i></span>
             </a>`;
@@ -443,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function pageHead(id, titleHtml) {
         const c = findCategory(id);
-        return `<header class="page-head"><span class="page-head-icon icon3d"><img src="icons3d/${id}.webp" alt="" width="192" height="192"></span><div class="page-head-copy"><small>목차 ${c ? c.no : ''}</small><h1>${titleHtml}</h1></div></header>`;
+        return `<header class="page-head"><span class="page-head-icon icon3d"><img src="icons3d/${iconAsset(id)}" alt="" width="192" height="192"></span><div class="page-head-copy"><small>목차 ${c ? c.no : ''}</small><h1>${titleHtml}</h1></div></header>`;
     }
 
     // ---- 샘플 이미지 팝업 / 표 펼치기 ----
