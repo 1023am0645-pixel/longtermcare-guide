@@ -330,6 +330,34 @@ body:not([data-route="home"]) .app-shell .topbar { background:#fff; box-shadow:i
 .app-shell #app .review-service { padding:12px; }
 .app-shell #app .review-service img { border-radius:14px; background:#f6f8fb; }
 .app-shell #app .review-service h2 { font-weight:800; }
+
+/* 큰 글씨에서는 재가급여 그림을 카드 폭으로 보여주고 설명을 아래에 둔다. */
+:root[data-font="large"] .app-shell #app .review-service,
+:root[data-font="xlarge"] .app-shell #app .review-service {
+    display:block;
+    padding:14px;
+}
+:root[data-font="large"] .app-shell #app .review-service img,
+:root[data-font="xlarge"] .app-shell #app .review-service img {
+    width:100%;
+    height:auto;
+    aspect-ratio:5 / 4;
+    object-fit:cover;
+}
+:root[data-font="large"] .app-shell #app .review-service > div,
+:root[data-font="xlarge"] .app-shell #app .review-service > div {
+    padding:18px 4px 6px;
+}
+:root[data-font="large"] .app-shell #app .review-service h2,
+:root[data-font="xlarge"] .app-shell #app .review-service h2 {
+    margin:0 0 10px;
+    line-height:1.35;
+}
+:root[data-font="large"] .app-shell #app .review-service p,
+:root[data-font="xlarge"] .app-shell #app .review-service p {
+    margin:0;
+    line-height:1.7;
+}
 .app-shell #app .review-hero { border:0; border-radius:var(--ui-radius); box-shadow:var(--ui-shadow); }
 
 /* 알아두세요 박스 */
