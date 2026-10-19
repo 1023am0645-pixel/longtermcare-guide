@@ -522,13 +522,15 @@ body:not([data-route="home"]) .app-shell .topbar { background:#fff; box-shadow:i
 
 /* 4) 검색창은 홈·검색결과에만. 다른 화면은 머리말 오른쪽 '검색' 버튼 */
 body:not([data-route="home"]):not([data-route="search"]) .app-shell .search-band { display:none; }
+body.search-open .app-shell .search-band { display:block !important; }
 body:not([data-route="home"]):not([data-route="search"]) .font-bar { margin-bottom:6px; }
 .header-search { display:none; }
 body:not([data-route="home"]) .header-search {
     position:absolute; top:50%; right:10px; transform:translateY(-50%);
     display:inline-flex; align-items:center; gap:4px; min-height:44px; padding:0 14px 0 12px;
-    border-radius:999px; background:#f1f5fc; color:var(--ui-blue-deep); font-size:15px; font-weight:700; text-decoration:none;
+    border:0; border-radius:999px; background:#f1f5fc; color:var(--ui-blue-deep); font-family:inherit; font-size:15px; font-weight:700; text-decoration:none; cursor:pointer;
 }
+body.search-open .header-search { visibility:hidden; }
 .header-search svg { width:18px; height:18px; stroke-width:2.4; }
 body:not([data-route="home"]) .app-shell .topbar { position:relative; padding-right:100px; }
 

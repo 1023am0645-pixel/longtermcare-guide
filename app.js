@@ -22,7 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const app = document.getElementById('app');
     const searchInput = document.getElementById('searchInput');
+    const headerSearch = document.querySelector('.header-search');
     const fullscreenToggle = document.getElementById('fullscreenToggle');
+    let searchOriginHash = '';
 
     let noticeTimer;
     function showAppNotice(message) {
@@ -1689,17 +1691,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function restoreSearchOrigin() {
+        const target = searchOriginHash || '#home';
+        searchOriginHash = '';
+        document.body.classList.remove('search-open');
+        if (location.hash !== target) location.hash = target;
+        else route();
+        searchInput.blur();
+    }
+
+    headerSearch?.addEventListener('click', () => {
+        if (!document.body.classList.contains('search-open')) searchOriginHash = location.hash || '#home';
+        document.body.classList.add('search-open');
+        requestAnimationFrame(() => searchInput.focus({ preventScroll: true }));
+    });
+
     searchInput.addEventListener('input', event => {
-        if (window.LONGCARE_REVIEWED && !event.target.value.trim()) { window.location.hash = '#home'; renderHome(); return; }
+        if (window.LONGCARE_REVIEWED && !event.target.value.trim()) {
+            if (searchOriginHash) restoreSearchOrigin();
+            else { window.location.hash = '#home'; renderHome(); }
+            return;
+        }
         renderSearch(event.target.value);
     });
 
     searchInput.addEventListener('keydown', event => {
         if (event.key === 'Escape') {
             searchInput.value = '';
-            if (window.LONGCARE_REVIEWED && location.hash.startsWith('#search')) window.location.hash = '#home';
-            route();
-            searchInput.blur();
+            if (searchOriginHash) restoreSearchOrigin();
+            else {
+                if (window.LONGCARE_REVIEWED && location.hash.startsWith('#search')) window.location.hash = '#home';
+                route();
+                searchInput.blur();
+            }
         }
     });
 
@@ -1745,6 +1769,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('hashchange', () => {
         searchInput.value = '';
+        searchOriginHash = '';
+        document.body.classList.remove('search-open');
         route();
     });
 
