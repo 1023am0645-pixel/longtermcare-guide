@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const isMobileDevice = isIos || isAndroid;
 
     function shortcutGuideSteps() {
+        if (window.longcareInstallSteps) return window.longcareInstallSteps();
         if (isIos) {
             return `
                 <li><span>1</span><p>Safari 아래쪽의 <strong>공유</strong> 버튼을 누르세요.</p></li>
@@ -150,11 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (!installedMode && isMobileDevice) {
-        let hasSeenShortcutGuide = false;
-        try { hasSeenShortcutGuide = localStorage.getItem(SHORTCUT_GUIDE_KEY) === '1'; } catch {}
-        if (!hasSeenShortcutGuide) setTimeout(() => showShortcutGuide(), 900);
-    }
+    document.addEventListener('guide-install-help', () => showShortcutGuide({ remember: false }));
 
     function pageImage(page) {
         return `${BOOK_BASE}/page-${page}.jpg`;
