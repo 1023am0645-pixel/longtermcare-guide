@@ -1084,7 +1084,7 @@ window.LONGCARE_CONTENT = {
     usageProcessGuide: {
         id: 'usage-process',
         title: '장기요양급여 이용 절차',
-        description: '필수서류 수령부터 본인부담금 납부까지 전체 이용 흐름을 순서대로 확인합니다.',
+        description: '',
         badge: '이용 절차',
         color: 'green',
         flowTitle: '장기요양급여 이용 5단계',
@@ -1126,7 +1126,7 @@ window.LONGCARE_CONTENT = {
         checklist: [],
         faqs: [],
         caution: '',
-        sourcePages: [8, 9, 10, 11]
+        sourcePages: [2]
     },
 
     gradeResultGuide: {

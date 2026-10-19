@@ -1,0 +1,24 @@
+.app-shell #app .usage-process-view { display:block; min-width:0; }
+.usage-process-view .process-title { padding:14px 4px 22px; }
+.app-shell #app .process-title h1 { margin:0; font-size:calc(26px * var(--font-scale, 1)); line-height:1.4; word-break:keep-all; overflow-wrap:anywhere; letter-spacing:0; }
+.usage-process-view .process-step { --accent:#7764a8; --tint:#f4f0fa; display:block; min-width:0; border:1px solid #e2e9f3; border-radius:20px; background:#fff; margin:0 0 22px; box-shadow:0 2px 3px #10282803,0 8px 20px #2f66e00b; }
+.usage-process-view .process-step-head { padding:20px 20px 6px; display:grid; grid-template-columns:minmax(0,1fr) 124px; gap:8px; align-items:center; min-height:144px; }
+.usage-process-view .process-step-head > div { min-width:0; }
+.usage-process-view .process-number { display:inline-flex; background:var(--tint); color:var(--accent); border-radius:10px; padding:5px 10px; font-size:13px; font-weight:700; }
+.app-shell #app .process-step h2 { color:#1c2a3d; font-size:calc(22px * var(--font-scale, 1)); line-height:1.4; margin:10px 0 0; word-break:keep-all; overflow-wrap:anywhere; letter-spacing:0; }
+.usage-process-view .process-art { display:block; width:124px; height:124px; max-width:100%; object-fit:contain; border-radius:16px; }
+.usage-process-view .process-body { padding:14px 20px 20px; font-size:calc(17px * var(--font-scale, 1)); line-height:1.85; color:#4e5e71; overflow-wrap:anywhere; }
+.app-shell #app .process-body p { margin:0 0 16px; font-size:inherit; line-height:inherit; }
+.app-shell #app .process-body p:last-child { margin-bottom:0; }
+.usage-process-view .process-body strong { color:#293b51; }
+.usage-process-view .process-note { background:#f5f7fa; border-radius:12px; padding:13px 14px; margin-top:14px; line-height:1.75; color:#627083; font-size:calc(14px * var(--font-scale, 1)); }
+.usage-process-view .process-row { margin-top:10px; }
+.usage-process-view .process-label { display:block; font-weight:700; margin-bottom:2px; }
+.usage-process-view .process-action { display:flex; justify-content:space-between; align-items:center; gap:10px; margin:0 20px 20px; min-height:48px; padding:12px 14px; background:var(--tint); border-radius:12px; color:var(--accent); font-size:calc(15px * var(--font-scale, 1)); font-weight:700; text-decoration:none; }
+.usage-process-view .process-action span { font-size:24px; line-height:1; }
+.usage-process-view .process-source { display:block; text-align:center; padding:18px; color:#49627e; border:1px solid #dce3ed; border-radius:16px; background:white; text-decoration:none; font-size:calc(15px * var(--font-scale, 1)); }
+.usage-process-view a:focus-visible { outline:3px solid #326be6; outline-offset:3px; }
+:root[data-font="large"] .usage-process-view .process-step-head,
+:root[data-font="xlarge"] .usage-process-view .process-step-head { grid-template-columns:minmax(0,1fr); }
+:root[data-font="large"] .usage-process-view .process-art,
+:root[data-font="xlarge"] .usage-process-view .process-art { grid-row:1; justify-self:center; width:180px; height:180px; }
