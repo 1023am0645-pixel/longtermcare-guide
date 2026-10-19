@@ -7,11 +7,9 @@
     const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
     const renderHeaderButton = () => {
         if (!headerButton) return;
-        const shareMode = standalone();
-        headerButton.hidden = installedThisSession && !shareMode;
-        headerButton.dataset.mode = shareMode ? 'share' : 'install';
-        headerButton.setAttribute('aria-label', shareMode ? '앱 공유' : '앱 설치');
-        headerButton.innerHTML = `<i data-lucide="${shareMode ? 'share-2' : 'download'}" aria-hidden="true"></i><span>${shareMode ? '앱 공유' : '앱 설치'}</span>`;
+        headerButton.hidden = false;
+        headerButton.setAttribute('aria-label', '앱 공유');
+        headerButton.innerHTML = '<i data-lucide="share-2" aria-hidden="true"></i><span>앱 공유</span>';
         if (window.lucide) lucide.createIcons();
     };
     window.addEventListener('beforeinstallprompt', event => {
@@ -22,7 +20,7 @@
     window.addEventListener('appinstalled', () => {
         pendingPrompt = null;
         installedThisSession = true;
-        renderHeaderButton();
+        document.querySelector('.share-shortcut')?.setAttribute('hidden', '');
         document.querySelector('.shortcut-guide-close')?.click();
     });
     const displayModeQuery = matchMedia('(display-mode: standalone)');
@@ -42,6 +40,25 @@
         input.select();
         document.execCommand('copy');
         input.remove();
+    };
+
+    const requestShortcut = async () => {
+        if (busy) return;
+        if (!pendingPrompt) {
+            document.dispatchEvent(new Event('guide-install-help'));
+            return;
+        }
+        const prompt = pendingPrompt;
+        pendingPrompt = null;
+        busy = true;
+        try {
+            await prompt.prompt();
+            await prompt.userChoice;
+        } catch {
+            document.dispatchEvent(new Event('guide-install-help'));
+        } finally {
+            busy = false;
+        }
     };
 
     const showShareSheet = () => {
@@ -70,6 +87,7 @@
                         <button class="share-action share-copy" type="button"><i data-lucide="copy"></i>링크 복사</button>
                         <a class="share-action" href="share-qr.png" download="장기요양-길잡이-QR.png"><i data-lucide="download"></i>QR 저장</a>
                     </div>
+                    <button class="share-shortcut" type="button"><i data-lucide="smartphone"></i>홈 화면에 바로가기 추가</button>
                     <p class="share-help" aria-live="polite">보호자에게 QR을 보여주면 앱 첫 화면으로 연결됩니다.</p>
                 </section>`;
             document.body.appendChild(backdrop);
@@ -88,6 +106,10 @@
                 } catch {
                     status.textContent = `복사하지 못했습니다. ${SHARE_URL}`;
                 }
+            });
+            backdrop.querySelector('.share-shortcut').addEventListener('click', async () => {
+                close();
+                await requestShortcut();
             });
             backdrop.querySelector('.share-primary').addEventListener('click', async () => {
                 if (navigator.share) {
@@ -111,6 +133,7 @@
             });
         }
         if (window.lucide) lucide.createIcons();
+        backdrop.querySelector('.share-shortcut').hidden = standalone() || installedThisSession;
         backdrop.classList.add('show');
         document.body.classList.add('share-sheet-open');
         backdrop.querySelector('.share-sheet-close').focus();
@@ -138,30 +161,7 @@
         headerButton.id = 'appInstall';
         headerButton.className = 'app-install-button';
         headerButton.type = 'button';
-        headerButton.addEventListener('click', async () => {
-            if (headerButton.dataset.mode === 'share') {
-                showShareSheet();
-                return;
-            }
-            if (busy) return;
-            if (!pendingPrompt) {
-                document.dispatchEvent(new Event('guide-install-help'));
-                return;
-            }
-            const prompt = pendingPrompt;
-            pendingPrompt = null;
-            busy = true;
-            headerButton.disabled = true;
-            try {
-                await prompt.prompt();
-                await prompt.userChoice;
-            } catch {
-                document.dispatchEvent(new Event('guide-install-help'));
-            } finally {
-                busy = false;
-                headerButton.disabled = false;
-            }
-        });
+        headerButton.addEventListener('click', showShareSheet);
         header.appendChild(headerButton);
         renderHeaderButton();
     });
