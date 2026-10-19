@@ -18,6 +18,10 @@
     --ui-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 8px 20px rgba(47, 102, 224, .07);
     --ui-shadow-strong: 0 12px 28px rgba(47, 102, 224, .28);
 }
+.app-shell .topbar .app-install-button { position:absolute; right:16px; top:12px; display:flex; align-items:center; gap:5px; min-height:40px; padding:8px 12px; border:1px solid #d8e4f6; border-radius:12px; background:#fff; color:#2457ad; font:700 14px 'Pretendard',sans-serif; cursor:pointer; z-index:2; }
+.app-shell .topbar .app-install-button svg { width:18px; height:18px; }
+body[data-route="home"] .app-shell .topbar { padding-top:62px; }
+body:not([data-route="home"]) .app-shell .topbar .app-install-button { display:none; }
 .app-install-button:focus-visible { outline:3px solid #9dbcf7; outline-offset:2px; }
 html, body { background:#e6ebf2; }
 .app-shell { background:var(--ui-bg); }
