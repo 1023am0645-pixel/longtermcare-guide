@@ -9,16 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const BOOK_BASE = 'assets/book-pages';
     const SOURCE_URL = 'https://ligsystemup.kdtidc.com/e-book/2026%EC%9E%A5%EA%B8%B0%EC%9A%94%EC%96%91%EA%B8%89%EC%97%AC%EC%9D%B4%EC%9A%A9_ebook/index.html';
 
-    const { categories, categoryDetails = {}, legacySectionMap, quickMenus, gradeResultGuide } = window.LONGCARE_CONTENT;
+    const { categories, categoryDetails = {}, legacySectionMap, quickMenus, usageProcessGuide, gradeResultGuide } = window.LONGCARE_CONTENT;
     const categoryIconAssets = Object.fromEntries(categories.map(({ id }) => [id, `${id}-v2.png`]));
     const quickIconAssets = {
         documents: 'documents-v2.png',
-        'benefit-types': 'benefit-guide-v2.png',
+        'usage-process': 'benefit-guide-v2.png',
         institution: 'institution-v2.png',
         copayment: 'copayment-v2.png'
     };
     const iconAsset = id => categoryIconAssets[id] || `${id}.webp`;
-    const guideDetails = [gradeResultGuide].filter(Boolean);
+    const guideDetails = [usageProcessGuide, gradeResultGuide].filter(Boolean);
 
     const app = document.getElementById('app');
     const searchInput = document.getElementById('searchInput');
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function quickMenuButton(item) {
         if (window.LONGCARE_REVIEWED) {
-            const id = item.href.replace('#category/', '');
+            const id = item.href.split('/').pop();
             return `<a class="quick-menu ${item.tone}" href="${item.href}">
                 <span class="quick-icon icon3d"><img src="icons3d/${quickIconAssets[id] || iconAsset(id)}" alt="" width="192" height="192"></span>
                 <strong>${item.title}</strong>
@@ -851,6 +851,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <i data-lucide="${step.icon || 'circle'}" aria-hidden="true"></i>
                                 <h3>${step.title}</h3>
                                 <p>${step.text}</p>
+                                ${step.href ? `<a class="step-card-detail" href="${step.href}">관련 안내 보기<i data-lucide="chevron-right" aria-hidden="true"></i></a>` : ''}
                             </div>
                         </article>
                     `).join('')}
@@ -1023,6 +1024,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <i data-lucide="${step.icon}" aria-hidden="true"></i>
                                 <h3>${step.title}</h3>
                                 <p>${step.text}</p>
+                                ${step.href ? `<a class="step-card-detail" href="${step.href}">관련 안내 보기<i data-lucide="chevron-right" aria-hidden="true"></i></a>` : ''}
                             </div>
                         </article>
                     `).join('')}

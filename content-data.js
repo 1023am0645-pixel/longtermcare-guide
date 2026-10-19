@@ -462,7 +462,7 @@ window.LONGCARE_CONTENT = {
 
     quickMenus: [
         { title: '인정서발급', href: '#category/documents', icon: 'file-text', tone: 'blue' },
-        { title: '급여이용방법', href: '#category/benefit-types', icon: 'route', tone: 'green' },
+        { title: '급여이용방법', href: '#guide/usage-process', icon: 'route', tone: 'green' },
         { title: '기관 선택', href: '#category/institution', icon: 'search', tone: 'cyan' },
         { title: '본인부담금', href: '#category/copayment', icon: 'wallet', tone: 'yellow' }
     ],
@@ -1079,6 +1079,54 @@ window.LONGCARE_CONTENT = {
         caution: '이 화면은 장기요양급여 이용 안내 원문을 짧게 정리한 내용입니다. 자세한 내용은 하단 원문 보기에서 확인할 수 있습니다.',
         sourceRefs: ['PDF 4쪽', 'PDF 5쪽', 'PDF 6쪽', 'PDF 8쪽', 'PDF 28쪽'],
         sourcePages: [4, 5, 6, 8, 28]
+    },
+
+    usageProcessGuide: {
+        id: 'usage-process',
+        title: '장기요양급여 이용 절차',
+        description: '필수서류 수령부터 본인부담금 납부까지 전체 이용 흐름을 순서대로 확인합니다.',
+        badge: '이용 절차',
+        color: 'green',
+        flowTitle: '장기요양급여 이용 5단계',
+        sectionOrder: ['flow', 'source'],
+        newsCards: [],
+        steps: [
+            {
+                title: '필수서류 수령',
+                text: '장기요양인정서, 개인별장기요양이용계획서, 복지용구 급여확인서를 받습니다.',
+                icon: 'files',
+                href: '#category/documents'
+            },
+            {
+                title: '장기요양기관 찾기',
+                text: '이용할 급여에 맞는 기관을 찾고 기관 정보와 평가 결과를 확인합니다.',
+                icon: 'search',
+                href: '#category/institution'
+            },
+            {
+                title: '장기요양기관과 급여계약',
+                text: '급여 내용과 비용을 상담하고 계약서를 2부 작성해 각각 보관합니다.',
+                icon: 'handshake',
+                href: '#category/contract'
+            },
+            {
+                title: '장기요양급여 이용',
+                text: '개인별장기요양이용계획서와 급여제공계획서에 따라 급여를 이용합니다.',
+                icon: 'heart-handshake',
+                href: '#category/benefit-types'
+            },
+            {
+                title: '본인부담금 납부',
+                text: '이용한 급여비용 중 본인부담금을 장기요양기관에 납부합니다.',
+                icon: 'circle-dollar-sign',
+                href: '#category/copayment'
+            }
+        ],
+        keyTable: [],
+        checklist: [],
+        faqs: [],
+        caution: '',
+        sourcePages: [8, 9, 10, 11]
     },
 
     gradeResultGuide: {

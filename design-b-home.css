@@ -360,6 +360,19 @@ body:not([data-route="home"]) .app-shell .topbar { background:#fff; box-shadow:i
 }
 .app-shell #app .review-hero { border:0; border-radius:var(--ui-radius); box-shadow:var(--ui-shadow); }
 
+.app-shell #app .step-card-detail {
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    min-height:44px;
+    margin-top:10px;
+    color:#245caa;
+    font-size:.88em;
+    font-weight:800;
+    text-decoration:none;
+}
+.app-shell #app .step-card-detail svg { width:18px; height:18px; margin:0; }
+
 /* 알아두세요 박스 */
 .app-shell #app .review-note {
     position:relative; margin:22px 0; padding:18px 18px 18px 20px; border:1px solid #f1dfae; border-left:0; border-radius:var(--ui-radius-sm);
