@@ -156,13 +156,9 @@
         return steps.map((text, i) => `<li><span>${i + 1}</span><p>${text}</p></li>`).join('');
     };
     document.addEventListener('DOMContentLoaded', () => {
-        const header = document.querySelector('.topbar');
-        headerButton = document.createElement('button');
-        headerButton.id = 'appInstall';
-        headerButton.className = 'app-install-button';
-        headerButton.type = 'button';
+        headerButton = document.getElementById('appInstall');
+        if (!headerButton) return;
         headerButton.addEventListener('click', showShareSheet);
-        header.appendChild(headerButton);
         renderHeaderButton();
     });
 })();

@@ -10,7 +10,7 @@
     <title>장기요양급여 이용 안내</title>
 
     <link rel="manifest" href="manifest.webmanifest?v=20261019-install">
-    <script src="app-install.js?v=20261019-share-v2"></script>
+    <script src="app-install.js?v=20261019-share-v3"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20261015">
     <link rel="stylesheet" href="fonts/pretendard-subset.css">
     <script src="assets/vendor/lucide.min.js"></script>
@@ -18,10 +18,10 @@
     <link rel="stylesheet" href="documents.css">
     <link rel="stylesheet" href="design-common.css">
     <link rel="stylesheet" href="design-b.css">
-    <link rel="stylesheet" href="design-b-home.css?v=20261019-install">
+    <link rel="stylesheet" href="design-b-home.css?v=20261019-share-v3">
     <link rel="stylesheet" href="usage-process.css?v=20261019-process-v2">
     <link rel="stylesheet" href="guide-settings.css?v=20261015">
-    <link rel="stylesheet" href="app-share.css?v=20261019-share-v2">
+    <link rel="stylesheet" href="app-share.css?v=20261019-share-v3">
 </head>
 <body>
     <div class="app-shell">
@@ -64,6 +64,12 @@
                     <button class="search-submit" type="submit" aria-label="검색" title="검색"><i data-lucide="arrow-right" aria-hidden="true"></i></button>
                 </div>
             </form>
+        </div>
+
+        <div class="home-share-slot">
+            <button id="appInstall" class="app-install-button" type="button" aria-label="앱 공유">
+                <i data-lucide="share-2" aria-hidden="true"></i><span>앱 공유</span>
+            </button>
         </div>
 
         <main id="app" tabindex="-1"></main>
