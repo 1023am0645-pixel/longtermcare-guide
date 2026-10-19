@@ -1,0 +1,24 @@
+.share-sheet-open { overflow:hidden; }
+.share-sheet-backdrop { position:fixed; inset:0; z-index:300; display:grid; align-items:end; background:rgba(20,35,58,.52); backdrop-filter:blur(2px); opacity:0; pointer-events:none; transition:opacity .18s ease; }
+.share-sheet-backdrop.show { opacity:1; pointer-events:auto; }
+.share-sheet { width:min(100%,520px); max-height:calc(100dvh - 20px); margin:0 auto; overflow:auto; padding:20px 20px calc(22px + env(safe-area-inset-bottom)); border-radius:24px 24px 0 0; background:#fff; color:#1c2a3d; box-shadow:0 -16px 40px rgba(24,48,85,.22); transform:translateY(20px); transition:transform .18s ease; }
+.share-sheet-backdrop.show .share-sheet { transform:translateY(0); }
+.share-sheet-head { display:grid; grid-template-columns:44px minmax(0,1fr) 44px; align-items:center; gap:12px; }
+.share-sheet-icon { display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:#eaf2ff; color:#2f66e0; }
+.share-sheet-icon svg { width:23px; height:23px; }
+.share-sheet-title h2 { margin:0; font-size:21px; line-height:1.35; letter-spacing:0; }
+.share-sheet-title p { margin:3px 0 0; color:#66758a; font-size:14px; line-height:1.45; }
+.share-sheet-close { display:grid; place-items:center; width:44px; height:44px; padding:0; border:0; border-radius:50%; background:#f2f5f9; color:#52647a; cursor:pointer; }
+.share-sheet-close svg { width:23px; height:23px; }
+.share-qr-card { margin:18px 0 14px; padding:18px; border:1px solid #dce5f2; border-radius:18px; background:#f8faff; text-align:center; }
+.share-qr-card img { display:block; width:min(52vw,208px); height:auto; margin:0 auto 12px; padding:8px; border-radius:12px; background:#fff; }
+.share-qr-card strong { display:block; font-size:16px; }
+.share-qr-card small { display:block; margin-top:4px; color:#627289; font-size:13px; overflow-wrap:anywhere; }
+.share-primary { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; min-height:54px; border:0; border-radius:14px; background:#2f66e0; color:#fff; font-size:17px; font-weight:800; cursor:pointer; }
+.share-primary svg { width:20px; height:20px; }
+.share-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+.share-action { display:flex; align-items:center; justify-content:center; gap:7px; min-height:50px; padding:8px; border:1px solid #d9e3f2; border-radius:14px; background:#fff; color:#28476d; font-size:15px; font-weight:750; text-decoration:none; cursor:pointer; }
+.share-action svg { width:19px; height:19px; color:#2f66e0; }
+.share-help { min-height:1.55em; margin:14px 2px 0; color:#68778b; font-size:13px; line-height:1.55; text-align:center; }
+.share-sheet :focus-visible { outline:3px solid #9dbcf7; outline-offset:2px; }
+@media (min-width:600px) { .share-sheet-backdrop { align-items:center; } .share-sheet { border-radius:24px; } }
