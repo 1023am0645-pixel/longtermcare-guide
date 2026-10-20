@@ -28,3 +28,7 @@ html.update-log-open{overflow:hidden}
 .update-log-list ul{margin:0;padding:0 24px 16px 40px;color:#4b5563;font-size:.92em;line-height:1.6}
 .update-log-list ul li{margin:2px 0}
 .update-log-list li:first-child details[open]{background:#fffbea}
+
+/* ── 작은 글자 링크의 누르는 영역만 넓힘(보이는 모양은 그대로) ── */
+.home-notice a[href^="tel:"],.update-log-link,.inline-link{position:relative}
+.home-notice a[href^="tel:"]::after,.update-log-link::after,.inline-link::after{content:"";position:absolute;left:-6px;right:-6px;top:-12px;bottom:-12px}
