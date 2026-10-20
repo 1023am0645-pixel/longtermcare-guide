@@ -463,7 +463,7 @@ window.LONGCARE_CONTENT = {
     quickMenus: [
         { title: '인정서발급', href: '#category/documents', icon: 'file-text', tone: 'blue' },
         { title: '급여이용방법', href: '#guide/usage-process', icon: 'route', tone: 'green' },
-        { title: '기관 선택', href: '#category/institution', icon: 'search', tone: 'cyan' },
+        { title: '기관 찾기', href: '#finder', icon: 'search', tone: 'cyan' },
         { title: '본인부담금', href: '#category/copayment', icon: 'wallet', tone: 'yellow' }
     ],
 

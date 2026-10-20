@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function quickMenuButton(item) {
         if (window.LONGCARE_REVIEWED) {
-            const id = item.href.split('/').pop();
+            const id = item.href === '#finder' ? 'institution' : item.href.split('/').pop();
             return `<a class="quick-menu ${item.tone}" href="${item.href}">
                 <span class="quick-icon icon3d"><img src="icons3d/${quickIconAssets[id] || iconAsset(id)}" alt="" width="192" height="192"></span>
                 <strong>${item.title}</strong>
@@ -1645,6 +1645,24 @@ document.addEventListener('DOMContentLoaded', () => {
         focusMain();
     }
 
+    function renderFinder() {
+        setActiveNav('home', 'finder');
+        app.innerHTML = `<section class="documents-view reviewed-view finder-choice-view">
+            <a class="back-link" href="#home"><i data-lucide="chevron-left" aria-hidden="true"></i>돌아가기</a>
+            <header class="page-head"><span class="page-head-icon icon3d"><img src="icons3d/${iconAsset('institution')}" alt="" width="192" height="192"></span><div class="page-head-copy"><h1>기관 찾기</h1></div></header>
+            <div class="institution-actions">
+                <a class="finder-btn" data-finder href="${finderHref()}" target="_blank" rel="noopener"><i data-lucide="map-pin" aria-hidden="true"></i><span>장기요양 기관찾기 앱</span><i data-lucide="external-link" aria-hidden="true"></i></a>
+                <button type="button" class="finder-btn finder-btn-home" data-toggle-target="finderWebsiteGuide" aria-expanded="false" aria-controls="finderWebsiteGuide"><i data-lucide="globe" aria-hidden="true"></i><span>홈페이지에서 기관찾기</span><i data-lucide="chevron-down" aria-hidden="true"></i></button>
+                <div class="home-find-panel" id="finderWebsiteGuide" hidden>
+                    <a class="finder-btn" href="https://www.longtermcare.or.kr/npbs/r/a/201/selectLtcoSrch.web?menuId=npe0000000650" target="_blank" rel="noopener noreferrer"><span>공단 홈페이지 기관찾기 바로가기</span><i data-lucide="external-link" aria-hidden="true"></i></a>
+                    <h2>홈페이지 접속 방법</h2>
+                    <ol><li>노인장기요양보험 홈페이지에 접속합니다.</li><li>‘민원서비스’에서 ‘검색서비스’를 선택합니다.</li><li>‘장기요양기관 찾기’를 선택합니다.</li><li>지역, 급여종류 또는 기관명으로 검색합니다.</li></ol>
+                </div>
+            </div>
+        </section>`;
+        focusMain();
+    }
+
     function route() {
         const hash = (window.location.hash || '#home').split('?')[0];
         if (searchInput.value.trim()) {
@@ -1654,6 +1672,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (hash === '#settings') {
             renderSettings();
+        } else if (hash === '#finder') {
+            renderFinder();
         } else if (window.LONGCARE_REVIEWED && hash === '#search') {
             const query = new URLSearchParams(location.hash.split('?')[1] || '').get('q') || '';
             if (query) { searchInput.value = query; renderSearch(query); } else renderHome();

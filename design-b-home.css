@@ -662,6 +662,13 @@ body.modal-open { overflow:hidden; }
 .finder-btn-home[aria-expanded="true"] svg:last-child { transform:rotate(180deg); }
 .home-find-panel { padding:14px 16px; border:1px solid var(--ui-line); border-radius:16px; background:#fff; }
 .home-find-panel[hidden] { display:none; }
+.finder-choice-view .finder-btn { min-width:0; text-align:center; }
+.finder-choice-view .institution-actions > .finder-btn { min-height:96px; padding:24px 18px; }
+.finder-choice-view .finder-btn span { min-width:0; overflow-wrap:anywhere; }
+.finder-choice-view .home-find-panel h2 { margin:20px 0 12px; font-size:1.05em; }
+.finder-choice-view .home-find-panel ol { padding-left:1.5em; line-height:1.7; }
+.finder-choice-view .home-find-panel li + li { margin-top:8px; }
+.finder-choice-view .finder-btn-home[aria-expanded="true"] svg:last-child { transform:rotate(180deg); }
 
 /* ---------- 10 본인부담금: 표 펼치기 ---------- */
 .rate-rows { display:grid; gap:10px; margin-top:12px; }
