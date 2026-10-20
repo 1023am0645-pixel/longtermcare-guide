@@ -369,13 +369,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     <aside class="home-notice">
                         <img src="icons3d/notice.webp" alt="" width="192" height="192" loading="lazy">
-                        <p>이 화면은 「장기요양급여 이용 안내」 책자를 쉽게 정리한 <strong>참고용 안내</strong>입니다. 기타 문의는 관할 운영센터 또는 <a href="tel:1577-1000">1577-1000(고객센터)</a>으로 해 주세요.<span class="home-basis">책자 기준 ${APP_CONFIG.bookBasis || ''} · 앱 업데이트 ${APP_CONFIG.updatedAt || ''}</span></p>
+                        <p>이 화면은 「장기요양급여 이용 안내」 책자를 쉽게 정리한 <strong>참고용 안내</strong>입니다. 기타 문의는 관할 운영센터 또는 <a href="tel:1577-1000">1577-1000(고객센터)</a>으로 해 주세요.<span class="home-basis">책자 기준 ${APP_CONFIG.bookBasis || ''}</span></p>
                     </aside>
 
                     <footer class="home-footer">
                         <img src="nhis-emblem.svg" alt="국민건강보험공단" width="64" height="65">
                         <span>장기요양급여 이용 안내</span>
                     </footer>
+                    <div class="home-meta"><button type="button" class="update-log-link" data-open-updates>업데이트 ${APP_CONFIG.updatedAt || ''} ›</button></div>
                 </section>
             `;
             focusMain();
@@ -1577,23 +1578,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p id="guide-report-status" class="guide-report-status" role="status" aria-live="polite"></p>
                 </section>
 
-                <section class="guide-settings-section guide-updates-section" aria-labelledby="guide-updates-title">
-                    <div class="guide-settings-section-head">
-                        <i data-lucide="history" aria-hidden="true"></i>
-                        <h2 id="guide-updates-title">앱 업데이트 내역</h2>
-                    </div>
-                    <p class="guide-settings-current">최근 업데이트 <strong>${APP_CONFIG.updatedAt}</strong></p>
-                    <details class="guide-update-history">
-                        <summary>변경 사항 보기 <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
-                        <ol>
-                            <li><time datetime="2026-10-15">2026. 10. 15.</time><strong>화면 이용 편의 개선</strong><p>홈 화면 바로가기 안내와 전체화면 기능을 추가하고 고객의 소리 화면 및 급여비용계산기 연결을 정리했습니다.</p></li>
-                            <li><time datetime="2026-10-14">2026. 10. 14.</time><strong>불편 신고 자동 접수</strong><p>메일 앱을 거치지 않고 앱에서 바로 불편사항을 접수할 수 있도록 개선했습니다.</p></li>
-                            <li><time datetime="2026-10-13">2026. 10. 13.</time><strong>고객의 소리 추가</strong><p>업데이트 내역과 앱 사용 중 불편 신고 화면을 추가했습니다.</p></li>
-                            <li><time datetime="2026-10-07">2026. 10. 7.</time><strong>검색·표 개선</strong><p>검색 유의어를 확대하고 본인부담금 표 표시를 개선했습니다.</p></li>
-                            <li><time datetime="2026-10-06">2026. 10. 6.</time><strong>검색·이동 개선</strong><p>검색 결과 안내와 화면 이동 기능을 개선했습니다.</p></li>
-                        </ol>
-                    </details>
-                </section>
             </div>
         `;
         app.querySelector('#guide-report-form').addEventListener('submit', async event => {

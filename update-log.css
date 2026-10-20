@@ -1,0 +1,30 @@
+/* ── 홈 하단 "앱 업데이트 날짜 ›" 버튼 ── */
+.update-log-link{display:inline;padding:0;margin:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;white-space:nowrap;text-decoration:underline;text-decoration-color:#c3ccda;text-underline-offset:3px}
+.update-log-link:hover,.update-log-link:focus-visible{color:#2563eb;text-decoration-color:currentColor}
+
+/* ── 홈 맨 아래 앱 정보 줄: 왼쪽 업데이트, 오른쪽 방문자 수 ── */
+.home-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 4px 0;font-size:12px;line-height:1.4;color:#8a93a6}
+.home-meta .update-log-link{font-size:12px;font-weight:600;color:#8a93a6}
+.home-meta .visit-counter{margin:0}
+
+/* ── 업데이트 내역 창 ── */
+html.update-log-open{overflow:hidden}
+.update-log-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(17,24,39,.48)}
+.update-log-overlay[hidden]{display:none}
+.update-log-sheet{width:100%;max-width:440px;max-height:min(78vh,640px);display:flex;flex-direction:column;background:#fff;border-radius:24px;box-shadow:0 24px 60px rgba(15,23,42,.28);overflow:hidden;font-size:16px}
+.update-log-head{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px 24px;border-bottom:1px solid #e8edf4}
+.update-log-head h2{margin:0;font-size:1.25em;font-weight:800;color:#111827;letter-spacing:-.3px}
+.update-log-close{width:40px;height:40px;border:0;border-radius:50%;background:#f3f5f9;color:#475569;font-size:26px;line-height:1;cursor:pointer}
+.update-log-list{list-style:none;margin:0;padding:6px 0 10px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.update-log-list > li{border-bottom:1px solid #eef2f7}
+.update-log-list > li:last-child{border-bottom:0}
+.update-log-list details > summary{list-style:none;display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:16px 24px;cursor:pointer}
+.update-log-list details > summary::-webkit-details-marker{display:none}
+.update-log-list time{grid-column:1;font-size:.82em;color:#94a3b8;font-weight:600}
+.update-log-title{grid-column:1;font-size:1em;font-weight:700;color:#1f2937;letter-spacing:-.3px;line-height:1.4}
+.update-log-arrow{grid-column:2;grid-row:1 / span 2;align-self:center;color:#94a3b8;font-size:.8em;transition:transform .2s}
+.update-log-list details[open] .update-log-arrow{transform:rotate(180deg)}
+.update-log-new{display:inline-block;margin-right:7px;padding:2px 7px;border-radius:6px;background:#fdecee;color:#d23b4b;font-size:.72em;font-weight:800;vertical-align:2px}
+.update-log-list ul{margin:0;padding:0 24px 16px 40px;color:#4b5563;font-size:.92em;line-height:1.6}
+.update-log-list ul li{margin:2px 0}
+.update-log-list li:first-child details[open]{background:#fffbea}

@@ -87,12 +87,14 @@
         const footer = app.querySelector('.home-footer');
         let box = document.getElementById('visitCounter');
         if (!isHome || !footer || !summary) { if (box) box.remove(); return; }
-        if (!box || box.parentNode !== footer.parentNode) {
+        const meta = app.querySelector('.home-meta');
+        const holder = meta || footer.parentNode;
+        if (!box || box.parentNode !== holder) {
             if (box) box.remove();
             box = document.createElement('p');
             box.id = 'visitCounter';
             box.className = 'visit-counter';
-            footer.insertAdjacentElement('afterend', box);
+            if (meta) meta.appendChild(box); else footer.insertAdjacentElement('afterend', box);
         }
         const fmt = n => Number(n || 0).toLocaleString('ko-KR');
         box.innerHTML = `<span>총 ${fmt(summary.total)}</span><span>오늘 ${fmt(summary.today)}</span>`;
