@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="usage-process.css?v=20261019-process-v2">
     <link rel="stylesheet" href="guide-settings.css?v=20261015">
     <link rel="stylesheet" href="app-share.css?v=20261019-share-v4">
+    <link rel="stylesheet" href="compact-header.css?v=20261020-1">
 </head>
 <body>
     <div class="app-shell">
@@ -37,6 +38,14 @@
                     <img class="hero-art-bulb" src="icons3d/hero-bulb.webp" alt="" width="192" height="192">
                 </span>
             </a>
+            <div class="header-font">
+                <button id="headerFontToggle" type="button" aria-label="글씨 크기 조절" aria-expanded="false" aria-controls="headerFontMenu"><span aria-hidden="true">가<span class="font-large-letter">가</span></span></button>
+                <div id="headerFontMenu" role="group" aria-label="글씨 크기 선택" hidden>
+                    <button class="font-button" type="button" data-font="base" aria-pressed="false">보통</button>
+                    <button class="font-button" type="button" data-font="large" aria-pressed="true">크게</button>
+                    <button class="font-button" type="button" data-font="xlarge" aria-pressed="false">아주 크게</button>
+                </div>
+            </div>
             <button class="header-search" type="button" aria-label="검색창 열기"><i data-lucide="search" aria-hidden="true"></i><span>검색</span></button>
             <button id="appInstall" class="app-install-button" type="button" aria-label="앱 공유">
                 <i data-lucide="share-2" aria-hidden="true"></i><span>앱 공유</span>
@@ -96,7 +105,7 @@
     <script src="reviewed-content.js?v=20261015"></script>
     <script src="search-aliases.js"></script>
     <script src="app-config.js?v=20261015-2"></script>
-    <script src="app.js?v=20261020-finder"></script>
+    <script src="app.js?v=20261020-compact-header-1"></script>
     <script src="traffic.js?v=20261016"></script>
 </body>
 </html>

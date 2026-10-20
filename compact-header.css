@@ -1,0 +1,48 @@
+/* Home keeps its existing font controls; other routes use the header popover. */
+.header-font { display:none; }
+body:not([data-route="home"]) .font-bar { display:none; }
+body:not([data-route="home"]) .app-shell .topbar {
+    display:flex; align-items:center; gap:6px; padding:8px 10px;
+    overflow:visible;
+}
+body:not([data-route="home"]) .app-shell .topbar .hero-brand {
+    flex:1 1 auto; width:auto; min-width:0; min-height:44px; padding:0; gap:6px;
+}
+body:not([data-route="home"]) .app-shell .hero-copy { min-width:0; }
+body:not([data-route="home"]) .app-shell .hero-title {
+    font-size:15px; line-height:22px; white-space:nowrap; letter-spacing:0;
+}
+body:not([data-route="home"]) .hero-art {
+    width:24px; height:24px; flex:0 0 24px;
+}
+body:not([data-route="home"]) .hero-art-book { width:24px; height:24px; }
+body:not([data-route="home"]) .header-font { display:block; position:relative; flex:0 0 44px; }
+#headerFontToggle {
+    width:44px; height:44px; border:0; border-radius:10px; padding:0;
+    background:#f1f5fc; color:#2457ad; font:700 13px 'Pretendard',sans-serif;
+    cursor:pointer;
+}
+#headerFontToggle .font-large-letter { font-size:19px; }
+#headerFontMenu {
+    position:absolute; right:0; top:52px; width:164px; padding:6px;
+    z-index:100; background:#fff; border:1px solid #d8e4f6; border-radius:8px;
+    box-shadow:0 8px 24px #243a6226;
+}
+#headerFontMenu[hidden] { display:none; }
+#headerFontMenu .font-button {
+    display:block; width:100%; min-height:44px; margin:0; padding:10px 12px;
+    border:0; border-radius:5px; background:#fff; color:#25354a;
+    font:700 16px 'Pretendard',sans-serif; text-align:left; cursor:pointer;
+}
+#headerFontMenu .font-button[aria-pressed="true"] { background:#eaf1ff; color:#2154c8; }
+#headerFontToggle:focus-visible, #headerFontMenu button:focus-visible { outline:3px solid #9dbcf7; outline-offset:2px; }
+body:not([data-route="home"]) .app-shell .header-search {
+    position:static; transform:none; flex:0 0 auto; gap:3px;
+    height:44px; min-height:44px; padding:0 7px; font-size:14px; white-space:nowrap;
+}
+body:not([data-route="home"]) .header-search svg { width:17px; height:17px; }
+.app-shell #app .compact-contents { gap:0; margin-top:12px; }
+@media(max-width:359px) {
+    body:not([data-route="home"]) .app-shell .hero-title { font-size:14px; }
+    body:not([data-route="home"]) .hero-art { display:none; }
+}

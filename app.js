@@ -424,12 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderContents() {
         setActiveNav('contents');
         app.innerHTML = `
-            <section class="content-layout">
-                <div class="section-heading wide">
-                    <span>전체 목차</span>
-                    <h1>장기요양 이용 가이드</h1>
-                    <p>아래 큰 버튼에서 시작해 세부 항목으로 들어가면 됩니다.</p>
-                </div>
+            <section class="content-layout compact-contents" aria-label="전체 목차">
                 <div class="category-grid" aria-label="전체 가이드 목차">
                     ${categories.map(categoryButton).join('')}
                 </div>
@@ -1702,6 +1697,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setFont(size) {
+        if (!['base', 'large', 'xlarge'].includes(size)) size = 'large';
         document.documentElement.dataset.font = size;
         localStorage.setItem('longcare-font-size', size);
         document.querySelectorAll('.font-button').forEach(button => {
@@ -1779,15 +1775,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const fontToggle = document.getElementById('headerFontToggle');
+    const fontMenu = document.getElementById('headerFontMenu');
+    function closeFontMenu(restoreFocus = false) {
+        fontMenu.hidden = true;
+        fontToggle.setAttribute('aria-expanded', 'false');
+        if (restoreFocus) fontToggle.focus();
+    }
+    fontToggle.addEventListener('click', () => {
+        const opening = fontMenu.hidden;
+        fontMenu.hidden = !opening;
+        fontToggle.setAttribute('aria-expanded', String(opening));
+        if (opening) fontMenu.querySelector('[aria-pressed="true"]').focus();
+    });
+    document.addEventListener('click', event => {
+        if (!event.target.closest('.header-font')) closeFontMenu();
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !fontMenu.hidden) {
+            event.preventDefault();
+            closeFontMenu(true);
+        }
+    });
+    document.addEventListener('focusin', event => {
+        if (!event.target.closest('.header-font')) closeFontMenu();
+    });
     document.querySelectorAll('.font-button').forEach(button => {
         button.addEventListener('click', () => {
             setFont(button.dataset.font);
+            if (fontMenu.contains(button)) closeFontMenu(true);
             const settings = button.closest('.font-settings');
             if (settings) { settings.open = false; settings.querySelector('summary').focus(); }
         });
     });
 
     window.addEventListener('hashchange', () => {
+        closeFontMenu();
         searchInput.value = '';
         searchOriginHash = '';
         document.body.classList.remove('search-open');
