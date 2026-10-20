@@ -74,9 +74,57 @@
         savePending(remaining);
     }
 
+    // ── 방문자 수 표시 (홈 화면 맨 아래 오른쪽, 작게) ──
+    //   총 = 날짜별 방문 기기 수의 누적, 오늘 = 오늘 방문한 기기 수
+    //   서버에서 숫자를 못 받으면 아무것도 표시하지 않습니다.
+    const summaryEndpoint = endpoint + '/summary';
+    let summary = null;
+
+    function renderCounter() {
+        const app = document.getElementById('app');
+        if (!app) return;
+        const isHome = !location.hash || location.hash === '#home';
+        const footer = app.querySelector('.home-footer');
+        let box = document.getElementById('visitCounter');
+        if (!isHome || !footer || !summary) { if (box) box.remove(); return; }
+        if (!box || box.parentNode !== footer.parentNode) {
+            if (box) box.remove();
+            box = document.createElement('p');
+            box.id = 'visitCounter';
+            box.className = 'visit-counter';
+            footer.insertAdjacentElement('afterend', box);
+        }
+        const fmt = n => Number(n || 0).toLocaleString('ko-KR');
+        box.innerHTML = `<span>총 ${fmt(summary.total)}</span><span>오늘 ${fmt(summary.today)}</span>`;
+    }
+
+    async function loadSummary() {
+        try {
+            const response = await fetch(summaryEndpoint, { cache: 'no-store' });
+            if (!response.ok) return;
+            const data = await response.json();
+            if (!data || data.success !== true) return;
+            summary = { total: data.total, today: data.today };
+            renderCounter();
+        } catch {
+            // 숫자를 못 불러와도 앱 이용에는 영향이 없도록 조용히 넘어갑니다.
+        }
+    }
+
+    function start() {
+        flush().finally(loadSummary);
+        window.addEventListener('hashchange', () => setTimeout(renderCounter, 0));
+        const app = document.getElementById('app');
+        if (app && 'MutationObserver' in window) {
+            new MutationObserver(() => {
+                if (summary && !document.getElementById('visitCounter')) renderCounter();
+            }).observe(app, { childList: true });
+        }
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', flush, { once: true });
+        document.addEventListener('DOMContentLoaded', start, { once: true });
     } else {
-        flush();
+        start();
     }
 })();

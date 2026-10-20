@@ -760,6 +760,13 @@ body.modal-open { overflow:hidden; }
   .fee-table-fac th, .fee-table-fac td { padding-left:4px; padding-right:4px; }
 }
 
+/* 방문자 수 (홈 맨 아래 오른쪽) */
+.visit-counter{display:flex;justify-content:flex-end;gap:14px;margin:4px 4px 0;font-size:12px;line-height:1.4;color:#8a93a6;letter-spacing:-.2px}
+:root[data-font] .visit-counter{font-size:12px}
+
+/* 기관찾기 데이터 기준 안내 */
+.finder-data-note{flex-basis:100%;width:100%;margin:8px 2px 0;font-size:.76em;line-height:1.5;color:#68738a}
+
 /* Enlarged type needs an intrinsically sized table so monetary amounts stay intact. */
 :root[data-font="xlarge"] .fee-table { width:max-content; min-width:100%; table-layout:auto; }
 :root[data-font="xlarge"] .fee-table th,
