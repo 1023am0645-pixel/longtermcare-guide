@@ -852,3 +852,6 @@ body[data-route="home"] .app-shell .hero-title { font-family:'Pretendard Title',
 body[data-route="home"] .hero-title em { font-size:1.14em; }
 body[data-route="home"] .hero-copy { align-self:start; }
 body[data-route="home"] .hero-art { align-self:end; }
+
+/* 목차 화면: 항목 설명글 숨김 (어르신 가독성, 2026-10-21) */
+.app-shell #app .category-row .category-description { display:none; }
