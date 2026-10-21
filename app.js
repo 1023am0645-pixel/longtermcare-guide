@@ -228,11 +228,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 급여이용방법 → 각 항목 바로가기 → '돌아가기' 시 급여이용방법의 그 단계로 복귀
+    const USAGE_RETURN_KEY = 'ltc_usage_return_v1';
+    const readUsageReturn = () => { try { return JSON.parse(sessionStorage.getItem(USAGE_RETURN_KEY) || 'null'); } catch { return null; } };
+    const writeUsageReturn = v => { try { v ? sessionStorage.setItem(USAGE_RETURN_KEY, JSON.stringify(v)) : sessionStorage.removeItem(USAGE_RETURN_KEY); } catch {} };
+    app.addEventListener('click', event => {
+        const link = event.target.closest && event.target.closest('.process-step a[href^="#category/"]');
+        if (!link) return;
+        const steps = Array.from(app.querySelectorAll('.process-step'));
+        writeUsageReturn({ target: link.getAttribute('href').split('?')[0], step: steps.indexOf(link.closest('.process-step')), returning: false });
+    });
+    function applyUsageReturn() {
+        const info = readUsageReturn();
+        if (!info) return false;
+        const hash = location.hash;
+        if (info.target && hash.split('?')[0] === info.target) {
+            const back = app.querySelector('.back-link');
+            if (back) { back.href = '#guide/usage-process'; back.innerHTML = '<i data-lucide="chevron-left" aria-hidden="true"></i>급여이용방법으로'; }
+            writeUsageReturn({ ...info, returning: true });
+            return false;
+        }
+        if (hash === '#guide/usage-process' && info.returning) {
+            writeUsageReturn(null);
+            const step = app.querySelectorAll('.process-step')[info.step];
+            if (step) { requestAnimationFrame(() => { step.scrollIntoView({ block: 'start' }); window.scrollBy(0, -12); }); return true; }
+            return false;
+        }
+        writeUsageReturn(null);
+        return false;
+    }
+
     function focusMain() {
         wireFinderLinks();
         if (window.LONGCARE_REVIEWED) prepareFocusedView();
         app.focus({ preventScroll: true });
         window.scrollTo({ top: 0, behavior: 'auto' });
+        applyUsageReturn();
         if (window.lucide) lucide.createIcons();
     }
 
