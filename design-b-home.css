@@ -839,3 +839,16 @@ body.modal-open { overflow:hidden; }
   .fee-table-fac th, .fee-table-fac td { padding-left:1px; padding-right:1px; }
   .fee-table-fac tbody th, .fee-table-fac tbody td { white-space:nowrap; overflow-wrap:normal; }
 }
+
+/* ── 홈 상단 정리 (2026-10-21): 공단 표시와 앱 공유를 한 줄로, 메인 타이틀 강조 ── */
+@font-face { font-family:'Pretendard Title'; font-weight:900; font-display:swap; src:url('fonts/Pretendard-Black.title.woff2') format('woff2'); }
+body[data-route="home"] .app-shell .topbar { padding-top:16px !important; }
+body[data-route="home"] .app-shell .topbar .app-install-button { top:16px; right:16px; min-height:34px; padding:6px 11px; font-size:13px; border-radius:11px; }
+body[data-route="home"] .app-shell .topbar .app-install-button svg { width:16px; height:16px; }
+body[data-route="home"] .hero-eyebrow { display:flex; width:fit-content; min-height:34px; margin-bottom:12px; line-height:1; }
+body[data-route="home"] .app-shell .topbar .hero-brand { align-items:end; }
+body[data-route="home"] .hero-art { margin-top:46px; }
+body[data-route="home"] .app-shell .hero-title { font-family:'Pretendard Title','Pretendard',sans-serif; font-weight:900; font-size:min(max(calc(28px * var(--font-scale)), 33.6px), 36px); line-height:1.22; letter-spacing:-.04em; }
+body[data-route="home"] .hero-title em { font-size:1.14em; }
+body[data-route="home"] .hero-copy { align-self:start; }
+body[data-route="home"] .hero-art { align-self:end; }
