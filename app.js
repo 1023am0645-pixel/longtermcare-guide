@@ -1,7 +1,7 @@
 const favicon = document.createElement('link');
 favicon.rel = 'icon';
 favicon.type = 'image/svg+xml';
-favicon.href = 'nhis-symbol.svg';
+favicon.href = 'app-icon.svg?v=20261103';
 document.head.appendChild(favicon);
 
 document.addEventListener('DOMContentLoaded', () => {
