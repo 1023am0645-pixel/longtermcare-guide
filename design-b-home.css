@@ -869,3 +869,9 @@ body[data-route="home"] .hero-title em { display:block; max-height:999999px; whi
 body[data-route="home"] .hero-title .hero-line { line-height:1.2; }
 body[data-route="home"] .hero-title em { line-height:1.15; margin-top:.04em; }
 .hero-copy, .hero-brand { max-height:999999px; }
+
+/* 홈 제목 크기를 단순 px로 고정 (min/max 계산식 미지원 브라우저 대비, 2026-11-03) */
+body[data-route="home"] .app-shell .hero-title { font-size:33.6px; line-height:1.2; }
+:root[data-font="xlarge"] body[data-route="home"] .app-shell .hero-title { font-size:36px; }
+body[data-route="home"] .hero-title em { font-size:38px; }
+:root[data-font="xlarge"] body[data-route="home"] .hero-title em { font-size:41px; }
