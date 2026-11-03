@@ -79,7 +79,7 @@
                     </header>
                     <div class="share-qr-card">
                         <img src="share-qr.png" alt="장기요양 길잡이 공유 QR코드" width="720" height="720">
-                        <strong>휴대폰 카메라로 촬영하세요</strong>
+                        <strong>카메라로 비추고 주소를 눌러 주세요</strong>
                         <small>tinyurl.com/longtermcare-guide</small>
                     </div>
                     <button class="share-primary" type="button"><i data-lucide="share-2"></i>공유하기</button>
