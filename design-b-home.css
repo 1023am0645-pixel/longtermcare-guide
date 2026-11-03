@@ -860,3 +860,12 @@ body[data-route="home"] .hero-art { align-self:end; }
 html, body { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 body[data-route="home"] .app-shell .hero-title,
 body[data-route="home"] .hero-title em { -webkit-text-size-adjust:none; text-size-adjust:none; }
+
+/* 홈 제목 겹침 방지 v2 (2026-11-03): 두 줄을 각각 블록으로, 줄 높이를 각 줄에 직접 지정,
+   모바일 브라우저 글자 자동확대(font boosting)는 max-height 지정으로 차단 */
+body[data-route="home"] .app-shell .hero-title { display:flex; flex-direction:column; align-items:flex-start; max-height:999999px; }
+body[data-route="home"] .hero-title .hero-line,
+body[data-route="home"] .hero-title em { display:block; max-height:999999px; white-space:nowrap; }
+body[data-route="home"] .hero-title .hero-line { line-height:1.2; }
+body[data-route="home"] .hero-title em { line-height:1.15; margin-top:.04em; }
+.hero-copy, .hero-brand { max-height:999999px; }
