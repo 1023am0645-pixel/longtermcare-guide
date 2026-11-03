@@ -841,7 +841,7 @@ body.modal-open { overflow:hidden; }
 }
 
 /* ── 홈 상단 정리 (2026-10-21): 공단 표시와 앱 공유를 한 줄로, 메인 타이틀 강조 ── */
-@font-face { font-family:'Pretendard Title'; font-weight:900; font-display:swap; src:url('fonts/Pretendard-Black.title.woff2') format('woff2'); }
+@font-face { font-family:'Pretendard Title'; font-weight:900; font-display:block; src:url('fonts/Pretendard-Black.title.woff2') format('woff2'); }
 body[data-route="home"] .app-shell .topbar { padding-top:16px !important; }
 body[data-route="home"] .app-shell .topbar .app-install-button { top:16px; right:16px; min-height:34px; padding:6px 11px; font-size:13px; border-radius:11px; }
 body[data-route="home"] .app-shell .topbar .app-install-button svg { width:16px; height:16px; }
@@ -855,3 +855,8 @@ body[data-route="home"] .hero-art { align-self:end; }
 
 /* 목차 화면: 항목 설명글 숨김 (어르신 가독성, 2026-10-21) */
 .app-shell #app .category-row .category-description { display:none; }
+
+/* 휴대폰 '글자 크기' 설정에 따른 자동 글자 확대(첫 접속 시 제목 겹침) 방지 — 앱 자체 글씨 크기 버튼으로 조절 (2026-11-03) */
+html, body { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+body[data-route="home"] .app-shell .hero-title,
+body[data-route="home"] .hero-title em { -webkit-text-size-adjust:none; text-size-adjust:none; }
