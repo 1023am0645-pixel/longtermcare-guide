@@ -1,6 +1,7 @@
 // =====================================================================
 //  앱 업데이트 내역 — 업데이트할 때 이 파일 "맨 위"에 한 덩어리만 추가하세요.
-//  맨 위 항목의 날짜가 홈 화면의 "앱 업데이트 ○○○○. ○○. ○○." 날짜로 자동 반영됩니다.
+//  홈 화면 아래 '업데이트 날짜'는 APP_LAST_UPDATED(마지막 수정일)와 맨 위 항목 날짜 중 최신 날짜로 표시됩니다.
+//  작은 수정만 했을 때도 APP_LAST_UPDATED를 오늘 날짜로 바꾸면 날짜가 최신으로 보입니다.
 //  (app-config.js 의 updatedAt 은 더 이상 고치지 않아도 됩니다.)
 //
 //  쓰는 법
@@ -8,7 +9,10 @@
 //
 //  ※ 수급자·보호자가 알면 좋은 '쓰는 법'만 쉬운 말로 적어요. (내부 정리·통계 같은 건 적지 않음)
 // =====================================================================
+window.APP_LAST_UPDATED = '2026-11-03';
+
 window.APP_UPDATES = [
+    { date: '2026-11-03', title: '작은 불편을 고치고 화면을 다듬었어요', items: [] },
     { date: '2026-10-21', title: '화면이 더 빨리 열려요', items: [
         '데이터를 적게 써서 화면이 더 빨리 열려요.',
         '홈 화면 제목을 더 크고 또렷하게 바꿨어요.',
@@ -44,9 +48,10 @@ window.APP_UPDATES = [
     };
 
     // 1) 맨 위 항목 날짜를 앱 업데이트 날짜로 자동 반영
-    if (list.length) {
+    const latest = [window.APP_LAST_UPDATED, list.length ? list[0].date : ''].filter(Boolean).sort().pop();
+    if (latest) {
         window.APP_CONFIG = window.APP_CONFIG || {};
-        window.APP_CONFIG.updatedAt = dot(list[0].date);
+        window.APP_CONFIG.updatedAt = dot(latest);
     }
 
     // 2) 업데이트 내역 창
@@ -71,9 +76,9 @@ window.APP_UPDATES = [
                             <summary>
                                 <time datetime="${esc(u.date)}">${esc(dot(u.date))}</time>
                                 <span class="update-log-title">${i === 0 ? '<b class="update-log-new">NEW</b>' : ''}${esc(u.title)}</span>
-                                <span class="update-log-arrow" aria-hidden="true">▾</span>
+                                ${(u.items || []).length ? '<span class="update-log-arrow" aria-hidden="true">▾</span>' : ''}
                             </summary>
-                            <ul>${(u.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+                            ${(u.items || []).length ? `<ul>${u.items.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
                         </details>
                     </li>`).join('')}
                 </ol>
