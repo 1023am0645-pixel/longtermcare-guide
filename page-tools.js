@@ -34,6 +34,10 @@
         try { return localStorage.getItem(TTS_KEY) === '1'; } catch { return false; }
     }
 
+    function ttsSupported() {
+        try { return 'speechSynthesis' in window && typeof window.SpeechSynthesisUtterance === 'function'; } catch { return false; }
+    }
+
     // ── 한국어 음성 찾기 (없으면 읽어 주기 버튼을 아예 보여주지 않음) ──
     let koVoice = null;
     function findVoice() {
@@ -143,9 +147,16 @@
     }
     function stopSpeaking() {
         speaking = false;
+        clearTimeout(watchdog);
         queue = [];
         try { window.speechSynthesis.cancel(); } catch { /* 무시 */ }
         setSpeakButton(false);
+    }
+    let started = false;
+    let watchdog = 0;
+    function failSpeaking(message) {
+        stopSpeaking();
+        toast(message);
     }
     function speakNext() {
         if (!speaking) return;
@@ -154,30 +165,45 @@
         try {
             const u = new SpeechSynthesisUtterance(chunk);
             u.lang = 'ko-KR';
-            if (koVoice) u.voice = koVoice;
+            // 휴대폰에 내장된 한국어 음성만 지정 (인터넷 음성은 실패가 잦아 기본 음성에 맡김)
+            if (koVoice && koVoice.localService) u.voice = koVoice;
             u.rate = 0.9;
+            u.onstart = () => {
+                if (!started) toast('읽고 있어요. 소리가 안 들리면 휴대폰 옆 음량 버튼을 올려 주세요.');
+                started = true; clearTimeout(watchdog);
+            };
             u.onend = () => speakNext();
-            u.onerror = () => stopSpeaking();
+            u.onerror = e => {
+                if (!speaking || (e && (e.error === 'interrupted' || e.error === 'canceled'))) return;
+                failSpeaking('읽어 주기를 시작하지 못했어요. 잠시 후 다시 눌러 주세요.');
+            };
+            try { window.speechSynthesis.resume(); } catch { /* 일부 휴대폰의 '일시정지' 상태 풀기 */ }
             window.speechSynthesis.speak(u);
         } catch {
-            stopSpeaking();
-            toast('이 휴대폰에서는 읽어 주기를 쓸 수 없어요.');
+            failSpeaking('이 휴대폰에서는 읽어 주기를 쓸 수 없어요.');
         }
     }
     function toggleSpeak() {
         if (speaking) { stopSpeaking(); return; }
-        try { window.speechSynthesis.cancel(); } catch { /* 무시 */ }
         queue = toChunks(collectText());
         if (!queue.length) return;
         speaking = true;
+        started = false;
         setSpeakButton(true);
+        // 4초 안에 시작하지 않으면 멈추고 안내 (음성 엔진이 없거나 막힌 경우)
+        clearTimeout(watchdog);
+        watchdog = setTimeout(() => {
+            if (speaking && !started) failSpeaking('이 휴대폰에서는 읽어 주기가 되지 않아요. 휴대폰 설정의 \'텍스트 음성 변환(TTS)\'을 확인해 주세요.');
+        }, 4000);
+        // 바로 직전 cancel() 뒤에 말하기를 시작하면 무시되는 휴대폰이 있어, 남은 음성이 있을 때만 정리
+        try { if (window.speechSynthesis.speaking || window.speechSynthesis.pending) window.speechSynthesis.cancel(); } catch { /* 무시 */ }
         speakNext();
     }
 
     // ── 화면에 버튼 붙이기 ──
     function addSpeakButton(tools) {
         if (!tools || tools.querySelector('.page-tool-speak')) return;
-        if (!ttsWanted() || !(koVoice || findVoice())) return;
+        if (!ttsWanted() || !ttsSupported()) return;
         speakBtn = document.createElement('button');
         speakBtn.type = 'button';
         speakBtn.className = 'page-tool-btn page-tool-speak';
