@@ -38,29 +38,6 @@
         }
     }
 
-    // ── 유입 경로 ──
-    //   홍보 링크 끝의 ?from=intranet 같은 꼬리표를 읽어 이번 접속에만 붙입니다.
-    //   꼬리표는 주소창에서 바로 지워서, 이 화면을 다시 공유해도 따라가지 않게 합니다.
-    //   꼬리표가 없으면 홈 화면 아이콘으로 연 경우 'app', 그 밖에는 'direct'.
-    function readSource() {
-        let source = '';
-        try {
-            const url = new URL(location.href);
-            const raw = (url.searchParams.get('from') || '').toLowerCase();
-            if (raw) {
-                source = /^[a-z0-9_-]{1,30}$/.test(raw) ? raw : 'other';
-                url.searchParams.delete('from');
-                history.replaceState(history.state, '', url.pathname + url.search + url.hash);
-            }
-        } catch {
-            // 주소를 읽지 못해도 앱 이용에는 영향이 없습니다.
-        }
-        if (source) return source;
-        const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-        return standalone ? 'app' : 'direct';
-    }
-    const visitSource = readSource();
-
     function makePageview() {
         const visitDate = seoulDate();
         let newVisitor = true;
@@ -70,7 +47,7 @@
         } catch {
             // 저장소를 사용할 수 없으면 해당 접속을 새 방문으로 계산합니다.
         }
-        return { eventId: newEventId(), visitDate, newVisitor, source: visitSource };
+        return { eventId: newEventId(), visitDate, newVisitor };
     }
 
     async function flush() {
