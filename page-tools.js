@@ -1,6 +1,5 @@
 /* =====================================================================
    안내 화면 위쪽 도구 (2026-11-04)
-   · [이 화면 보내주기] : 지금 보고 있는 화면 주소를 카카오톡 등으로 보냅니다. (모든 사용자)
    · [읽어 주기]        : 화면 글을 휴대폰 음성으로 읽어 줍니다. (시험 중 — 아래 방법으로 켠 기기에서만 보임)
        켜기: 주소 끝에 ?tts=on  (예: .../longtermcare-guide/?tts=on)
        끄기: 주소 끝에 ?tts=off
@@ -9,11 +8,9 @@
 (function () {
     'use strict';
 
-    const SITE = 'https://1023am0645-pixel.github.io/longtermcare-guide/';
     const TTS_KEY = 'ltc_tts_beta_v1';
     const SKIP_ROUTES = ['', '#home', '#settings', '#search', '#contents', '#book'];
 
-    const ICON_SEND = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>';
     const ICON_SPEAK = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>';
     const ICON_STOP = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
 
@@ -68,64 +65,27 @@
         toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
     }
 
-    // ── 이 화면 보내주기 ──
-    function pageTitle() {
-        const h1 = document.querySelector('#app h1');
-        return h1 ? h1.textContent.replace(/\s+/g, ' ').trim() : '장기요양 길잡이';
-    }
-    function shareUrl() {
-        return SITE + (location.hash || '#home');
-    }
-    async function copyText(text) {
-        if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return; }
-        const t = document.createElement('textarea');
-        t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
-        document.body.appendChild(t); t.select();
-        const ok = document.execCommand('copy'); t.remove();
-        if (!ok) throw new Error('copy failed');
-    }
-    async function sendPage() {
-        const title = pageTitle();
-        const url = shareUrl();
-        if (navigator.share) {
-            try {
-                await navigator.share({ title: `장기요양 길잡이 · ${title}`, text: `[장기요양 길잡이] ${title} 안내`, url });
-                return;
-            } catch (err) {
-                if (err && err.name === 'AbortError') return;
-            }
-        }
-        try {
-            await copyText(url);
-            toast('화면 주소를 복사했어요. 카카오톡 대화창에 붙여 넣어 주세요.');
-        } catch {
-            toast('보내지 못했어요. 잠시 후 다시 눌러 주세요.');
-        }
-    }
-
     // ── 읽어 주기 ──
     let speaking = false;
     let queue = [];
     let speakBtn = null;
 
+    // 읽지 않을 부분: 이전/다음 목차 이동, 접혀 있는 항목 제목, '○○ 안내 보기' 같은 이동 버튼, 이북 원문 링크
     function collectText() {
         const app = document.getElementById('app');
         if (!app) return '';
         const root = app.firstElementChild || app;
-        const parts = [];
-        Array.from(root.children).forEach(el => {
-            if (el.matches('.page-toolbar, .back-link, .ebook-source-details, script, style')) return;
-            const text = (el.innerText || '').trim();
-            if (text) parts.push(text);
-        });
-        return parts.join('\n');
+        document.documentElement.classList.add('tts-reading-scan');
+        let text = '';
+        try { text = root.innerText || ''; } finally { document.documentElement.classList.remove('tts-reading-scan'); }
+        return text;
     }
     function toChunks(text) {
         const out = [];
         text.split(/\n+/).forEach(line => {
             const clean = line.replace(/[›»▾▸•·※]/g, ' ').replace(/\s+/g, ' ').trim();
             if (!clean) return;
-            if (/^목차\s*\d+$/.test(clean)) return;
+            if (/^목차\s*\d+$/.test(clean) || /^STEP\s*\d+$/i.test(clean)) return;
             clean.replace(/([가-힣)])([.?!])\s+/g, '$1$2\n').split('\n').forEach(sentence => {
                 let s = sentence.trim();
                 while (s.length > 120) {
@@ -218,6 +178,7 @@
         try {
             const app = document.getElementById('app');
             if (!app || SKIP_ROUTES.includes(route())) return;
+            if (!ttsWanted() || !ttsSupported()) return;
             const back = app.querySelector('.back-link');
             if (!back) return;
             const existing = back.closest('.page-toolbar');
@@ -230,13 +191,6 @@
 
             const tools = document.createElement('div');
             tools.className = 'page-tools';
-
-            const send = document.createElement('button');
-            send.type = 'button';
-            send.className = 'page-tool-btn page-tool-send';
-            send.innerHTML = `${ICON_SEND}<span>이 화면 보내주기</span>`;
-            send.addEventListener('click', sendPage);
-            tools.appendChild(send);
 
             speakBtn = null;
             addSpeakButton(tools);
