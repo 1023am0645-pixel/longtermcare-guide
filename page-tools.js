@@ -1,0 +1,240 @@
+/* =====================================================================
+   안내 화면 위쪽 도구 (2026-11-04)
+   · [이 화면 보내주기] : 지금 보고 있는 화면 주소를 카카오톡 등으로 보냅니다. (모든 사용자)
+   · [읽어 주기]        : 화면 글을 휴대폰 음성으로 읽어 줍니다. (시험 중 — 아래 방법으로 켠 기기에서만 보임)
+       켜기: 주소 끝에 ?tts=on  (예: .../longtermcare-guide/?tts=on)
+       끄기: 주소 끝에 ?tts=off
+   · 이 파일이 오류가 나도 앱의 다른 기능에는 영향이 없도록 모든 동작을 try/catch로 감쌉니다.
+   ===================================================================== */
+(function () {
+    'use strict';
+
+    const SITE = 'https://1023am0645-pixel.github.io/longtermcare-guide/';
+    const TTS_KEY = 'ltc_tts_beta_v1';
+    const SKIP_ROUTES = ['', '#home', '#settings', '#search', '#contents', '#book'];
+
+    const ICON_SEND = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>';
+    const ICON_SPEAK = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>';
+    const ICON_STOP = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
+
+    // ── 시험 기능 켜기/끄기 (주소의 ?tts=on / off) ──
+    function readTtsSwitch() {
+        try {
+            const url = new URL(location.href);
+            const v = url.searchParams.get('tts');
+            if (v === 'on') localStorage.setItem(TTS_KEY, '1');
+            if (v === 'off') localStorage.removeItem(TTS_KEY);
+            if (v) {
+                url.searchParams.delete('tts');
+                history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+            }
+        } catch { /* 무시 */ }
+    }
+    function ttsWanted() {
+        try { return localStorage.getItem(TTS_KEY) === '1'; } catch { return false; }
+    }
+
+    // ── 한국어 음성 찾기 (없으면 읽어 주기 버튼을 아예 보여주지 않음) ──
+    let koVoice = null;
+    function findVoice() {
+        try {
+            if (!('speechSynthesis' in window) || typeof window.SpeechSynthesisUtterance !== 'function') return null;
+            const voices = window.speechSynthesis.getVoices() || [];
+            const ko = voices.filter(v => /^ko([-_]|$)/i.test(v.lang || ''));
+            koVoice = ko.find(v => v.localService) || ko[0] || null;
+        } catch { koVoice = null; }
+        return koVoice;
+    }
+
+    // ── 토스트 안내 ──
+    let toastTimer = 0;
+    function toast(message) {
+        let el = document.getElementById('pageToolsToast');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'pageToolsToast';
+            el.className = 'page-tools-toast';
+            el.setAttribute('role', 'status');
+            el.setAttribute('aria-live', 'polite');
+            document.body.appendChild(el);
+        }
+        el.textContent = message;
+        el.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+    }
+
+    // ── 이 화면 보내주기 ──
+    function pageTitle() {
+        const h1 = document.querySelector('#app h1');
+        return h1 ? h1.textContent.replace(/\s+/g, ' ').trim() : '장기요양 길잡이';
+    }
+    function shareUrl() {
+        return SITE + (location.hash || '#home');
+    }
+    async function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return; }
+        const t = document.createElement('textarea');
+        t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+        document.body.appendChild(t); t.select();
+        const ok = document.execCommand('copy'); t.remove();
+        if (!ok) throw new Error('copy failed');
+    }
+    async function sendPage() {
+        const title = pageTitle();
+        const url = shareUrl();
+        if (navigator.share) {
+            try {
+                await navigator.share({ title: `장기요양 길잡이 · ${title}`, text: `[장기요양 길잡이] ${title} 안내`, url });
+                return;
+            } catch (err) {
+                if (err && err.name === 'AbortError') return;
+            }
+        }
+        try {
+            await copyText(url);
+            toast('화면 주소를 복사했어요. 카카오톡 대화창에 붙여 넣어 주세요.');
+        } catch {
+            toast('보내지 못했어요. 잠시 후 다시 눌러 주세요.');
+        }
+    }
+
+    // ── 읽어 주기 ──
+    let speaking = false;
+    let queue = [];
+    let speakBtn = null;
+
+    function collectText() {
+        const app = document.getElementById('app');
+        if (!app) return '';
+        const root = app.firstElementChild || app;
+        const parts = [];
+        Array.from(root.children).forEach(el => {
+            if (el.matches('.page-toolbar, .back-link, .ebook-source-details, script, style')) return;
+            const text = (el.innerText || '').trim();
+            if (text) parts.push(text);
+        });
+        return parts.join('\n');
+    }
+    function toChunks(text) {
+        const out = [];
+        text.split(/\n+/).forEach(line => {
+            const clean = line.replace(/[›»▾▸•·※]/g, ' ').replace(/\s+/g, ' ').trim();
+            if (!clean) return;
+            if (/^목차\s*\d+$/.test(clean)) return;
+            clean.replace(/([가-힣)])([.?!])\s+/g, '$1$2\n').split('\n').forEach(sentence => {
+                let s = sentence.trim();
+                while (s.length > 120) {
+                    const cut = s.lastIndexOf(' ', 120);
+                    const at = cut > 40 ? cut : 120;
+                    out.push(s.slice(0, at));
+                    s = s.slice(at).trim();
+                }
+                if (s) out.push(s);
+            });
+        });
+        return out;
+    }
+    function setSpeakButton(on) {
+        if (!speakBtn) return;
+        speakBtn.innerHTML = on ? `${ICON_STOP}<span>멈추기</span>` : `${ICON_SPEAK}<span>읽어 주기</span>`;
+        speakBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        speakBtn.classList.toggle('is-on', on);
+    }
+    function stopSpeaking() {
+        speaking = false;
+        queue = [];
+        try { window.speechSynthesis.cancel(); } catch { /* 무시 */ }
+        setSpeakButton(false);
+    }
+    function speakNext() {
+        if (!speaking) return;
+        const chunk = queue.shift();
+        if (!chunk) { stopSpeaking(); return; }
+        try {
+            const u = new SpeechSynthesisUtterance(chunk);
+            u.lang = 'ko-KR';
+            if (koVoice) u.voice = koVoice;
+            u.rate = 0.9;
+            u.onend = () => speakNext();
+            u.onerror = () => stopSpeaking();
+            window.speechSynthesis.speak(u);
+        } catch {
+            stopSpeaking();
+            toast('이 휴대폰에서는 읽어 주기를 쓸 수 없어요.');
+        }
+    }
+    function toggleSpeak() {
+        if (speaking) { stopSpeaking(); return; }
+        try { window.speechSynthesis.cancel(); } catch { /* 무시 */ }
+        queue = toChunks(collectText());
+        if (!queue.length) return;
+        speaking = true;
+        setSpeakButton(true);
+        speakNext();
+    }
+
+    // ── 화면에 버튼 붙이기 ──
+    function addSpeakButton(tools) {
+        if (!tools || tools.querySelector('.page-tool-speak')) return;
+        if (!ttsWanted() || !(koVoice || findVoice())) return;
+        speakBtn = document.createElement('button');
+        speakBtn.type = 'button';
+        speakBtn.className = 'page-tool-btn page-tool-speak';
+        speakBtn.addEventListener('click', toggleSpeak);
+        setSpeakButton(false);
+        tools.appendChild(speakBtn);
+    }
+    function route() {
+        return (location.hash || '').split('?')[0];
+    }
+    function mount() {
+        try {
+            const app = document.getElementById('app');
+            if (!app || SKIP_ROUTES.includes(route())) return;
+            const back = app.querySelector('.back-link');
+            if (!back) return;
+            const existing = back.closest('.page-toolbar');
+            if (existing) { addSpeakButton(existing.querySelector('.page-tools')); return; }
+
+            const bar = document.createElement('div');
+            bar.className = 'page-toolbar';
+            back.parentNode.insertBefore(bar, back);
+            bar.appendChild(back);
+
+            const tools = document.createElement('div');
+            tools.className = 'page-tools';
+
+            const send = document.createElement('button');
+            send.type = 'button';
+            send.className = 'page-tool-btn page-tool-send';
+            send.innerHTML = `${ICON_SEND}<span>이 화면 보내주기</span>`;
+            send.addEventListener('click', sendPage);
+            tools.appendChild(send);
+
+            speakBtn = null;
+            addSpeakButton(tools);
+            bar.appendChild(tools);
+        } catch { /* 버튼을 못 붙여도 화면은 그대로 */ }
+    }
+
+    function start() {
+        readTtsSwitch();
+        try {
+            if ('speechSynthesis' in window) {
+                findVoice();
+                window.speechSynthesis.addEventListener?.('voiceschanged', () => { findVoice(); mount(); });
+            }
+        } catch { /* 무시 */ }
+        window.addEventListener('hashchange', () => { if (speaking) stopSpeaking(); });
+        document.addEventListener('visibilitychange', () => { if (document.hidden && speaking) stopSpeaking(); });
+        const app = document.getElementById('app');
+        if (app && 'MutationObserver' in window) {
+            new MutationObserver(() => mount()).observe(app, { childList: true });
+        }
+        mount();
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+    else start();
+})();
