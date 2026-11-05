@@ -87,3 +87,23 @@
 .report-done h2 { margin: 12px 0 0; color: #1c2a3d; font-size: 1.25em; font-weight: 800; }
 .report-done p { margin: 8px 0 0; color: #46566c; font-size: .95em; line-height: 1.6; word-break: keep-all; }
 .report-done small { display: block; margin-top: 10px; color: #9aa7b8; font-size: 13px; }
+
+/* 고객의 소리 카드형 (2026-11-05) */
+.guide-settings .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+.voice-card { margin-top: 4px; padding: 16px; border: 1px solid #e3eaf5; border-radius: 22px; background: #fff; box-shadow: 0 10px 28px rgba(24,48,85,.07); }
+.voice-form { display: grid; gap: 14px; }
+.voice-types { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.voice-chip { position: relative; display: block; cursor: pointer; }
+.voice-chip-wide { grid-column: 1 / -1; }
+.voice-chip input { position: absolute; opacity: 0; pointer-events: none; }
+.voice-chip span { display: flex; align-items: center; gap: 8px; min-height: 58px; padding: 10px 12px; border: 1.5px solid #e3eaf5; border-radius: 16px; background: #f7f9fd; color: #33445b; font-size: .9em; font-weight: 750; line-height: 1.35; word-break: keep-all; transition: border-color .15s, background .15s, color .15s; }
+.voice-chip-wide span { justify-content: center; }
+.voice-chip span svg { width: 20px; height: 20px; color: #7f93b3; flex: none; transition: color .15s; }
+.voice-chip input:checked + span { border-color: #2f66e0; background: #eef4ff; color: #1f4fb8; box-shadow: 0 0 0 3px rgba(47,102,224,.12); }
+.voice-chip input:checked + span svg { color: #2f66e0; }
+.voice-chip input:focus-visible + span { outline: 3px solid #9dbcf7; outline-offset: 2px; }
+.voice-form textarea { width: 100%; min-width: 0; min-height: 132px; padding: 14px 15px; border: 1.5px solid #e3eaf5; border-radius: 16px; background: #fff; color: #1f2c40; font: inherit; line-height: 1.6; resize: vertical; }
+.voice-form textarea:focus { outline: none; border-color: #2f66e0; box-shadow: 0 0 0 3px rgba(47,102,224,.12); }
+.voice-submit { margin-top: 0; border-radius: 16px; }
+.voice-card .guide-report-status { margin: 10px 2px 0; min-height: 0; }
+.voice-card .guide-report-status:empty { display: none; }

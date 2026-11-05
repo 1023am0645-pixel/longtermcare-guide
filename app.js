@@ -1603,39 +1603,37 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div><h1>고객의 소리</h1></div>
                 </header>
 
-                <section class="guide-settings-section" aria-labelledby="guide-report-title">
-                    <div class="guide-settings-section-head">
-                        <i data-lucide="message-circle" aria-hidden="true"></i>
-                        <h2 id="guide-report-title">의견 보내기</h2>
-                    </div>
-                    <form id="guide-report-form" class="guide-report-form">
-                        <label for="guide-report-type">어떤 의견인가요?</label>
-                        <select id="guide-report-type" name="type" required>
-                            <option value="내용이 틀렸어요">내용이 틀렸어요</option>
-                            <option value="설명이 어려워요">설명이 어려워요</option>
-                            <option value="찾는 내용이 없어요">찾는 내용이 없어요</option>
-                            <option value="화면·버튼이 이상해요">화면·버튼이 이상해요</option>
-                            <option value="이런 게 있으면 좋겠어요">이런 게 있으면 좋겠어요</option>
-                        </select>
-                        <label for="guide-report-message">내용</label>
+                <section class="voice-card" aria-label="의견 보내기">
+                    <form id="guide-report-form" class="voice-form" novalidate>
+                        <fieldset class="voice-types">
+                            <legend class="sr-only">어떤 의견인가요?</legend>
+                            <label class="voice-chip"><input type="radio" name="type" value="내용이 틀렸어요" required><span><i data-lucide="alert-circle" aria-hidden="true"></i>내용이 틀렸어요</span></label>
+                            <label class="voice-chip"><input type="radio" name="type" value="설명이 어려워요" required><span><i data-lucide="circle-help" aria-hidden="true"></i>설명이 어려워요</span></label>
+                            <label class="voice-chip"><input type="radio" name="type" value="찾는 내용이 없어요" required><span><i data-lucide="search-x" aria-hidden="true"></i>찾는 내용이 없어요</span></label>
+                            <label class="voice-chip"><input type="radio" name="type" value="화면·버튼이 이상해요" required><span><i data-lucide="smartphone" aria-hidden="true"></i>화면·버튼이 이상해요</span></label>
+                            <label class="voice-chip voice-chip-wide"><input type="radio" name="type" value="이런 게 있으면 좋겠어요" required><span><i data-lucide="star" aria-hidden="true"></i>이런 게 있으면 좋겠어요</span></label>
+                        </fieldset>
+                        <label for="guide-report-message" class="sr-only">내용</label>
                         <textarea id="guide-report-message" name="message" rows="5" minlength="5" maxlength="1500" required placeholder="편하게 적어 주세요.&#10;이름·연락처 등 개인정보는 적지 말아 주세요."></textarea>
-                        <button class="guide-report-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 의견 보내기</button>
+                        <button class="guide-report-submit voice-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 보내기</button>
                     </form>
                     <p id="guide-report-status" class="guide-report-status" role="status" aria-live="polite"></p>
-                    <p class="guide-report-fine">이름·연락처는 묻지 않아요. 보낸 의견과 답변은 이 휴대폰에서만 볼 수 있어요.</p>
                 </section>
+                <p class="guide-report-fine">이름·연락처는 묻지 않아요. 보낸 의견과 답변은 이 휴대폰에서만 볼 수 있어요.</p>
                 <section id="myFeedbackSection" class="guide-settings-section my-feedback" aria-labelledby="my-feedback-title" hidden></section>
 
             </div>
         `;
+        app.querySelector('#guide-report-form').addEventListener('change', () => { app.querySelector('#guide-report-status').textContent = ''; });
         app.querySelector('#guide-report-form').addEventListener('submit', async event => {
             event.preventDefault();
             const form = event.currentTarget;
-            const type = app.querySelector('#guide-report-type').value;
+            const type = (form.querySelector('input[name="type"]:checked') || {}).value || '';
             const message = app.querySelector('#guide-report-message').value.trim();
             const status = app.querySelector('#guide-report-status');
             const submit = form.querySelector('.guide-report-submit');
-            if (message.length < 5) { status.textContent = '발생한 상황을 5자 이상 입력해 주세요.'; return; }
+            if (!type) { status.textContent = '위에서 어떤 의견인지 하나 골라 주세요.'; return; }
+            if (message.length < 5) { status.textContent = '내용을 5자 이상 적어 주세요.'; return; }
             submit.disabled = true;
             submit.innerHTML = '<span class="guide-report-spinner" aria-hidden="true"></span> 보내는 중';
             status.textContent = '';
@@ -1658,7 +1656,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 status.textContent = '접수 서버에 연결할 수 없습니다. 잠시 후 다시 시도하거나 신고 메일을 이용해 주세요.';
             } finally {
                 submit.disabled = false;
-                submit.innerHTML = '<i data-lucide="send" aria-hidden="true"></i> 의견 보내기';
+                submit.innerHTML = '<i data-lucide="send" aria-hidden="true"></i> 보내기';
                 if (window.lucide) lucide.createIcons();
             }
         });
