@@ -1,0 +1,20 @@
+/* =====================================================================
+   글씨 크기 설정에 따라 버튼 글자도 확실히 커지게 (2026-11-06)
+   대상: 주요 기능 4칸, 전체 목차 10개, 하단 메뉴 4개
+   '보통'은 지금 크기 그대로. '크게'에서 눈에 띄게 커지도록. 제목은 그대로.
+   ===================================================================== */
+/* 주요 기능 4칸 */
+:root[data-font="large"] body[data-route="home"] .home-v2 .primary-actions .quick-menu strong { font-size:23px; }
+/* 전체 목차 10개 */
+:root[data-font="large"] .app-shell #app .category-row strong { font-size:21px; }
+/* 하단 메뉴 이름: 보통 그대로 → 크게 → 아주 크게 */
+:root[data-font="large"] .app-shell .bottom-nav .nav-link,
+:root[data-font="large"] .app-shell .bottom-nav .nav-link span { font-size:15.5px !important; }
+:root[data-font="xlarge"] .app-shell .bottom-nav .nav-link,
+:root[data-font="xlarge"] .app-shell .bottom-nav .nav-link span { font-size:17px !important; letter-spacing:-.04em; }
+@media (max-width:390px) {
+    :root[data-font="large"] .app-shell .bottom-nav .nav-link,
+    :root[data-font="large"] .app-shell .bottom-nav .nav-link span { font-size:14px !important; }
+    :root[data-font="xlarge"] .app-shell .bottom-nav .nav-link,
+    :root[data-font="xlarge"] .app-shell .bottom-nav .nav-link span { font-size:15.5px !important; letter-spacing:-.05em; }
+}
