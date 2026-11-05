@@ -1598,12 +1598,12 @@ document.addEventListener('DOMContentLoaded', () => {
         setActiveNav('settings');
         app.innerHTML = `
             <div class="guide-settings">
-                <header class="guide-settings-head">
-                    <span class="guide-settings-icon guide-settings-icon-3d"><img src="assets/nav/voice.svg?v=20261105" alt="" width="56" height="56"></span>
-                    <div><h1>고객의 소리</h1></div>
+                <header class="guide-settings-head voice-hero">
+                    <h1>고객의 소리</h1>
+                    <img class="voice-hero-icon" src="assets/nav/voice-header.webp?v=20261105b" alt="" width="128" height="128">
                 </header>
 
-                <section class="guide-settings-section voice-flat" aria-label="의견 보내기">
+                <section class="guide-settings-section voice-flat voice-panel" aria-label="의견 보내기">
                     <form id="guide-report-form" class="guide-report-form" novalidate>
                         <label for="guide-report-type">문의 유형</label>
                         <select id="guide-report-type" name="type" required>

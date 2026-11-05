@@ -1,20 +1,25 @@
 /* =====================================================================
-   하단 메뉴 입체 아이콘 + 선택 상태 (2026-11-05, 디자인 패키지 반영)
+   하단 메뉴 입체 아이콘 + 선택 상태 (2026-11-05, Codex 시안 그대로)
    · 메뉴 이동 로직은 그대로: app.js setActiveNav()가 붙이는 .active 클래스만 사용
-   · 비활성: 채도·불투명도 낮춤 / 활성: 연한 파란 캡슐 + 풀 컬러 아이콘 + 파란 글자
+   · 비활성: 원래 색 아이콘 + 회청색 글자 / 활성: 아이콘·글자를 함께 감싸는 연한 파란 칸 + 파란 글자
    ===================================================================== */
-.app-shell .bottom-nav .nav-icon { width:56px; height:44px; background:transparent; border-radius:16px; box-shadow:none; transition:background .18s, box-shadow .18s; }
-.app-shell .bottom-nav .nav-icon img { display:block; width:38px; height:38px; object-fit:contain; filter:grayscale(.9) saturate(.3); opacity:.66; transition:filter .18s, opacity .18s; }
-.app-shell .bottom-nav .nav-link { color:#66768d; }
-.app-shell .bottom-nav .nav-link.active { color:#1259d4; font-weight:800; }
-.app-shell .bottom-nav .nav-link.active .nav-icon { background:linear-gradient(150deg,#e5f0ff,#d6e8ff); box-shadow:0 5px 12px rgba(28,92,198,.13); color:inherit; }
-.app-shell .bottom-nav .nav-link.active .nav-icon img { filter:none; opacity:1; }
-.app-shell .bottom-nav .nav-link:focus-visible { outline:2px solid #2571f4; outline-offset:-2px; border-radius:12px; }
+.app-shell .bottom-nav .nav-link { gap:2px; padding:6px 0 7px; border-radius:20px; color:#5d6b80; transition:background .18s, box-shadow .18s, color .18s; }
+.app-shell .bottom-nav .nav-icon { width:48px; height:42px; background:transparent !important; box-shadow:none !important; }
+.app-shell .bottom-nav .nav-icon img { display:block; width:42px; height:42px; object-fit:contain; }
+.app-shell .bottom-nav .nav-link.active { background:linear-gradient(160deg,#e8f1ff,#d9e8ff); box-shadow:0 4px 12px rgba(28,92,198,.12); color:#1d5bd8; font-weight:800; }
+.app-shell .bottom-nav .nav-link:focus-visible { outline:2px solid #2571f4; outline-offset:-2px; }
 @media (max-width:375px) {
-    .app-shell .bottom-nav .nav-icon { width:50px; height:42px; }
-    .app-shell .bottom-nav .nav-icon img { width:35px; height:35px; }
+    .app-shell .bottom-nav .nav-icon img { width:38px; height:38px; }
 }
 
-/* 고객의 소리 제목 옆 입체 아이콘 */
-.guide-settings-icon.guide-settings-icon-3d { flex:0 0 64px; height:64px; border-radius:20px; background:linear-gradient(145deg,#e7efff,#f7faff); box-shadow:inset 0 1px 0 #fff, 0 6px 14px rgba(47,102,224,.12); }
-.guide-settings-icon.guide-settings-icon-3d img { width:52px; height:52px; object-fit:contain; }
+/* 고객의 소리: 제목 카드 (왼쪽 제목, 오른쪽 큰 아이콘) */
+.guide-settings-head.voice-hero { position:relative; display:flex; align-items:center; justify-content:space-between; min-height:132px; margin:0 0 16px; padding:20px 18px 20px 24px; border-radius:28px; background:linear-gradient(150deg,#e6efff 0%,#f1f5ff 60%,#f7f9ff 100%); box-shadow:inset 0 1px 0 #fff, 0 8px 24px rgba(65,108,160,.08); overflow:hidden; }
+.guide-settings-head.voice-hero h1 { margin:0; font-size:1.75em; font-weight:800; letter-spacing:-.04em; color:#14233a; }
+.voice-hero-icon { flex:0 0 auto; width:118px; height:118px; margin:-8px -4px -10px 8px; object-fit:contain; filter:drop-shadow(0 10px 16px rgba(47,102,224,.18)); }
+
+/* 고객의 소리: 입력 칸을 흰 카드 안에 */
+.guide-settings-section.voice-panel { padding:22px 20px 18px; border:0; border-radius:24px; background:#fff; box-shadow:0 9px 30px rgba(65,108,160,.08); }
+@media (max-width:375px) {
+    .voice-hero-icon { width:100px; height:100px; }
+    .guide-settings-head.voice-hero h1 { font-size:1.55em; }
+}
