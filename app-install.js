@@ -87,7 +87,7 @@
                         <button class="share-action share-copy" type="button"><i data-lucide="copy"></i>링크 복사</button>
                         <a class="share-action" href="share-qr.png" download="장기요양-길잡이-QR.png"><i data-lucide="download"></i>QR 저장</a>
                     </div>
-                    <button class="share-shortcut" type="button"><i data-lucide="smartphone"></i>홈 화면에 바로가기 추가</button>
+                    <button class="share-shortcut" type="button"><i data-lucide="smartphone"></i>홈 화면에 앱 추가</button>
                     <p class="share-help" aria-live="polite">보호자에게 QR을 보여주면 앱 첫 화면으로 연결됩니다.</p>
                 </section>`;
             document.body.appendChild(backdrop);
@@ -145,7 +145,12 @@
         if (/KAKAOTALK|NAVER|Instagram|FBAN|FBAV|; wv\)/i.test(ua)) {
             steps = ['현재 앱 안의 브라우저에서는 설치 메뉴가 보이지 않을 수 있습니다. 메뉴에서 ‘다른 브라우저로 열기’를 선택하세요.', ios ? 'Safari에서 이 주소를 연 뒤 공유 → 홈 화면에 추가를 선택하세요.' : 'Chrome 또는 삼성 인터넷에서 이 주소를 열고 오른쪽 위 앱 설치 버튼을 다시 눌러 주세요.'];
         } else if (ios) {
-            steps = ['Safari에서 이 페이지를 열고 공유 버튼을 누르세요. 다른 브라우저를 쓰고 있다면 주소를 복사해 Safari에서 열어 주세요.', '공유 목록에서 ‘홈 화면에 추가’를 선택하세요. 보이지 않으면 목록 아래 ‘동작 편집’을 확인하세요.', '‘웹 앱으로 열기’가 표시되면 켜고 ‘추가’를 누르세요.'];
+            // 아이폰 Safari: 공유 버튼 → 홈 화면에 추가 → 추가 (짧고 간결하게)
+            steps = [
+                '화면 아래 가운데 <strong>공유 버튼</strong> <span class="ios-share-glyph" aria-label="공유 버튼"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7.5 7.5 4.5-4.5 4.5 4.5"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg></span> 을 누르세요.<small>안 보이면 아래쪽 <strong>···</strong> 을 먼저 누르세요.</small>',
+                '목록을 위로 올려 <strong>홈 화면에 추가</strong>를 누르세요.',
+                '오른쪽 위 <strong>추가</strong>를 누르면 끝!'
+            ];
         } else if (/SamsungBrowser/i.test(ua)) {
             steps = ['삼성 인터넷 메뉴에서 ‘현재 페이지 추가’ 또는 ‘페이지 추가’를 찾아 주세요.', '‘홈 화면’을 선택하고 화면 안내에 따라 추가하세요. 브라우저 버전에 따라 메뉴 이름이 다를 수 있습니다.'];
         } else if (/Android/i.test(ua)) {

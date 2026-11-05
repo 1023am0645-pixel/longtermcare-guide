@@ -875,3 +875,7 @@ body[data-route="home"] .app-shell .hero-title { font-size:33.6px; line-height:1
 :root[data-font="xlarge"] body[data-route="home"] .app-shell .hero-title { font-size:36px; }
 body[data-route="home"] .hero-title em { font-size:38px; }
 :root[data-font="xlarge"] body[data-route="home"] .hero-title em { font-size:41px; }
+
+/* 아이폰 홈 화면 추가 안내: 공유 아이콘·보조 문구 (2026-11-05) */
+.shortcut-guide-steps .ios-share-glyph { display:inline-grid; place-items:center; width:28px; height:28px; margin:0 2px; border-radius:8px; background:#e5efff; color:#2458be; vertical-align:-8px; }
+.shortcut-guide-steps p small { display:block; margin-top:3px; color:#6a7a90; font-size:.88em; }
