@@ -112,3 +112,9 @@
 .voice-types { display: flex; flex-wrap: wrap; gap: 8px; }
 .voice-chip span { min-height: 42px; padding: 8px 14px; gap: 6px; border-radius: 999px; font-size: .84em; white-space: nowrap; }
 .voice-chip span svg { width: 17px; height: 17px; }
+
+/* 불편 유형: 선택 목록 (2026-11-05) */
+.voice-select { width: 100%; min-width: 0; min-height: 54px; padding: 12px 44px 12px 15px; border: 1.5px solid #e3eaf5; border-radius: 16px; background: #f7f9fd url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%237f93b3' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 15px center; color: #1f2c40; font: inherit; font-weight: 700; -webkit-appearance: none; appearance: none; cursor: pointer; }
+.voice-select:invalid { color: #9aa7b8; font-weight: 500; }
+.voice-select:focus { outline: none; border-color: #2f66e0; box-shadow: 0 0 0 3px rgba(47,102,224,.12); }
+.voice-select option { color: #1f2c40; }
