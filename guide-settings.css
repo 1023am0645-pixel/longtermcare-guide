@@ -125,3 +125,11 @@
 .voice-flat select:invalid { color: #9aa7b8; }
 .voice-flat select option { color: #1f2c40; }
 .voice-flat .guide-report-status:empty { display: none; }
+
+/* 내용 칸 안내: 위는 흐리게, 예시는 더 작고 연하게 (2026-11-05) */
+.voice-field { position: relative; }
+.voice-field textarea { display: block; }
+.voice-hint { position: absolute; top: 13px; left: 15px; right: 15px; pointer-events: none; }
+.voice-hint[hidden] { display: none; }
+.voice-hint span { display: block; color: #9aa7b8; line-height: 1.55; word-break: keep-all; }
+.voice-hint small { display: block; margin-top: 12px; color: #b9c3d1; font-size: .82em; line-height: 1.5; word-break: keep-all; }
