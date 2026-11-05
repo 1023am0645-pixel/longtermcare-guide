@@ -42,11 +42,9 @@ body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(1) { --c
 body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(2) { --card-a:#fdfbfa; --card-b:#fdf1e6; --card-c:rgba(252,234,214,.55); }
 body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(3) { --card-a:#f6fafe; --card-b:#eaf4fd; --card-c:rgba(220,237,252,.55); }
 body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(4) { --card-a:#fbfbfe; --card-b:#eff0fa; --card-c:rgba(230,232,246,.55); }
-body[data-route="home"] .home-v2 .primary-actions .quick-icon {
-    width:56px !important; height:50px !important; padding:0 !important; border-radius:0 !important;
-    background:transparent !important; box-shadow:none !important; overflow:visible;
-}
-body[data-route="home"] .home-v2 .primary-actions .quick-icon img { transform:scale(2.05); transform-origin:42% 50%; filter:drop-shadow(0 6px 8px rgba(60,80,150,.14)); }
+/* 아이콘: 크기는 지금 그대로(60px 칸), 뒤 네모 받침만 없앰 */
+body[data-route="home"] .home-v2 .primary-actions .quick-icon { background:transparent !important; box-shadow:none !important; }
+body[data-route="home"] .home-v2 .primary-actions .quick-icon img { filter:drop-shadow(0 5px 7px rgba(60,80,150,.14)); }
 body[data-route="home"] .home-v2 .primary-actions .quick-menu strong { font-size:17px; letter-spacing:-.04em; color:#1f2944; }
 body[data-route="home"] .home-v2 .quick-arrow { top:14px; right:13px; width:24px; height:24px; }
 body[data-route="home"] .home-v2 .quick-arrow svg { width:14px; height:14px; }
@@ -62,7 +60,9 @@ body[data-route="home"] .home-v2 .quick-arrow svg { width:14px; height:14px; }
     background:rgba(255,255,255,.95) !important; box-shadow:0 12px 30px rgba(60,84,160,.14) !important;
 }
 .app-shell #app { padding-bottom:calc(112px + env(safe-area-inset-bottom)); }
-.app-shell .bottom-nav .nav-icon img { filter:none !important; opacity:.9 !important; }
+/* 꺼진 메뉴 아이콘은 원래 색을 살짝 연하게, 선택된 메뉴만 또렷하게 */
+.app-shell .bottom-nav .nav-icon img { filter:saturate(.9) brightness(1.04) !important; opacity:.72 !important; }
+.app-shell .bottom-nav .nav-link.active .nav-icon img { filter:none !important; }
 .app-shell .bottom-nav .nav-link.active .nav-icon img { opacity:1 !important; }
 
 /* 화살표 동그라미: 카드별 옅은 색 */
