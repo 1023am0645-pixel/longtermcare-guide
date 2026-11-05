@@ -1,0 +1,74 @@
+/* =====================================================================
+   홈 화면 본문 — 승인 시안(reference-approved-mockup)과 같게 (2026-11-06)
+   글씨 크기 줄, 검색창, 주요 기능 4칸, 하단 메뉴. 기능·문구는 그대로.
+   ===================================================================== */
+
+/* 글씨 크기 줄: 시안처럼 '글씨 크기' 이름 + 얇은 알약 (전체화면 버튼은 유지) */
+body[data-route="home"] .app-shell .font-bar { gap:8px; margin:14px var(--app-gutter) 0; }
+body[data-route="home"] .app-shell .font-bar .font-bar-label { display:block !important; color:#4b5568; font-size:14px; font-weight:700; letter-spacing:-.03em; white-space:nowrap; }
+body[data-route="home"] .app-shell .font-bar .font-controls {
+    gap:2px; padding:3px; border:1px solid rgba(255,255,255,.95); background:rgba(255,255,255,.92);
+    box-shadow:0 4px 14px rgba(70,94,170,.09);
+}
+body[data-route="home"] .app-shell .font-bar .font-button { min-height:34px; font-size:15px; font-weight:800; color:#2a3346; }
+body[data-route="home"] .app-shell .font-bar .font-button[aria-pressed="true"] { color:#fff; background:linear-gradient(135deg,#4f8bf7,#2b63e3); box-shadow:0 4px 10px rgba(43,99,227,.28); }
+body[data-route="home"] .app-shell .font-bar .fullscreen-toggle { flex:0 0 40px; width:40px; height:40px; border:1px solid rgba(255,255,255,.95); box-shadow:0 4px 14px rgba(70,94,170,.09); }
+body[data-route="home"] .app-shell .font-bar .fullscreen-toggle svg { width:18px; height:18px; }
+
+/* 검색창: 시안 높이·테두리 */
+body[data-route="home"] .app-shell .search-band { padding:12px var(--app-gutter) 16px; }
+body[data-route="home"] .app-shell .search-panel { min-height:48px; padding:4px 4px 4px 16px; gap:9px; border:1.5px solid #c9d8f6; box-shadow:0 6px 16px rgba(70,94,170,.08); }
+body[data-route="home"] .app-shell .search-panel > svg { flex-basis:20px; width:20px; height:20px; color:#2b63e3; }
+body[data-route="home"] .app-shell .search-band .search-box { min-height:38px; }
+body[data-route="home"] .app-shell .search-box input { font-size:15px; }
+body[data-route="home"] .app-shell .search-box input::placeholder { color:#8a93a8; }
+body[data-route="home"] .app-shell .search-submit { flex-basis:38px; width:38px; height:38px; background:linear-gradient(135deg,#4f8bf7,#2b63e3); }
+body[data-route="home"] .app-shell .search-submit svg { width:19px; height:19px; }
+
+/* 주요 기능 4칸: 아이콘 받침 없이 크게, 카드마다 은은한 색 그라데이션 + 아래쪽 물결 */
+body[data-route="home"] .home-v2 .primary-actions { gap:9px; }
+body[data-route="home"] .home-v2 .primary-actions .quick-menu {
+    position:relative; overflow:hidden; isolation:isolate; gap:10px; min-height:112px; padding:14px 13px 16px 16px;
+    border:1.5px solid rgba(255,255,255,.95); border-radius:18px;
+    background:linear-gradient(135deg, var(--card-a) 0%, var(--card-b) 100%);
+    box-shadow:0 6px 18px rgba(70,94,170,.09);
+}
+body[data-route="home"] .home-v2 .primary-actions .quick-menu::after {
+    content:""; position:absolute; z-index:-1; left:0; right:0; bottom:0; height:46%; pointer-events:none;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60' preserveAspectRatio='none'%3E%3Cpath d='M0 60 V44 C 50 52 110 44 150 24 C 170 14 186 8 200 6 V60 Z' fill='%23fff' fill-opacity='.38'/%3E%3Cpath d='M0 44 C 50 52 110 44 150 24 C 170 14 186 8 200 6' fill='none' stroke='%23fff' stroke-opacity='.7' stroke-width='1'/%3E%3C/svg%3E") 0 100%/100% 100% no-repeat,
+               linear-gradient(180deg, transparent 0%, var(--card-c) 100%);
+}
+body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(1) { --card-a:#f8f8fe; --card-b:#efedfd; --card-c:rgba(230,225,252,.55); }
+body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(2) { --card-a:#fdfbfa; --card-b:#fdf1e6; --card-c:rgba(252,234,214,.55); }
+body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(3) { --card-a:#f6fafe; --card-b:#eaf4fd; --card-c:rgba(220,237,252,.55); }
+body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(4) { --card-a:#fbfbfe; --card-b:#eff0fa; --card-c:rgba(230,232,246,.55); }
+body[data-route="home"] .home-v2 .primary-actions .quick-icon {
+    width:56px !important; height:50px !important; padding:0 !important; border-radius:0 !important;
+    background:transparent !important; box-shadow:none !important; overflow:visible;
+}
+body[data-route="home"] .home-v2 .primary-actions .quick-icon img { transform:scale(2.05); transform-origin:42% 50%; filter:drop-shadow(0 6px 8px rgba(60,80,150,.14)); }
+body[data-route="home"] .home-v2 .primary-actions .quick-menu strong { font-size:17px; letter-spacing:-.04em; color:#1f2944; }
+body[data-route="home"] .home-v2 .quick-arrow { top:14px; right:13px; width:24px; height:24px; }
+body[data-route="home"] .home-v2 .quick-arrow svg { width:14px; height:14px; }
+:root[data-font="large"] body[data-route="home"] .home-v2 .primary-actions .quick-menu strong { font-size:19px; }
+:root[data-font="xlarge"] body[data-route="home"] .home-v2 .primary-actions .quick-menu { min-height:84px; }
+:root[data-font="xlarge"] body[data-route="home"] .home-v2 .primary-actions .quick-menu strong { font-size:21px; }
+:root[data-font="xlarge"] body[data-route="home"] .home-v2 .quick-arrow { width:30px; height:30px; }
+
+/* 하단 메뉴: 화면 아래에서 살짝 떠 있는 둥근 카드 (모든 화면 공통) */
+.app-shell .bottom-nav {
+    bottom:calc(10px + env(safe-area-inset-bottom)) !important; width:min(calc(var(--app-max) - 24px), calc(100% - 24px)) !important;
+    padding:6px 8px !important; border:1.5px solid rgba(255,255,255,.95) !important; border-radius:26px !important;
+    background:rgba(255,255,255,.95) !important; box-shadow:0 12px 30px rgba(60,84,160,.14) !important;
+}
+.app-shell #app { padding-bottom:calc(112px + env(safe-area-inset-bottom)); }
+.app-shell .bottom-nav .nav-icon img { filter:none !important; opacity:.9 !important; }
+.app-shell .bottom-nav .nav-link.active .nav-icon img { opacity:1 !important; }
+
+/* 화살표 동그라미: 카드별 옅은 색 */
+body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(1) .quick-arrow { background:#e5ebfb; color:#2b55c6; }
+body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(2) .quick-arrow { background:#e3f1e6; color:#2f7a4a; }
+body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(3) .quick-arrow { background:#e0f1f1; color:#1f6f78; }
+body[data-route="home"] .home-v2 .primary-actions .quick-menu:nth-child(4) .quick-arrow { background:#e9eaf0; color:#3d4556; }
+/* 시안처럼 맨 위 여백 조금 더 */
+body[data-route="home"] .app-shell .topbar { margin-top:22px !important; }
