@@ -81,9 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="shortcut-guide-close" type="button" aria-label="안내 닫기"><i data-lucide="x" aria-hidden="true"></i></button>
                 <span class="shortcut-guide-icon" aria-hidden="true"><i data-lucide="square-plus"></i></span>
                 <div class="shortcut-guide-copy">
-                    <small>더 빠르게 이용하는 방법</small>
-                    <h2 id="shortcutGuideTitle">홈 화면에 앱 추가</h2>
-                    <p id="shortcutGuideText">${isIos ? '아이폰은 Safari에서 3단계면 돼요.' : '홈 화면에 추가하면 다음부터 아이콘을 눌러 바로 열 수 있어요.'}</p>
+                    ${isIos ? '' : '<small>더 빠르게 이용하는 방법</small>'}
+                    <h2 id="shortcutGuideTitle">${isIos ? '아이폰 홈 화면에 앱 추가' : '홈 화면에 앱 추가'}</h2>
+                    <p id="shortcutGuideText"${isIos ? ' hidden' : ''}>홈 화면에 추가하면 다음부터 아이콘을 눌러 바로 열 수 있어요.</p>
                 </div>
                 <ol class="shortcut-guide-steps">${shortcutGuideSteps()}</ol>
                 <button class="shortcut-guide-confirm" type="button">확인했어요</button>
