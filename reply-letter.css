@@ -1,26 +1,36 @@
-/* ── 고객의 소리 답변 창 (2026-11-05, 앱 카드 디자인에 맞춤) ── */
+/* ── 고객의 소리 답변 편지 (2026-11-05, 항공우편 편지봉투 시안) ── */
 html.reply-letter-open{overflow:hidden}
-.reply-letter-overlay{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(20,35,58,.52);opacity:0;transition:opacity .2s ease}
+.reply-letter-overlay{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:20px 16px;background:rgba(20,35,58,.52);opacity:0;transition:opacity .2s ease}
 .reply-letter-overlay.show{opacity:1}
-.reply-letter{width:100%;max-width:400px;max-height:calc(100dvh - 40px);overflow:auto;border-radius:24px;background:#fff;box-shadow:0 24px 60px rgba(24,48,85,.28);font-size:16px;color:#1c2a3d;transform:translateY(16px) scale(.98);transition:transform .25s cubic-bezier(.2,.9,.3,1)}
+.reply-letter{position:relative;width:100%;max-width:400px;max-height:calc(100dvh - 40px);padding:0 10px 0;font-size:16px;color:#1c2a3d;transform:translateY(18px);transition:transform .3s cubic-bezier(.2,.9,.3,1)}
+.reply-letter:focus{outline:none}
 .reply-letter-overlay.show .reply-letter{transform:none}
-.reply-head{display:flex;flex-direction:column;align-items:center;padding:24px 22px 18px;background:linear-gradient(180deg,#eaf2ff 0%,#f7faff 70%,#fff 100%);text-align:center}
-.reply-icon{width:88px;height:88px;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(47,102,224,.18))}
-.reply-badge{margin-top:8px;padding:4px 11px;border-radius:999px;background:#2f66e0;color:#fff;font-size:12.5px;font-weight:800;letter-spacing:.02em}
-.reply-head h2{margin:10px 0 0;color:#1c2a3d;font-size:1.32em;font-weight:800;line-height:1.35;letter-spacing:-.4px;word-break:keep-all}
-.reply-body{padding:4px 20px 18px}
-.reply-block{margin-top:10px;padding:13px 15px;border-radius:16px}
-.reply-block small{display:block;margin-bottom:4px;font-size:12.5px;font-weight:800}
-.reply-block p{margin:0;line-height:1.65;word-break:keep-all}
-.reply-mine{background:#f4f6fa}
-.reply-mine small{color:#7a889c}
-.reply-mine p{color:#52637a;font-size:.92em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.reply-answer{background:#eef4ff;border:1px solid #d6e3fb}
-.reply-answer small{color:#2f66e0}
-.reply-answer p{color:#1c2a3d;font-size:1em}
-.reply-from{margin:10px 2px 0;color:#7a889c;font-size:12.5px;font-weight:600;text-align:right}
-.reply-ok{display:block;width:100%;min-height:52px;margin-top:14px;border:0;border-radius:14px;background:#2f66e0;color:#fff;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
-.reply-ok:focus-visible{outline:3px solid #9dbcf7;outline-offset:2px}
+/* 편지지 */
+.reply-paper{position:relative;z-index:1;max-height:calc(100dvh - 60px);overflow:auto;padding:30px 20px 140px;border-radius:30px 30px 18px 18px;background:linear-gradient(180deg,#f8faff 0%,#ffffff 40%);box-shadow:0 18px 50px rgba(24,48,85,.22)}
+.reply-paper::before{content:"";position:absolute;left:22px;right:22px;top:0;height:9px;border-radius:0 0 4px 4px;background:repeating-linear-gradient(-55deg,#f4a6b3 0 18px,transparent 18px 34px,#9cc0f2 34px 52px,transparent 52px 68px);opacity:.9}
+.reply-close{position:absolute;top:16px;right:14px;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;color:#5b6777;cursor:pointer}
+.reply-close:focus-visible{outline:3px solid #9dbcf7}
+.reply-icon{display:block;width:116px;height:116px;margin:4px auto 0;object-fit:contain;filter:drop-shadow(0 10px 14px rgba(47,102,224,.16))}
+.reply-paper h2{display:flex;align-items:center;gap:14px;margin:10px 0 18px;color:#14233a;font-size:1.28em;font-weight:800;line-height:1.38;letter-spacing:-.04em;text-align:center}
+.reply-paper h2::before,.reply-paper h2::after{content:"";flex:1 1 0;height:2px;border-radius:2px;background:#cddcf3}
+.reply-paper h2 span{flex:0 0 auto}
+.reply-row{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:14px;margin-top:10px;padding:14px 16px;border-radius:20px}
+.reply-row b{display:inline-grid;place-items:center;min-width:54px;height:30px;padding:0 12px;border-radius:999px;font-size:15px;font-weight:800}
+.reply-row p{margin:3px 0 0;line-height:1.6;word-break:keep-all}
+.reply-mine{background:#f1f3f7}
+.reply-mine b{background:#e1e5ed;color:#6b7686}
+.reply-mine p{color:#4d5a6c;font-size:.95em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.reply-answer{background:#edf3ff}
+.reply-answer b{background:#d9e7ff;color:#1d5bd8}
+.reply-answer p{color:#1c2a3d}
+.reply-from{margin:10px 6px 0;color:#9aa6b6;font-size:12px;font-weight:600;text-align:right}
+/* 봉투 (뒤판은 편지지 뒤, 앞판은 편지지 아래쪽을 덮음) */
+.reply-env-back{position:absolute;left:0;right:0;bottom:0;height:150px;border-radius:26px 26px 30px 30px;background:linear-gradient(180deg,#cfe0fb,#e3edff);z-index:0}
+.reply-env-front{position:absolute;left:0;right:0;bottom:0;z-index:2;height:124px;border-radius:16px 16px 30px 30px;background:linear-gradient(180deg,#e6efff 0%,#d3e3fd 100%);box-shadow:0 -6px 14px rgba(40,80,150,.08), inset 0 1px 0 rgba(255,255,255,.9);pointer-events:none;overflow:hidden}
+.reply-env-lines{position:absolute;inset:0;width:100%;height:100%}
+.reply-seal{position:absolute;left:50%;top:52%;display:grid;place-items:center;width:62px;height:62px;margin:-31px 0 0 -31px;background:radial-gradient(circle at 35% 30%,#fb9aa0,#ee6b77 55%,#d9525f);border-radius:50%;box-shadow:0 6px 12px rgba(200,60,80,.3), inset 0 -3px 6px rgba(150,30,50,.25);
+  -webkit-mask:radial-gradient(circle,#000 62%,transparent 63%) 0 0/100% 100%, conic-gradient(#000 0 0);
+  clip-path:polygon(50% 0%,59% 4%,69% 3%,76% 10%,86% 13%,89% 23%,97% 30%,96% 40%,100% 50%,96% 60%,97% 70%,89% 77%,86% 87%,76% 90%,69% 97%,59% 96%,50% 100%,41% 96%,31% 97%,24% 90%,14% 87%,11% 77%,3% 70%,4% 60%,0% 50%,4% 40%,3% 30%,11% 23%,14% 13%,24% 10%,31% 3%,41% 4%)}
 @media (prefers-reduced-motion:reduce){.reply-letter-overlay,.reply-letter{transition:none}}
 
 /* 고객의 소리 화면: 내가 보낸 의견 */

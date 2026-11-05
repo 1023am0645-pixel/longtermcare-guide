@@ -48,30 +48,23 @@
         box.className = 'reply-letter-overlay';
         box.innerHTML = `
             <section class="reply-letter" role="dialog" aria-modal="true" aria-labelledby="replyLetterTitle">
-                <header class="reply-head">
-                    <img class="reply-icon" src="icons3d/consult.webp" alt="" width="96" height="96">
-                    <span class="reply-badge">답변 도착</span>
-                    <h2 id="replyLetterTitle">보내주신 의견에<br>답변드려요</h2>
-                </header>
-                <div class="reply-body">
-                    <div class="reply-block reply-mine">
-                        <small>내 의견 · 접수번호 ${esc(item.receiptId)}${item.createdAt ? ` · ${esc(dateText(item.createdAt))}` : ''}</small>
-                        <p>${esc(item.content)}</p>
-                    </div>
-                    <div class="reply-block reply-answer">
-                        <small>답변</small>
-                        <p>${esc(item.answer).replace(/\n/g, '<br>')}</p>
-                    </div>
+                <span class="reply-env-back" aria-hidden="true"></span>
+                <div class="reply-paper">
+                    <button type="button" class="reply-close" aria-label="닫기"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+                    <img class="reply-icon" src="assets/nav/voice-header.webp?v=20261105b" alt="" width="128" height="128">
+                    <h2 id="replyLetterTitle"><span>보내주신 의견에<br>답변이 도착했어요</span></h2>
+                    <div class="reply-row reply-mine"><b>의견</b><p>${esc(item.content)}</p></div>
+                    <div class="reply-row reply-answer"><b>답변</b><p>${esc(item.answer).replace(/\n/g, '<br>')}</p></div>
                     <p class="reply-from">대전서부지사 김하연 드림</p>
-                    <button type="button" class="reply-ok">확인했어요</button>
                 </div>
+                <span class="reply-env-front" aria-hidden="true"><svg class="reply-env-lines" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 6 50 52 100 6M0 100 50 52 100 100" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="1.2" vector-effect="non-scaling-stroke"/></svg><span class="reply-seal"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M12 4.5c-4.7 0-8.5 2.9-8.5 6.6 0 2.1 1.2 3.9 3.1 5.1l-.7 3.3 3.6-2c.8.2 1.6.2 2.5.2 4.7 0 8.5-3 8.5-6.6S16.7 4.5 12 4.5z" fill="#fff"/><circle cx="8.3" cy="11.2" r="1.15" fill="#ee6b77"/><circle cx="12" cy="11.2" r="1.15" fill="#ee6b77"/><circle cx="15.7" cy="11.2" r="1.15" fill="#ee6b77"/></svg></span></span>
             </section>`;
         const close = () => {
             box.classList.remove('show');
             document.documentElement.classList.remove('reply-letter-open');
             setTimeout(() => { box.remove(); if (onClose) onClose(); }, 200);
         };
-        box.addEventListener('click', e => { if (e.target === box || e.target.closest('.reply-ok')) close(); });
+        box.addEventListener('click', e => { if (e.target === box || e.target.closest('.reply-close')) close(); });
         document.addEventListener('keydown', function onKey(e) {
             if (e.key !== 'Escape' || !box.isConnected) return;
             document.removeEventListener('keydown', onKey);
