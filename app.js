@@ -1613,7 +1613,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <label class="voice-chip"><input type="radio" name="type" value="기타 불편" required><span><i data-lucide="message-circle" aria-hidden="true"></i>기타 불편</span></label>
                         </fieldset>
                         <label for="guide-report-message" class="sr-only">내용</label>
-                        <textarea id="guide-report-message" name="message" rows="5" minlength="5" maxlength="1500" required placeholder="어느 화면에서 어떤 문제가 있었는지 적어 주세요.&#10;이름·연락처 등 개인정보는 적지 말아 주세요."></textarea>
+                        <textarea id="guide-report-message" name="message" rows="5" minlength="5" maxlength="1500" required placeholder="의견을 보내 주세요.&#10;이름·연락처 등 개인정보는 적지 말아 주세요."></textarea>
                         <button class="guide-report-submit voice-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 보내기</button>
                     </form>
                     <p id="guide-report-status" class="guide-report-status" role="status" aria-live="polite"></p>

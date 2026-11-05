@@ -107,3 +107,8 @@
 .voice-submit { margin-top: 0; border-radius: 16px; }
 .voice-card .guide-report-status { margin: 10px 2px 0; min-height: 0; }
 .voice-card .guide-report-status:empty { display: none; }
+
+/* 유형 버튼을 작은 알약 모양으로 (2026-11-05) */
+.voice-types { display: flex; flex-wrap: wrap; gap: 8px; }
+.voice-chip span { min-height: 42px; padding: 8px 14px; gap: 6px; border-radius: 999px; font-size: .84em; white-space: nowrap; }
+.voice-chip span svg { width: 17px; height: 17px; }
