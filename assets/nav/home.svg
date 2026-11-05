@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" aria-label="home"><defs>
+ <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81D9FF"/><stop offset=".40" stop-color="#329AF4"/><stop offset="1" stop-color="#1760D8"/></linearGradient>
+ <linearGradient id="blueEdge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#65CBFF"/><stop offset="1" stop-color="#0750BF"/></linearGradient>
+ <linearGradient id="lilac" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFFFFF"/><stop offset=".48" stop-color="#F2EDFF"/><stop offset="1" stop-color="#C6C1F2"/></linearGradient>
+ <linearGradient id="purple" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#B9A5FF"/><stop offset="1" stop-color="#736CE0"/></linearGradient>
+ <linearGradient id="pink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFAAC3"/><stop offset=".45" stop-color="#FF6E93"/><stop offset="1" stop-color="#E94D75"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#FFF192"/><stop offset=".45" stop-color="#FFCF36"/><stop offset="1" stop-color="#FFAA16"/></linearGradient>
+ <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="white"/><stop offset="1" stop-color="#D7E8FF"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="175%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#213D72" flood-opacity=".22"/></filter>
+</defs><g filter="url(#shadow)">
+ <rect x="27" y="59" width="74" height="54" rx="14" fill="url(#lilac)" stroke="#CEDCF2" stroke-width="2.4"/>
+ <path d="M16 62L55 26Q64 18 73 26L112 62Q116 67 112 74Q108 81 101 77L66 47Q64 45 62 47L27 77Q20 82 15 76Q10 69 16 62Z" fill="url(#blue)" stroke="#2678DC" stroke-width="1.8"/>
+ <path d="M28 65L61 37Q64 35 67 37L100 65" fill="none" stroke="#D8F4FF" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+ <rect x="54" y="75" width="21" height="38" rx="7" fill="url(#gold)"/>
+ <path d="M58 79H71" stroke="#FFF6B6" stroke-width="3" stroke-linecap="round" opacity=".75"/>
+ </g></svg>

@@ -1599,7 +1599,7 @@ document.addEventListener('DOMContentLoaded', () => {
         app.innerHTML = `
             <div class="guide-settings">
                 <header class="guide-settings-head">
-                    <span class="guide-settings-icon"><i data-lucide="message-square-text" aria-hidden="true"></i></span>
+                    <span class="guide-settings-icon guide-settings-icon-3d"><img src="assets/nav/voice.svg?v=20261105" alt="" width="56" height="56"></span>
                     <div><h1>고객의 소리</h1></div>
                 </header>
 
