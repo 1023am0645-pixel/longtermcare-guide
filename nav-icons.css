@@ -1,11 +1,12 @@
 /* =====================================================================
    하단 메뉴 입체 아이콘 + 선택 상태 (2026-11-05, Codex 시안 그대로)
    · 메뉴 이동 로직은 그대로: app.js setActiveNav()가 붙이는 .active 클래스만 사용
-   · 비활성: 원래 색 아이콘 + 회청색 글자 / 활성: 아이콘·글자를 함께 감싸는 연한 파란 칸 + 파란 글자
+   · 비활성: 색을 빼고 흐리게 + 회청색 글자 / 활성: 아이콘·글자를 함께 감싸는 연한 파란 칸 + 파란 글자
    ===================================================================== */
 .app-shell .bottom-nav .nav-link { gap:2px; padding:6px 0 7px; border-radius:20px; color:#5d6b80; transition:background .18s, box-shadow .18s, color .18s; }
 .app-shell .bottom-nav .nav-icon { width:48px; height:42px; background:transparent !important; box-shadow:none !important; }
-.app-shell .bottom-nav .nav-icon img { display:block; width:42px; height:42px; object-fit:contain; }
+.app-shell .bottom-nav .nav-icon img { display:block; width:42px; height:42px; object-fit:contain; filter:saturate(.22) brightness(1.16); opacity:.62; transition:filter .18s, opacity .18s; }
+.app-shell .bottom-nav .nav-link.active .nav-icon img { filter:none; opacity:1; }
 .app-shell .bottom-nav .nav-link.active { background:linear-gradient(160deg,#e8f1ff,#d9e8ff); box-shadow:0 4px 12px rgba(28,92,198,.12); color:#1d5bd8; font-weight:800; }
 .app-shell .bottom-nav .nav-link:focus-visible { outline:2px solid #2571f4; outline-offset:-2px; }
 @media (max-width:375px) {
