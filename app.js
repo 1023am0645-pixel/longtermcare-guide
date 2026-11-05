@@ -1606,15 +1606,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <section class="voice-card" aria-label="의견 보내기">
                     <form id="guide-report-form" class="voice-form" novalidate>
                         <fieldset class="voice-types">
-                            <legend class="sr-only">어떤 의견인가요?</legend>
-                            <label class="voice-chip"><input type="radio" name="type" value="내용이 틀렸어요" required><span><i data-lucide="alert-circle" aria-hidden="true"></i>내용이 틀렸어요</span></label>
-                            <label class="voice-chip"><input type="radio" name="type" value="설명이 어려워요" required><span><i data-lucide="circle-help" aria-hidden="true"></i>설명이 어려워요</span></label>
-                            <label class="voice-chip"><input type="radio" name="type" value="찾는 내용이 없어요" required><span><i data-lucide="search-x" aria-hidden="true"></i>찾는 내용이 없어요</span></label>
-                            <label class="voice-chip"><input type="radio" name="type" value="화면·버튼이 이상해요" required><span><i data-lucide="smartphone" aria-hidden="true"></i>화면·버튼이 이상해요</span></label>
-                            <label class="voice-chip voice-chip-wide"><input type="radio" name="type" value="이런 게 있으면 좋겠어요" required><span><i data-lucide="star" aria-hidden="true"></i>이런 게 있으면 좋겠어요</span></label>
+                            <legend class="sr-only">불편 유형</legend>
+                            <label class="voice-chip"><input type="radio" name="type" value="검색 오류" required><span><i data-lucide="search-x" aria-hidden="true"></i>검색 오류</span></label>
+                            <label class="voice-chip"><input type="radio" name="type" value="화면·버튼 오류" required><span><i data-lucide="smartphone" aria-hidden="true"></i>화면·버튼 오류</span></label>
+                            <label class="voice-chip"><input type="radio" name="type" value="내용 표시 오류" required><span><i data-lucide="alert-circle" aria-hidden="true"></i>내용 표시 오류</span></label>
+                            <label class="voice-chip"><input type="radio" name="type" value="기타 불편" required><span><i data-lucide="message-circle" aria-hidden="true"></i>기타 불편</span></label>
                         </fieldset>
                         <label for="guide-report-message" class="sr-only">내용</label>
-                        <textarea id="guide-report-message" name="message" rows="5" minlength="5" maxlength="1500" required placeholder="편하게 적어 주세요.&#10;이름·연락처 등 개인정보는 적지 말아 주세요."></textarea>
+                        <textarea id="guide-report-message" name="message" rows="5" minlength="5" maxlength="1500" required placeholder="어느 화면에서 어떤 문제가 있었는지 적어 주세요.&#10;이름·연락처 등 개인정보는 적지 말아 주세요."></textarea>
                         <button class="guide-report-submit voice-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 보내기</button>
                     </form>
                     <p id="guide-report-status" class="guide-report-status" role="status" aria-live="polite"></p>
@@ -1632,7 +1631,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const message = app.querySelector('#guide-report-message').value.trim();
             const status = app.querySelector('#guide-report-status');
             const submit = form.querySelector('.guide-report-submit');
-            if (!type) { status.textContent = '위에서 어떤 의견인지 하나 골라 주세요.'; return; }
+            if (!type) { status.textContent = '위에서 불편 유형을 하나 골라 주세요.'; return; }
             if (message.length < 5) { status.textContent = '내용을 5자 이상 적어 주세요.'; return; }
             submit.disabled = true;
             submit.innerHTML = '<span class="guide-report-spinner" aria-hidden="true"></span> 보내는 중';
