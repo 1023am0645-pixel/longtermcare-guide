@@ -1601,13 +1601,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p class="guide-report-privacy">이메일·전화번호·주민등록번호·건강정보 등 개인정보는 입력하지 마세요.</p>
                         <button class="guide-report-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 의견 접수하기</button>
                     </form>
-                    <p class="guide-report-note">접수가 완료되면 화면에 접수번호가 표시됩니다.</p>
+                    <p class="guide-report-note">접수가 완료되면 화면에 접수번호가 표시됩니다. 답변을 드리면, 이 휴대폰으로 앱을 다시 열 때 답변 편지가 도착해요.</p>
                     <div class="guide-report-address">
                         <span>자동 접수 오류 시 <strong>am0645@nhis.or.kr</strong></span>
                         <button id="guide-copy-email" type="button"><i data-lucide="copy" aria-hidden="true"></i> 주소 복사</button>
                     </div>
                     <p id="guide-report-status" class="guide-report-status" role="status" aria-live="polite"></p>
                 </section>
+                <section id="myFeedbackSection" class="guide-settings-section my-feedback" aria-labelledby="my-feedback-title" hidden></section>
 
             </div>
         `;
@@ -1634,6 +1635,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 status.textContent = result.message || `의견이 접수되었습니다. 접수번호는 ${result.receiptId}번입니다.`;
+                if (result.replyToken && window.LTC_LETTERS) window.LTC_LETTERS.save(result);
                 form.reset();
             } catch {
                 status.textContent = '접수 서버에 연결할 수 없습니다. 잠시 후 다시 시도하거나 신고 메일을 이용해 주세요.';
