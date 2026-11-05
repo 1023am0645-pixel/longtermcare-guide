@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" aria-label="ebook"><defs>
+ <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81D9FF"/><stop offset=".40" stop-color="#329AF4"/><stop offset="1" stop-color="#1760D8"/></linearGradient>
+ <linearGradient id="blueEdge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#65CBFF"/><stop offset="1" stop-color="#0750BF"/></linearGradient>
+ <linearGradient id="lilac" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFFFFF"/><stop offset=".48" stop-color="#F2EDFF"/><stop offset="1" stop-color="#C6C1F2"/></linearGradient>
+ <linearGradient id="purple" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#B9A5FF"/><stop offset="1" stop-color="#736CE0"/></linearGradient>
+ <linearGradient id="pink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFAAC3"/><stop offset=".45" stop-color="#FF6E93"/><stop offset="1" stop-color="#E94D75"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#FFF192"/><stop offset=".45" stop-color="#FFCF36"/><stop offset="1" stop-color="#FFAA16"/></linearGradient>
+ <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="white"/><stop offset="1" stop-color="#D7E8FF"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="175%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#213D72" flood-opacity=".22"/></filter>
+</defs><g filter="url(#shadow)">
+ <path d="M63 35Q43 23 16 29Q11 30 11 37V95Q33 88 63 105Z" fill="url(#blue)"/>
+ <path d="M65 35Q86 23 111 29Q118 30 118 37V95Q90 88 65 105Z" fill="url(#blue)"/>
+ <path d="M64 35Q41 18 19 27Q16 28 16 33V90Q40 84 64 99Z" fill="url(#paper)" stroke="#B4D7F5" stroke-width="1.7"/>
+ <path d="M64 35Q87 18 109 27Q113 28 113 33V90Q89 84 64 99Z" fill="url(#lilac)" stroke="#B9D8FC" stroke-width="1.7"/>
+ <path d="M26 43Q45 39 57 48M26 55Q45 51 57 60M72 48Q87 39 102 43M72 61Q88 51 102 55" fill="none" stroke="#B6CFE9" stroke-width="2.8" stroke-linecap="round" opacity=".7"/>
+ <path d="M78 26V60L89 52L100 60V25" fill="url(#pink)" stroke="#E85680" stroke-width="1.7"/>
+ <path d="M64 35V99" stroke="#99BBE8" stroke-width="2.8"/>
+ </g></svg>

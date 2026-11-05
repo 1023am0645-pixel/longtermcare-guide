@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" aria-label="voice"><defs>
+ <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81D9FF"/><stop offset=".40" stop-color="#329AF4"/><stop offset="1" stop-color="#1760D8"/></linearGradient>
+ <linearGradient id="blueEdge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#65CBFF"/><stop offset="1" stop-color="#0750BF"/></linearGradient>
+ <linearGradient id="lilac" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFFFFF"/><stop offset=".48" stop-color="#F2EDFF"/><stop offset="1" stop-color="#C6C1F2"/></linearGradient>
+ <linearGradient id="purple" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#B9A5FF"/><stop offset="1" stop-color="#736CE0"/></linearGradient>
+ <linearGradient id="pink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFAAC3"/><stop offset=".45" stop-color="#FF6E93"/><stop offset="1" stop-color="#E94D75"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#FFF192"/><stop offset=".45" stop-color="#FFCF36"/><stop offset="1" stop-color="#FFAA16"/></linearGradient>
+ <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="white"/><stop offset="1" stop-color="#D7E8FF"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="175%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#213D72" flood-opacity=".22"/></filter>
+</defs><g filter="url(#shadow)">
+ <path d="M48 55C48 37 63 26 85 26C106 26 119 39 119 58C119 72 109 83 93 87L104 106L80 91C61 90 48 78 48 55Z" fill="url(#lilac)" stroke="#D0D2F6" stroke-width="2"/>
+ <path d="M10 65C10 40 31 25 60 25C89 25 105 42 105 65C105 88 85 101 58 101C54 101 50 101 46 100L26 116L30 94C17 87 10 77 10 65Z" fill="url(#blue)" stroke="#267DD9" stroke-width="2"/>
+ <path d="M20 56C28 39 46 35 63 35" stroke="#DDF7FF" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/>
+ <g fill="#F8FCFF"><circle cx="39" cy="67" r="6"/><circle cx="58" cy="67" r="6"/><circle cx="77" cy="67" r="6"/></g>
+ <circle cx="99" cy="29" r="22" fill="url(#pink)" stroke="#F85B82" stroke-width="1.5"/>
+ <path d="M99 43C80 30 86 20 93 20C97 20 99 23 99 23C105 13 118 18 114 29C113 34 105 40 99 43Z" fill="#FFFFFF"/>
+ <path d="M91 22Q94 20 96 23" stroke="#FFEDF3" stroke-width="2" stroke-linecap="round"/>
+ </g></svg>
