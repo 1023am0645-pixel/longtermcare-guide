@@ -32,3 +32,18 @@ html.update-log-open{overflow:hidden}
 /* ── 작은 글자 링크의 누르는 영역만 넓힘(보이는 모양은 그대로) ── */
 .home-notice a[href^="tel:"],.update-log-link,.inline-link{position:relative}
 .home-notice a[href^="tel:"]::after,.update-log-link::after,.inline-link::after{content:"";position:absolute;left:-6px;right:-6px;top:-12px;bottom:-12px}
+
+/* ── 새로 바뀐 점 창 (다시 온 사용자에게만, 한 번) ── */
+html.whats-new-open{overflow:hidden}
+.whats-new-overlay{position:fixed;inset:0;z-index:1100;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(17,24,39,.48);opacity:0;transition:opacity .18s ease}
+.whats-new-overlay.show{opacity:1}
+.whats-new-sheet{position:relative;width:100%;max-width:400px;max-height:calc(100dvh - 40px);overflow:auto;padding:26px 22px 18px;border-radius:24px;background:#fff;box-shadow:0 24px 60px rgba(15,23,42,.28);font-size:16px;transform:translateY(10px);transition:transform .18s ease}
+.whats-new-overlay.show .whats-new-sheet{transform:translateY(0)}
+.whats-new-close{position:absolute;top:14px;right:14px;width:40px;height:40px;border:0;border-radius:50%;background:#f3f5f9;color:#475569;font-size:26px;line-height:1;cursor:pointer}
+.whats-new-badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#fdecee;color:#d23b4b;font-size:13px;font-weight:800}
+.whats-new-sheet h2{margin:12px 44px 0 0;color:#111827;font-size:1.3em;font-weight:800;line-height:1.35;letter-spacing:-.3px;word-break:keep-all}
+.whats-new-sheet ul{margin:14px 0 0;padding:14px 16px 14px 34px;border-radius:14px;background:#f6f8fc;color:#33445b;font-size:.95em;line-height:1.6;word-break:keep-all}
+.whats-new-sheet ul li{margin:3px 0}
+.whats-new-ok{display:block;width:100%;min-height:52px;margin-top:18px;border:0;border-radius:14px;background:#2563eb;color:#fff;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
+.whats-new-all{display:block;width:100%;min-height:44px;margin-top:6px;border:0;background:none;color:#5b6a7e;font:inherit;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.whats-new-sheet :focus-visible{outline:3px solid #9dbcf7;outline-offset:2px}

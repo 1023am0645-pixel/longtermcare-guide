@@ -6,13 +6,15 @@
 //
 //  쓰는 법
 //    { date:'2026-10-21', title:'한 줄 제목', items:['바뀐 점 1', '바뀐 점 2'] },
+//    다시 온 사용자에게 '새로 바뀐 점' 창으로 알리고 싶을 때만  notify: true  를 붙이세요.
+//    (처음 온 사용자에게는 뜨지 않고, 같은 휴대폰에는 한 번만 뜹니다. 작은 수정에는 붙이지 마세요.)
 //
 //  ※ 수급자·보호자가 알면 좋은 '쓰는 법'만 쉬운 말로 적어요. (내부 정리·통계 같은 건 적지 않음)
 // =====================================================================
 window.APP_LAST_UPDATED = '2026-11-05';
 
 window.APP_UPDATES = [
-    { date: '2026-11-05', title: '아이폰에서도 홈 화면에 쉽게 추가해요', items: [
+    { date: '2026-11-05', notify: true, title: '아이폰에서도 홈 화면에 쉽게 추가해요', items: [
         '위쪽 [앱 공유] → [홈 화면에 앱 추가]를 누르면 3단계 안내가 나와요.',
         'Safari 공유 버튼(안 보이면 ··· → 공유) → 홈 화면에 추가 → 추가 순서예요.'
     ] },
@@ -112,6 +114,8 @@ window.APP_UPDATES = [
         document.documentElement.classList.remove('update-log-open');
         if (lastFocus && lastFocus.focus) lastFocus.focus();
     }
+
+    window.openUpdateLog = open;
 
     document.addEventListener('click', e => {
         const btn = e.target.closest && e.target.closest('[data-open-updates]');
