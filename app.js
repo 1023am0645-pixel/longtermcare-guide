@@ -1607,7 +1607,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <form id="guide-report-form" class="guide-report-form" novalidate>
                         <label for="guide-report-type">문의 유형</label>
                         <select id="guide-report-type" name="type" required>
-                            <option value="" selected disabled hidden>골라 주세요</option>
+                            <option value="" selected disabled hidden>유형 선택</option>
                             <option value="검색 오류">검색 오류</option>
                             <option value="화면·버튼 오류">화면·버튼 오류</option>
                             <option value="내용 표시 오류">내용 표시 오류</option>
