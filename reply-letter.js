@@ -56,7 +56,7 @@
                         <p>${esc(item.content)}</p>
                     </div>
                     <div class="reply-answer">${esc(item.answer).replace(/\n/g, '<br>')}</div>
-                    <p class="reply-from">장기요양 길잡이 드림</p>
+                    <p class="reply-from">대전서부지사 김하연 드림</p>
                     <button type="button" class="reply-ok">잘 읽었어요</button>
                 </div>
             </section>`;
