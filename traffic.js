@@ -113,8 +113,36 @@
         }
     }
 
+    // 새로고침(당겨서 새로고침 포함)·뒤로가기로 다시 그려진 화면은 방문으로 세지 않습니다.
+    //  - 앱을 새로 열거나 링크·QR·홈 화면 아이콘으로 들어온 경우만 1회로 셉니다.
+    //  - 다만 아직 못 보낸 기록(인터넷이 끊겨 남은 것)은 이때도 보내 둡니다.
+    function isReload() {
+        try {
+            const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+            if (nav && nav.type) return nav.type === 'reload' || nav.type === 'back_forward';
+            if (performance.navigation) return performance.navigation.type === 1 || performance.navigation.type === 2;
+        } catch { /* 알 수 없으면 새 방문으로 봅니다 */ }
+        return false;
+    }
+
+    async function flushPendingOnly() {
+        const pending = loadPending();
+        if (!pending.length) return;
+        const remaining = [];
+        for (let index = 0; index < pending.length; index += 1) {
+            try {
+                const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pending[index]), keepalive: true });
+                if (!response.ok) remaining.push(pending[index]);
+            } catch {
+                remaining.push(...pending.slice(index));
+                break;
+            }
+        }
+        savePending(remaining);
+    }
+
     function start() {
-        flush().finally(loadSummary);
+        (isReload() ? flushPendingOnly() : flush()).finally(loadSummary);
         window.addEventListener('hashchange', () => setTimeout(renderCounter, 0));
         const app = document.getElementById('app');
         if (app && 'MutationObserver' in window) {
