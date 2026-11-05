@@ -1600,7 +1600,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="guide-settings">
                 <header class="guide-settings-head voice-hero">
                     <h1>고객의 소리</h1>
-                    <img class="voice-hero-icon" src="assets/nav/voice-header.webp?v=20261105b" alt="" width="128" height="128">
+                    <img class="voice-hero-icon" src="assets/nav/voice-header.webp?v=20261105c" alt="" width="128" height="128">
                 </header>
 
                 <section class="guide-settings-section voice-flat voice-panel" aria-label="의견 보내기">

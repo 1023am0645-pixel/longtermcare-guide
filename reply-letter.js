@@ -51,7 +51,7 @@
                 <span class="reply-env-back" aria-hidden="true"></span>
                 <div class="reply-paper">
                     <button type="button" class="reply-close" aria-label="닫기"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-                    <img class="reply-icon" src="assets/nav/voice-header.webp?v=20261105b" alt="" width="128" height="128">
+                    <img class="reply-icon" src="assets/nav/voice-header.webp?v=20261105c" alt="" width="128" height="128">
                     <h2 id="replyLetterTitle"><span>보내주신 의견에<br>답변이 도착했어요</span></h2>
                     <div class="reply-row reply-mine"><b>의견</b><p>${esc(item.content)}</p></div>
                     <div class="reply-row reply-answer"><b>답변</b><p>${esc(item.answer).replace(/\n/g, '<br>')}</p></div>
