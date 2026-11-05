@@ -34,16 +34,26 @@
 
     const updates = (Array.isArray(window.APP_UPDATES) ? window.APP_UPDATES : []).filter(u => u && u.notify);
     if (!updates.length) return;
-    const newest = updates.map(u => u.date).sort().pop();
-    const seen = store.get(SEEN_KEY);
+    // 소식마다 '날짜|제목'으로 구분해서, 같은 날 새 소식이 더 생겨도 알 수 있게 합니다.
+    const idOf = u => `${u.date}|${u.title}`;
+    let seenIds = [];
+    let seenDate = '';
+    try {
+        const raw = store.get(SEEN_KEY);
+        if (raw && raw.charAt(0) === '[') seenIds = JSON.parse(raw);
+        else if (raw) seenDate = raw;                                  // 예전 방식(날짜만) 기록
+    } catch { /* 무시 */ }
+    // 예전 방식 기록(11/5 낮, 날짜만 저장하던 때)에 이미 본 소식
+    const LEGACY_SEEN = ['2026-11-05|아이폰에서도 홈 화면에 쉽게 추가해요'];
+    const isSeen = u => seenIds.includes(idOf(u)) || (!!seenDate && (u.date < seenDate || LEGACY_SEEN.includes(idOf(u))));
+    const markAllSeen = () => store.set(SEEN_KEY, JSON.stringify(updates.map(idOf).slice(0, 30)));
 
-    if (!returning) { store.set(SEEN_KEY, newest); return; }          // 처음 온 사람: 기록만
-    if (seen && seen >= newest) return;                               // 이미 봄
-    const fresh = updates.filter(u => !seen || u.date > seen).sort((a, b) => b.date.localeCompare(a.date));
+    if (!returning) { markAllSeen(); return; }                        // 처음 온 사람: 기록만
     // 예전 사용자가 처음 이 기능을 만나면 최근 2주 안의 소식만 보여 줍니다.
     const cutoff = (() => { const d = new Date(); d.setDate(d.getDate() - 14); return d.toISOString().slice(0, 10); })();
-    const show = seen ? fresh[0] : fresh.find(u => u.date >= cutoff);
-    if (!show) { store.set(SEEN_KEY, newest); return; }
+    const hasRecord = seenIds.length || seenDate;
+    const fresh = updates.filter(u => !isSeen(u) && (hasRecord || u.date >= cutoff)).slice(0, 3);
+    if (!fresh.length) { markAllSeen(); return; }
 
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     let shown = false;
@@ -56,15 +66,16 @@
     function render() {
         if (shown || !isHome() || otherDialogOpen()) return;
         shown = true;
-        store.set(SEEN_KEY, newest);
+        markAllSeen();
         const box = document.createElement('div');
         box.className = 'whats-new-overlay';
         box.innerHTML = `
             <section class="whats-new-sheet" role="dialog" aria-modal="true" aria-labelledby="whatsNewTitle">
                 <button type="button" class="whats-new-close" aria-label="닫기">×</button>
                 <span class="whats-new-badge">새로 바뀐 점</span>
-                <h2 id="whatsNewTitle">${esc(show.title)}</h2>
-                ${(show.items || []).length ? `<ul>${show.items.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
+                ${fresh.map((u, i) => `
+                    <h2${i === 0 ? ' id="whatsNewTitle"' : ''}>${esc(u.title)}</h2>
+                    ${(u.items || []).length ? `<ul>${u.items.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}`).join('')}
                 <button type="button" class="whats-new-ok">확인했어요</button>
                 <button type="button" class="whats-new-all">지난 소식 모두 보기</button>
             </section>`;
