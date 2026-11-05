@@ -149,7 +149,7 @@
             steps = [
                 'Safari 아래쪽 <strong>공유 버튼</strong> <span class="ios-share-glyph" aria-label="공유 버튼"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7.5 7.5 4.5-4.5 4.5 4.5"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg></span> 을 누르세요.<small>안 보이면 <strong>···</strong>(더 보기) → <strong>공유</strong>를 누르세요.</small>',
                 '목록을 아래로 내려 <strong>홈 화면에 추가</strong>를 누르세요.<small>없으면 맨 아래 <strong>동작 편집</strong>에서 추가할 수 있어요.</small>',
-                '<strong>웹 앱으로 열기</strong>가 켜진 채로 오른쪽 위 <strong>추가</strong>를 누르면 끝!'
+                '오른쪽 위 <strong>추가</strong>를 누르면 끝!<small>다른 설정은 바꾸지 않아도 돼요.</small>'
             ];
         } else if (/SamsungBrowser/i.test(ua)) {
             steps = ['삼성 인터넷 메뉴에서 ‘현재 페이지 추가’ 또는 ‘페이지 추가’를 찾아 주세요.', '‘홈 화면’을 선택하고 화면 안내에 따라 추가하세요. 브라우저 버전에 따라 메뉴 이름이 다를 수 있습니다.'];
