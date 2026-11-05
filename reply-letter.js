@@ -123,9 +123,16 @@
         }));
     }
 
+    // 담당자가 휴지통으로 옮긴 의견은 이 휴대폰 목록에서도 지웁니다.
+    function dropDeleted(list) {
+        const gone = new Set(list.filter(i => i && i.deleted).map(i => i.token));
+        if (gone.size) save(MINE_KEY, mine().filter(x => !gone.has(x.t)));
+        return list.filter(i => i && !i.deleted);
+    }
+
     async function start() {
         if (!mine().length) return;
-        items = await fetchAnswers();
+        items = dropDeleted(await fetchAnswers());
         renderMine();
         setTimeout(showUnread, 800);
         const app = document.getElementById('app');
@@ -138,7 +145,7 @@
     }
     // 의견을 처음 보낸 휴대폰에서도 '내가 보낸 의견'이 바로 보이도록
     const origSave = window.LTC_LETTERS.save;
-    window.LTC_LETTERS.save = result => { origSave(result); renderMine(); if (!items.length) fetchAnswers().then(r => { items = r; renderMine(); }); };
+    window.LTC_LETTERS.save = result => { origSave(result); renderMine(); if (!items.length) fetchAnswers().then(r => { items = dropDeleted(r); renderMine(); }); };
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
     else start();
