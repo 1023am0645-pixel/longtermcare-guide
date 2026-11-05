@@ -1573,6 +1573,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.lucide) lucide.createIcons();
     }
 
+    // 의견을 보낸 뒤 뜨는 작은 확인 창 (닫기 X, 바깥 누르기)
+    function showReportDone(receiptId) {
+        const box = document.createElement('div');
+        box.className = 'report-done-overlay';
+        box.innerHTML = `
+            <section class="report-done" role="dialog" aria-modal="true" aria-labelledby="reportDoneTitle" tabindex="-1">
+                <button type="button" class="report-done-close" aria-label="닫기"><i data-lucide="x" aria-hidden="true"></i></button>
+                <span class="report-done-icon" aria-hidden="true"><i data-lucide="badge-check"></i></span>
+                <h2 id="reportDoneTitle">의견을 보냈어요</h2>
+                <p>답변이 준비되면, 이 휴대폰으로 앱을 다시 열 때 답변이 도착해요.</p>
+                ${receiptId ? `<small>접수번호 ${receiptId}</small>` : ''}
+            </section>`;
+        const close = () => { box.classList.remove('show'); setTimeout(() => box.remove(), 180); };
+        box.addEventListener('click', e => { if (e.target === box || e.target.closest('.report-done-close')) close(); });
+        document.addEventListener('keydown', function onKey(e) { if (e.key !== 'Escape' || !box.isConnected) return; document.removeEventListener('keydown', onKey); close(); });
+        document.body.appendChild(box);
+        if (window.lucide) lucide.createIcons();
+        requestAnimationFrame(() => box.classList.add('show'));
+        box.querySelector('.report-done').focus({ preventScroll: true });
+    }
+
     function renderSettings() {
         setActiveNav('settings');
         app.innerHTML = `
@@ -1584,29 +1605,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <section class="guide-settings-section" aria-labelledby="guide-report-title">
                     <div class="guide-settings-section-head">
-                        <i data-lucide="message-square-warning" aria-hidden="true"></i>
-                        <h2 id="guide-report-title">불편 신고 접수</h2>
+                        <i data-lucide="message-circle" aria-hidden="true"></i>
+                        <h2 id="guide-report-title">의견 보내기</h2>
                     </div>
-                    <p class="guide-report-intro">문제가 발생한 화면과 상황을 적어주세요.</p>
                     <form id="guide-report-form" class="guide-report-form">
-                        <label for="guide-report-type">불편 유형</label>
+                        <label for="guide-report-type">어떤 의견인가요?</label>
                         <select id="guide-report-type" name="type" required>
-                            <option value="검색 오류">검색 오류</option>
-                            <option value="화면·버튼 오류">화면·버튼 오류</option>
-                            <option value="내용 표시 오류">내용 표시 오류</option>
-                            <option value="기타 불편">기타 불편</option>
+                            <option value="내용이 틀렸어요">내용이 틀렸어요</option>
+                            <option value="설명이 어려워요">설명이 어려워요</option>
+                            <option value="찾는 내용이 없어요">찾는 내용이 없어요</option>
+                            <option value="화면·버튼이 이상해요">화면·버튼이 이상해요</option>
+                            <option value="이런 게 있으면 좋겠어요">이런 게 있으면 좋겠어요</option>
                         </select>
-                        <label for="guide-report-message">발생한 상황</label>
-                        <textarea id="guide-report-message" name="message" rows="5" minlength="5" maxlength="1500" required placeholder="어느 화면에서 어떤 문제가 생겼는지 적어주세요."></textarea>
-                        <p class="guide-report-privacy">이메일·전화번호·주민등록번호·건강정보 등 개인정보는 입력하지 마세요.</p>
-                        <button class="guide-report-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 의견 접수하기</button>
+                        <label for="guide-report-message">내용</label>
+                        <textarea id="guide-report-message" name="message" rows="5" minlength="5" maxlength="1500" required placeholder="편하게 적어 주세요.&#10;이름·연락처 등 개인정보는 적지 말아 주세요."></textarea>
+                        <button class="guide-report-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 의견 보내기</button>
                     </form>
-                    <p class="guide-report-note">접수가 완료되면 화면에 접수번호가 표시됩니다. 답변을 드리면, 이 휴대폰으로 앱을 다시 열 때 답변 편지가 도착해요.</p>
-                    <div class="guide-report-address">
-                        <span>자동 접수 오류 시 <strong>am0645@nhis.or.kr</strong></span>
-                        <button id="guide-copy-email" type="button"><i data-lucide="copy" aria-hidden="true"></i> 주소 복사</button>
-                    </div>
                     <p id="guide-report-status" class="guide-report-status" role="status" aria-live="polite"></p>
+                    <p class="guide-report-fine">이름·연락처는 묻지 않아요. 보낸 의견과 답변은 이 휴대폰에서만 볼 수 있어요.</p>
                 </section>
                 <section id="myFeedbackSection" class="guide-settings-section my-feedback" aria-labelledby="my-feedback-title" hidden></section>
 
@@ -1621,8 +1637,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const submit = form.querySelector('.guide-report-submit');
             if (message.length < 5) { status.textContent = '발생한 상황을 5자 이상 입력해 주세요.'; return; }
             submit.disabled = true;
-            submit.innerHTML = '<span class="guide-report-spinner" aria-hidden="true"></span> 접수 중';
-            status.textContent = '의견을 접수하고 있습니다.';
+            submit.innerHTML = '<span class="guide-report-spinner" aria-hidden="true"></span> 보내는 중';
+            status.textContent = '';
             try {
                 const response = await fetch('https://longtermcare-guide-feedback.jazzy-cocoa-4972.chatgpt.site/api/feedback', {
                     method: 'POST',
@@ -1634,24 +1650,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     status.textContent = result.message || '접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
                     return;
                 }
-                status.textContent = result.message || `의견이 접수되었습니다. 접수번호는 ${result.receiptId}번입니다.`;
+                status.textContent = '';
                 if (result.replyToken && window.LTC_LETTERS) window.LTC_LETTERS.save(result);
                 form.reset();
+                showReportDone(result.receiptId);
             } catch {
                 status.textContent = '접수 서버에 연결할 수 없습니다. 잠시 후 다시 시도하거나 신고 메일을 이용해 주세요.';
             } finally {
                 submit.disabled = false;
-                submit.innerHTML = '<i data-lucide="send" aria-hidden="true"></i> 의견 접수하기';
+                submit.innerHTML = '<i data-lucide="send" aria-hidden="true"></i> 의견 보내기';
                 if (window.lucide) lucide.createIcons();
-            }
-        });
-        app.querySelector('#guide-copy-email').addEventListener('click', async () => {
-            const status = app.querySelector('#guide-report-status');
-            try {
-                await navigator.clipboard.writeText('am0645@nhis.or.kr');
-                status.textContent = '메일 주소를 복사했습니다.';
-            } catch {
-                status.textContent = '복사할 수 없습니다. am0645@nhis.or.kr을 직접 입력해 주세요.';
             }
         });
         focusMain();
