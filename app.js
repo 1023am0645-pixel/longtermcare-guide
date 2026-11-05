@@ -1603,23 +1603,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div><h1>고객의 소리</h1></div>
                 </header>
 
-                <section class="voice-card" aria-label="의견 보내기">
-                    <form id="guide-report-form" class="voice-form" novalidate>
-                        <label for="guide-report-type" class="sr-only">불편 유형</label>
-                        <select id="guide-report-type" class="voice-select" name="type" required>
-                            <option value="" selected disabled hidden>불편 유형을 골라 주세요</option>
+                <section class="guide-settings-section voice-flat" aria-label="의견 보내기">
+                    <form id="guide-report-form" class="guide-report-form" novalidate>
+                        <label for="guide-report-type">의견 유형</label>
+                        <select id="guide-report-type" name="type" required>
+                            <option value="" selected disabled hidden>골라 주세요</option>
                             <option value="검색 오류">검색 오류</option>
                             <option value="화면·버튼 오류">화면·버튼 오류</option>
                             <option value="내용 표시 오류">내용 표시 오류</option>
-                            <option value="기타 불편">기타 불편</option>
+                            <option value="기타 불편">기타 의견</option>
                         </select>
-                        <label for="guide-report-message" class="sr-only">내용</label>
-                        <textarea id="guide-report-message" name="message" rows="5" minlength="5" maxlength="1500" required placeholder="의견을 보내 주세요.&#10;이름·연락처 등 개인정보는 적지 말아 주세요."></textarea>
-                        <button class="guide-report-submit voice-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 보내기</button>
+                        <label for="guide-report-message">내용</label>
+                        <textarea id="guide-report-message" name="message" rows="5" minlength="5" maxlength="1500" required placeholder="의견을 보내 주세요."></textarea>
+                        <p class="guide-report-privacy">이름·연락처 등 개인정보는 적지 말아 주세요.</p>
+                        <button class="guide-report-submit" type="submit"><i data-lucide="send" aria-hidden="true"></i> 보내기</button>
                     </form>
                     <p id="guide-report-status" class="guide-report-status" role="status" aria-live="polite"></p>
+                    <p class="guide-report-fine">보낸 의견과 답변은 이 휴대폰에서만 볼 수 있어요.</p>
                 </section>
-                <p class="guide-report-fine">이름·연락처는 묻지 않아요. 보낸 의견과 답변은 이 휴대폰에서만 볼 수 있어요.</p>
                 <section id="myFeedbackSection" class="guide-settings-section my-feedback" aria-labelledby="my-feedback-title" hidden></section>
 
             </div>
@@ -1632,7 +1633,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const message = app.querySelector('#guide-report-message').value.trim();
             const status = app.querySelector('#guide-report-status');
             const submit = form.querySelector('.guide-report-submit');
-            if (!type) { status.textContent = '불편 유형을 골라 주세요.'; return; }
+            if (!type) { status.textContent = '의견 유형을 골라 주세요.'; return; }
             if (message.length < 5) { status.textContent = '내용을 5자 이상 적어 주세요.'; return; }
             submit.disabled = true;
             submit.innerHTML = '<span class="guide-report-spinner" aria-hidden="true"></span> 보내는 중';

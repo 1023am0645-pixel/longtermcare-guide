@@ -118,3 +118,10 @@
 .voice-select:invalid { color: #9aa7b8; font-weight: 500; }
 .voice-select:focus { outline: none; border-color: #2f66e0; box-shadow: 0 0 0 3px rgba(47,102,224,.12); }
 .voice-select option { color: #1f2c40; }
+
+/* 기존 납작한 화면 유지 + 문구만 정리 (2026-11-05) */
+.voice-flat { border-top: 0; padding-top: 6px; }
+.voice-flat .guide-report-privacy { color: #8a97a8; }
+.voice-flat select:invalid { color: #9aa7b8; }
+.voice-flat select option { color: #1f2c40; }
+.voice-flat .guide-report-status:empty { display: none; }
