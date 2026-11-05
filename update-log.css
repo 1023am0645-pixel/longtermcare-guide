@@ -48,3 +48,4 @@ html.whats-new-open{overflow:hidden}
 .whats-new-all{display:block;width:100%;min-height:44px;margin-top:6px;border:0;background:none;color:#5b6a7e;font:inherit;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .whats-new-sheet :focus-visible{outline:3px solid #9dbcf7;outline-offset:2px}
 .whats-new-sheet ul + h2{margin-top:20px}
+.whats-new-sheet:focus{outline:none}

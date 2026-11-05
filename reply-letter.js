@@ -48,16 +48,22 @@
         box.className = 'reply-letter-overlay';
         box.innerHTML = `
             <section class="reply-letter" role="dialog" aria-modal="true" aria-labelledby="replyLetterTitle">
-                <div class="reply-envelope" aria-hidden="true"><svg viewBox="0 0 64 48" width="76" height="57"><rect x="2" y="2" width="60" height="44" rx="7" fill="#fff7e6" stroke="#f3b94f" stroke-width="3"/><path d="M5 7 32 28 59 7" fill="none" stroke="#f3b94f" stroke-width="3" stroke-linejoin="round"/><path d="M32 41c-6-4-10-7.5-10-11.6 0-2.8 2.1-4.6 4.6-4.6 2.3 0 3.9 1.5 5.4 3.3 1.5-1.8 3.1-3.3 5.4-3.3 2.5 0 4.6 1.8 4.6 4.6C42 33.5 38 37 32 41z" fill="#e03131"/></svg></div>
-                <div class="reply-paper">
-                    <h2 id="replyLetterTitle">보내주신 의견에<br>답변이 도착했어요</h2>
-                    <div class="reply-quote">
-                        <small>보내신 의견 · 접수번호 ${esc(item.receiptId)}${item.createdAt ? ` · ${esc(dateText(item.createdAt))}` : ''}</small>
+                <header class="reply-head">
+                    <img class="reply-icon" src="icons3d/consult.webp" alt="" width="96" height="96">
+                    <span class="reply-badge">답변 도착</span>
+                    <h2 id="replyLetterTitle">보내주신 의견에<br>답변드려요</h2>
+                </header>
+                <div class="reply-body">
+                    <div class="reply-block reply-mine">
+                        <small>내 의견 · 접수번호 ${esc(item.receiptId)}${item.createdAt ? ` · ${esc(dateText(item.createdAt))}` : ''}</small>
                         <p>${esc(item.content)}</p>
                     </div>
-                    <div class="reply-answer">${esc(item.answer).replace(/\n/g, '<br>')}</div>
+                    <div class="reply-block reply-answer">
+                        <small>답변</small>
+                        <p>${esc(item.answer).replace(/\n/g, '<br>')}</p>
+                    </div>
                     <p class="reply-from">대전서부지사 김하연 드림</p>
-                    <button type="button" class="reply-ok">잘 읽었어요</button>
+                    <button type="button" class="reply-ok">확인했어요</button>
                 </div>
             </section>`;
         const close = () => {
@@ -74,7 +80,8 @@
         document.body.appendChild(box);
         document.documentElement.classList.add('reply-letter-open');
         requestAnimationFrame(() => box.classList.add('show'));
-        setTimeout(() => box.querySelector('.reply-ok').focus({ preventScroll: true }), 700);
+        box.querySelector('.reply-letter').setAttribute('tabindex', '-1');
+        setTimeout(() => box.querySelector('.reply-letter').focus({ preventScroll: true }), 300);
     }
 
     function showUnread() {
@@ -107,7 +114,7 @@
                 return `<li>
                     <div class="my-feedback-top"><strong>접수번호 ${esc(x.id)}</strong><span class="${answered ? 'is-done' : 'is-wait'}">${answered ? '답변 완료' : '답변 준비 중'}</span></div>
                     ${i ? `<p class="my-feedback-q">${esc(i.content)}</p>` : ''}
-                    ${answered ? `<button type="button" class="my-feedback-open" data-token="${esc(x.t)}">✉ 답변 편지 다시 보기</button>` : ''}
+                    ${answered ? `<button type="button" class="my-feedback-open" data-token="${esc(x.t)}">답변 다시 보기</button>` : ''}
                 </li>`;
             }).join('')}</ul>`;
         box.querySelectorAll('.my-feedback-open').forEach(btn => btn.addEventListener('click', () => {

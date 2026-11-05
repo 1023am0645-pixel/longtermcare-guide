@@ -96,7 +96,9 @@
         document.body.appendChild(box);
         document.documentElement.classList.add('whats-new-open');
         requestAnimationFrame(() => box.classList.add('show'));
-        box.querySelector('.whats-new-ok').focus();
+        const sheet = box.querySelector('.whats-new-sheet');
+        sheet.setAttribute('tabindex', '-1');
+        sheet.focus({ preventScroll: true });
     }
 
     function start() {
