@@ -1237,7 +1237,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </nav>
                 <div class="book-grid">
                     ${pages.map(page => `
-                        <a class="book-thumb" id="book-p${page}" href="#page/${page}">
+                        <a class="book-thumb" id="book-p${page}" href="#page/${page}/book/list">
                             <img loading="lazy" src="${pageImage(page)}" alt="원본 책자 ${pageLabel(page)}">
                             <span>${page}</span>
                         </a>
@@ -1245,6 +1245,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </section>
         `;
+        let returnPage = 0;
+        try { returnPage = Number(sessionStorage.getItem('ltc_book_return')) || 0; sessionStorage.removeItem('ltc_book_return'); } catch (e) {}
+        if (returnPage > 1) requestAnimationFrame(() => document.getElementById(`book-p${returnPage}`)?.scrollIntoView({ block: 'center' }));
         app.querySelectorAll('.book-jump button').forEach(button => button.addEventListener('click', () => {
             document.getElementById(`book-p${button.dataset.page}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }));
@@ -1257,11 +1260,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const panelQuery = panelParams.size ? `?${panelParams}` : '';
         const context = (sourceCategoryId && sourceTopicId ? `/${sourceCategoryId}/${sourceTopicId}` : '') + panelQuery;
         const page = Math.min(Math.max(Number(pageNumber) || 1, 1), TOTAL_PAGES);
-        const source = sourceCategoryId && sourceTopicId && !['guide', 'category'].includes(sourceCategoryId) ? findTopic(sourceCategoryId, sourceTopicId) : null;
+        const fromBook = sourceCategoryId === 'book';
+        const source = sourceCategoryId && sourceTopicId && !['guide', 'category', 'book'].includes(sourceCategoryId) ? findTopic(sourceCategoryId, sourceTopicId) : null;
         const found = source || findByPage(page);
         const guideSource = sourceCategoryId === 'guide' ? guideDetails.find(guide => guide.id === sourceTopicId) : null;
         const categorySource = sourceCategoryId === 'category' ? findCategory(sourceTopicId) : null;
-        const backHref = (guideSource ? `#guide/${guideSource.id}` : categorySource ? `#category/${categorySource.id}` : found?.topic ? `#topic/${found.category.id}/${found.topic.id}` : found?.id ? `#category/${found.id}` : '#book') + panelQuery;
+        const backHref = fromBook ? '#book' : (guideSource ? `#guide/${guideSource.id}` : categorySource ? `#category/${categorySource.id}` : found?.topic ? `#topic/${found.category.id}/${found.topic.id}` : found?.id ? `#category/${found.id}` : '#book') + panelQuery;
         const caption = guideSource ? guideSource.title : categorySource ? categorySource.title : found?.topic ? `${found.category.title} · ${found.topic.title}` : found?.title || '장기요양급여 이용 안내';
         setActiveNav('book');
         app.innerHTML = `
@@ -1282,11 +1286,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
                 <figure class="full-page">
+                    ${page > 1 ? `<a class="page-arrow prev" href="#page/${page - 1}${context}" aria-label="이전 쪽"><i data-lucide="chevron-left" aria-hidden="true"></i></a>` : ''}
+                    ${page < TOTAL_PAGES ? `<a class="page-arrow next" href="#page/${page + 1}${context}" aria-label="다음 쪽"><i data-lucide="chevron-right" aria-hidden="true"></i></a>` : ''}
                     <img src="${pageImage(page)}" alt="장기요양급여 이용 안내 원본 ${pageLabel(page)}">
                     <figcaption>${caption} · 원본 ${pageLabel(page)}</figcaption>
                 </figure>
             </section>
         `;
+        if (fromBook) { try { sessionStorage.setItem('ltc_book_return', String(page)); } catch (e) {} }
+        const figure = app.querySelector('.full-page');
+        let startX = 0, startY = 0, tracking = false;
+        figure?.addEventListener('touchstart', event => {
+            tracking = event.touches.length === 1;
+            if (tracking) { startX = event.touches[0].clientX; startY = event.touches[0].clientY; }
+        }, { passive: true });
+        figure?.addEventListener('touchmove', event => { if (event.touches.length > 1) tracking = false; }, { passive: true });
+        figure?.addEventListener('touchend', event => {
+            if (!tracking || (window.visualViewport && window.visualViewport.scale > 1.05)) return;
+            tracking = false;
+            const touch = event.changedTouches[0];
+            const dx = touch.clientX - startX, dy = touch.clientY - startY;
+            if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+            const target = dx < 0 ? page + 1 : page - 1;
+            if (target >= 1 && target <= TOTAL_PAGES) location.hash = `#page/${target}${context}`;
+        });
         focusMain();
     }
 

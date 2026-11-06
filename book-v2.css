@@ -23,3 +23,11 @@
 /* 표지는 크게 한 줄 전체 */
 .book-v2 .book-thumb:first-child { grid-column:1 / -1; }
 .book-v2 .book-thumb:first-child img { max-height:420px; object-fit:cover; object-position:top; }
+
+/* 쪽 보기: 그림 양옆 반투명 화살표 (2026-11-06) */
+.page-reader .full-page { position:relative; }
+.page-reader .page-arrow { position:absolute; z-index:2; top:50%; display:grid; place-items:center; width:44px; height:44px; margin-top:-22px; border-radius:50%; background:rgba(20,35,58,.38); color:#fff; box-shadow:0 4px 12px rgba(20,35,58,.18); backdrop-filter:blur(3px); -webkit-tap-highlight-color:transparent; }
+.page-reader .page-arrow.prev { left:6px; }
+.page-reader .page-arrow.next { right:6px; }
+.page-reader .page-arrow svg { width:26px; height:26px; stroke-width:2.6; }
+.page-reader .page-arrow:active { background:rgba(20,35,58,.6); }
