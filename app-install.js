@@ -109,6 +109,11 @@
             });
             backdrop.querySelector('.share-shortcut').addEventListener('click', async () => {
                 close();
+                // 네이버·카카오톡 안(갤럭시)에서는 설치가 안 되므로 바로 크롬으로 넘김
+                if (window.longcareOpenOutside && /Android/i.test(navigator.userAgent) && /NAVER|KAKAOTALK|DaumApps|Instagram|FBAN|FBAV|Line\/|; wv\)/i.test(navigator.userAgent)) {
+                    window.longcareOpenOutside();
+                    return;
+                }
                 await requestShortcut();
             });
             backdrop.querySelector('.share-primary').addEventListener('click', async () => {
