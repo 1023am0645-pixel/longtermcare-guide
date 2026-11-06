@@ -1,0 +1,25 @@
+/* =====================================================================
+   이북 화면 새 단장 (2026-11-06) — 고객의 소리와 같은 머리 카드,
+   쪽 바로 가기, 책장 느낌의 썸네일
+   ===================================================================== */
+.book-v2 .book-hero { min-height:124px; margin-bottom:12px; }
+.book-v2 .book-hero-text { display:flex; flex-direction:column; align-items:flex-start; gap:4px; min-width:0; }
+.book-v2 .book-hero-text p { margin:0; color:#7a879a; font-size:.78em; font-weight:500; letter-spacing:-.02em; }
+.book-v2 .book-source-link { display:inline-flex; align-items:center; gap:4px; margin-top:8px; padding:6px 12px; border-radius:999px; background:rgba(255,255,255,.85); color:#2f66e0; font-size:.72em; font-weight:700; text-decoration:none; box-shadow:0 2px 8px rgba(47,102,224,.10); }
+.book-v2 .book-source-link svg { width:14px; height:14px; }
+.book-v2 .book-hero .voice-hero-icon { width:112px; height:112px; margin:-10px -6px -12px 6px; }
+
+/* 쪽 바로 가기: 가로로 밀어 보는 알약 */
+.book-v2 .book-jump { display:flex; gap:8px; margin:0 calc(-1 * var(--app-gutter, 16px)) 14px; padding:2px var(--app-gutter, 16px) 6px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+.book-v2 .book-jump::-webkit-scrollbar { display:none; }
+.book-v2 .book-jump button { flex:none; display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:0 14px; border:0; border-radius:999px; background:#fff; color:#1c2a3d; font:inherit; font-size:.78em; font-weight:700; letter-spacing:-.03em; white-space:nowrap; box-shadow:inset 0 0 0 1px rgba(214,226,247,.9), 0 4px 12px rgba(47,102,224,.06); cursor:pointer; }
+.book-v2 .book-jump button b { color:#2f66e0; font-weight:800; font-size:.92em; }
+
+/* 썸네일: 종이 한 장처럼, 쪽 번호는 작은 동그라미 */
+.book-v2 .book-grid { gap:12px; }
+.book-v2 .book-thumb { position:relative; padding:0; border:0; border-radius:14px; background:#fff; overflow:hidden; box-shadow:inset 0 0 0 1px rgba(214,226,247,.9), 0 8px 20px rgba(47,102,224,.08); scroll-margin-top:16px; }
+.book-v2 .book-thumb img { display:block; width:100%; height:auto; aspect-ratio:auto; border-radius:0; }
+.book-v2 .book-thumb span { position:absolute; right:8px; bottom:8px; display:grid; place-items:center; min-width:30px; height:30px; padding:0 8px; margin:0; border-radius:999px; background:rgba(20,35,58,.72); color:#fff; font-size:13px; font-weight:800; line-height:1; letter-spacing:0; backdrop-filter:blur(4px); }
+/* 표지는 크게 한 줄 전체 */
+.book-v2 .book-thumb:first-child { grid-column:1 / -1; }
+.book-v2 .book-thumb:first-child img { max-height:420px; object-fit:cover; object-position:top; }

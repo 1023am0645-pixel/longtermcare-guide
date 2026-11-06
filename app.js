@@ -1214,28 +1214,40 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderBook() {
         setActiveNav('book');
         const pages = Array.from({ length: TOTAL_PAGES }, (_, index) => index + 1);
+        const jumps = categories
+            .map(category => ({ title: category.title, page: Math.min(...category.pages) }))
+            .filter(item => Number.isFinite(item.page))
+            .sort((a, b) => a.page - b.page);
         app.innerHTML = `
-            <section class="book-layout">
+            <section class="book-layout book-v2">
                 <a class="back-link" href="#home">
                     <i data-lucide="chevron-left" aria-hidden="true"></i>
                     돌아가기
                 </a>
-                <div class="section-heading wide">
-                    <span>원본 이북</span>
-                    <h1>전체 44쪽 보기</h1>
-                    <p>원본 이북 이미지를 그대로 불러옵니다. 작은 글씨가 보이면 페이지를 눌러 크게 볼 수 있습니다.</p>
-                    <p><a class="inline-link" href="${SOURCE_URL}" target="_blank" rel="noopener">원본 이북 사이트 열기</a></p>
-                </div>
+                <header class="guide-settings-head voice-hero book-hero">
+                    <div class="book-hero-text">
+                        <h1>이북</h1>
+                        <p>${TOTAL_PAGES}쪽 · 눌러서 크게 보기</p>
+                        <a class="book-source-link" href="${SOURCE_URL}" target="_blank" rel="noopener">원본 사이트<i data-lucide="external-link" aria-hidden="true"></i></a>
+                    </div>
+                    <img class="voice-hero-icon" src="assets/hero-book-glossy.webp?v=20261106" alt="" width="512" height="512">
+                </header>
+                <nav class="book-jump" aria-label="쪽 바로 가기">
+                    ${jumps.map(item => `<button type="button" data-page="${item.page}"><span>${item.title}</span><b>${item.page}쪽</b></button>`).join('')}
+                </nav>
                 <div class="book-grid">
                     ${pages.map(page => `
-                        <a class="book-thumb" href="#page/${page}">
+                        <a class="book-thumb" id="book-p${page}" href="#page/${page}">
                             <img loading="lazy" src="${pageImage(page)}" alt="원본 책자 ${pageLabel(page)}">
-                            <span>${pageLabel(page)}</span>
+                            <span>${page}</span>
                         </a>
                     `).join('')}
                 </div>
             </section>
         `;
+        app.querySelectorAll('.book-jump button').forEach(button => button.addEventListener('click', () => {
+            document.getElementById(`book-p${button.dataset.page}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }));
         focusMain();
     }
 
