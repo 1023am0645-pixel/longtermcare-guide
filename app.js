@@ -1214,10 +1214,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderBook() {
         setActiveNav('book');
         const pages = Array.from({ length: TOTAL_PAGES }, (_, index) => index + 1);
-        const jumps = categories
-            .map(category => ({ title: category.title, page: Math.min(...category.pages) }))
-            .filter(item => Number.isFinite(item.page))
-            .sort((a, b) => a.page - b.page);
+        // 쪽 바로 가기: 책자 3쪽 '목차'에 인쇄된 쪽 번호 기준 (2026년 3월 발행본)
+        const jumps = [
+            { title: '장기요양등급', page: 4 },
+            { title: '장기요양급여 종류', page: 5 },
+            { title: '등급별 이용 가능 급여', page: 7 },
+            { title: '필수서류 수령', page: 8 },
+            { title: '기관 선택·급여계약', page: 10 },
+            { title: '재가급여', page: 11 },
+            { title: '시설급여', page: 16 },
+            { title: '본인부담금', page: 17 },
+            { title: '복지용구', page: 23 }
+        ];
         app.innerHTML = `
             <section class="book-layout book-v2">
                 <a class="back-link" href="#home">
