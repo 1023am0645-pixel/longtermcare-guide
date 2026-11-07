@@ -1257,7 +1257,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try { returnPage = Number(sessionStorage.getItem('ltc_book_return')) || 0; sessionStorage.removeItem('ltc_book_return'); } catch (e) {}
         if (returnPage > 1) requestAnimationFrame(() => document.getElementById(`book-p${returnPage}`)?.scrollIntoView({ block: 'center' }));
         app.querySelectorAll('.book-jump button').forEach(button => button.addEventListener('click', () => {
-            document.getElementById(`book-p${button.dataset.page}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            location.hash = `#page/${button.dataset.page}/book/list`;
         }));
         focusMain();
     }
